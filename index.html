@@ -283,329 +283,375 @@
             </form>
         </div>
     </div>
-    <!-- INÍCIO DA PARTE 2 (COLE ABAIXO DA PARTE 1) -->
     <script>
-        const CURRENT_VERSION = "21.8";
-        const APP_BASE_NAME = "Gestão Segura ACS Marcelo 90/01";
+        <script>
+        const CURRENT_VERSION = "21.9";
         const MASTER_EMAIL = "marcelo.doetz@gmail.com";
         const MASTER_DEFAULT_PASS = "R@ul2011";
         const SECONDARY_MASTER = "esf90micro01@gmail.com";
         const SECONDARY_DEFAULT_PASS = "0limpic0";
 
         const FIREBASE_ENDPOINTS = [
-            "https://gestao-acs-Marcelo-default-rtdb.firebaseio.com/gestao_acs_90_db.json",
             "https://gestao-acs-marcelo-default-rtdb.firebaseio.com/gestao_acs_90_db.json"
         ];
         let activeRestEndpoint = FIREBASE_ENDPOINTS[0];
 
-        let db = { version: CURRENT_VERSION, users: [], items: [], revenues: [], history: [], holidays: [], ignoredHolidays: [], vacations: [] };
-        let currentUser = null; 
-        let filter15DaysActive = true;
-        let currentRenewalContext = null;
-        let ivcfSortDirection = 'desc';
+        let db = { version: CURRENT_VERSION, users: [], items: [], revenues: [], history: [], holidays: [], vacations: [] };
+        let currentUser = null; let firebaseDB = null; let dbRef = null;
+        let filter15DaysActive = true; let currentRenewalContext = null; let ivcfSortDirection = 'desc';
+        let pendingPrintAction = null; 
 
         const WEEKDAYS_SHORT_PT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-        function togglePasswordVisibility(id, btn) { 
-            let i = document.getElementById(id); 
-            if (i) { 
-                i.type = i.type === "password" ? "text" : "password"; 
-                btn.querySelector('i').className = i.type === "password" ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"; 
-                i.focus(); 
-            } 
-        }
-        
-        function isMasterAccount(email) { 
-            let e = String(email || '').trim().toLowerCase(); 
-            return e === MASTER_EMAIL || e === SECONDARY_MASTER; 
-        }
+        // ==========================================
+        // 1. AUTENTICAÇÃO E SESSÃO
+        // ==========================================
+        function togglePasswordVisibility(id, btn) { let i = document.getElementById(id); if (i) { i.type = i.type === "password" ? "text" : "password"; btn.querySelector('i').className = i.type === "password" ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"; i.focus(); } }
+        function isMasterAccount(e) { return String(e||'').trim().toLowerCase() === MASTER_EMAIL || String(e||'').trim().toLowerCase() === SECONDARY_MASTER; }
         
         function ensureMasterUsers() {
-            if (!Array.isArray(db.users)) db.users = []; 
-            db.users = db.users.filter(u => u && typeof u === 'object' && u.email);
-            if (!db.users.find(u => String(u.email).trim().toLowerCase() === MASTER_EMAIL)) db.users.push({ email: MASTER_EMAIL, name: "ADM Master Marcelo", password: MASTER_DEFAULT_PASS, role: "admin", status: "active" });
-            if (!db.users.find(u => String(u.email).trim().toLowerCase() === SECONDARY_MASTER)) db.users.push({ email: SECONDARY_MASTER, name: "ESF 90 Master", password: SECONDARY_DEFAULT_PASS, role: "admin", status: "active" });
+            if (!Array.isArray(db.users)) db.users = []; db.users = db.users.filter(u => u && u.email);
+            if (!db.users.find(u => u && String(u.email).toLowerCase() === MASTER_EMAIL)) db.users.push({ email: MASTER_EMAIL, name: "ADM Master Marcelo", password: MASTER_DEFAULT_PASS, role: "admin", status: "active" });
+            if (!db.users.find(u => u && String(u.email).toLowerCase() === SECONDARY_MASTER)) db.users.push({ email: SECONDARY_MASTER, name: "ESF 90 Master", password: SECONDARY_DEFAULT_PASS, role: "admin", status: "active" });
         }
 
         function doSystemLogin() {
-            let email = document.getElementById('login-email').value.trim().toLowerCase(); 
-            let pass = document.getElementById('login-password').value.trim();
-            if (!email || !pass) { alert("Preencha e-mail e senha."); return; }
-            
-            ensureMasterUsers(); 
-            let user = db.users.find(u => u.email.toLowerCase() === email);
-            if (user && pass === String(user.password || '').trim()) { 
-                if (user.status === 'inactive') { alert("ACESSO BLOQUEADO."); return; } 
-                currentUser = user; 
-                initSession(); 
-            } else if (user) { 
-                alert("Senha incorreta."); 
-            } else { 
-                alert("E-mail não autorizado."); 
-            }
+            let email = document.getElementById('login-email').value.trim().toLowerCase(), pass = document.getElementById('login-password').value.trim();
+            if (!email || !pass) return alert("Preencha e-mail e senha.");
+            ensureMasterUsers(); let u = db.users.find(x => x && x.email.toLowerCase() === email);
+            if (u && pass === String(u.password||'').trim()) { if (u.status === 'inactive') return alert("ACESSO BLOQUEADO."); currentUser = u; initSession(); }
+            else if (u) alert("Senha incorreta."); else alert("E-mail não autorizado.");
         }
 
         function initSession() {
             sessionStorage.setItem('acs_active_user', JSON.stringify(currentUser));
-            document.getElementById('auth-screen').classList.add('hidden'); 
-            document.getElementById('main-screen').classList.remove('hidden');
+            document.getElementById('auth-screen').classList.add('hidden'); document.getElementById('main-screen').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = currentUser.name || currentUser.email;
-            
-            let badge = document.getElementById('badge-role'); 
-            if (isMasterAccount(currentUser.email) || currentUser.role === 'admin') { 
-                badge.innerText = "ADM Master"; 
-                badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700"; 
-                document.getElementById('master-view-filter-box').classList.remove('hidden'); 
-                document.getElementById('admin-tab-btn').classList.remove('hidden'); 
-            } else { 
-                badge.innerText = "ACS"; 
-                badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700"; 
-                document.getElementById('master-view-filter-box').classList.add('hidden'); 
-                document.getElementById('admin-tab-btn').classList.add('hidden'); 
-            }
-            switchTab('renewals'); 
-            fetchCloudViaRest();
+            let b = document.getElementById('badge-role'); 
+            if (isMasterAccount(currentUser.email) || currentUser.role === 'admin') { b.innerText = "ADM Master"; b.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700"; document.getElementById('master-view-filter-box').classList.remove('hidden'); document.getElementById('admin-tab-btn').classList.remove('hidden'); }
+            else { b.innerText = "ACS"; b.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700"; document.getElementById('master-view-filter-box').classList.add('hidden'); document.getElementById('admin-tab-btn').classList.add('hidden'); }
+            initHolidayYearSelector(); switchTab('revenues'); fetchCloudViaRest();
         }
 
-        function logout() { 
-            currentUser = null; 
-            sessionStorage.removeItem('acs_active_user'); 
-            document.getElementById('main-screen').classList.add('hidden'); 
-            document.getElementById('auth-screen').classList.remove('hidden'); 
+        function logout() { currentUser = null; sessionStorage.removeItem('acs_active_user'); document.getElementById('main-screen').classList.add('hidden'); document.getElementById('auth-screen').classList.remove('hidden'); }
+
+        // ==========================================
+        // 2. MOTOR DE NUVEM FIREBASE (BLINDADO)
+        // ==========================================
+        function replaceDatabaseObject(imp) {
+            if (!imp || typeof imp !== 'object') return;
+            
+            // Aceita a nuvem como ÚNICA fonte de verdade, sem loops perigosos de merging
+            db.version = imp.version || CURRENT_VERSION;
+            if (imp.users) db.users = Array.isArray(imp.users) ? imp.users : Object.values(imp.users);
+            if (imp.items) db.items = Array.isArray(imp.items) ? imp.items : Object.values(imp.items);
+            if (imp.revenues) db.revenues = Array.isArray(imp.revenues) ? imp.revenues : Object.values(imp.revenues);
+            if (imp.holidays) db.holidays = Array.isArray(imp.holidays) ? imp.holidays : Object.values(imp.holidays);
+            if (imp.vacations) db.vacations = Array.isArray(imp.vacations) ? imp.vacations : Object.values(imp.vacations);
+
+            // Garante que os arrays internos dos pacientes existem
+            if (db.revenues) {
+                db.revenues.forEach(r => {
+                    if (r) {
+                        r.medications = Array.isArray(r.medications) ? r.medications : Object.values(r.medications || {});
+                        r.comorbidades = Array.isArray(r.comorbidades) ? r.comorbidades : Object.values(r.comorbidades || {});
+                        r.medHistory = Array.isArray(r.medHistory) ? r.medHistory : Object.values(r.medHistory || {});
+                        r.printHistory = Array.isArray(r.printHistory) ? r.printHistory : Object.values(r.printHistory || {});
+                        if (!r.userEmail) r.userEmail = MASTER_EMAIL;
+                    }
+                });
+            }
+            ensureMasterUsers();
+            localStorage.setItem('ivcf_db_v3', JSON.stringify(db));
         }
 
         async function fetchCloudViaRest() {
-            let connected = false;
-            for (let url of FIREBASE_ENDPOINTS) {
-                try {
-                    let res = await fetch(url, { method: 'GET', cache: 'no-store' });
-                    if (res.ok) { 
-                        let data = await res.json(); 
-                        if (data) { 
-                            mergeDatabaseObject(data.gestao_acs_90_db || data); 
-                            activeRestEndpoint = url; 
-                            connected = true; 
-                            break; 
-                        } 
+            try {
+                let badge = document.getElementById('header-cloud-badge');
+                if (badge) badge.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Carregando Nuvem...</span>`;
+                
+                let res = await fetch(activeRestEndpoint, { method: 'GET', cache: 'no-store' });
+                if (res.ok) {
+                    let data = await res.json();
+                    if (data) {
+                        replaceDatabaseObject(data.gestao_acs_90_db || data);
+                        if (badge) badge.innerHTML = `<i class="fa-solid fa-cloud"></i><span>Nuvem Online</span>`;
+                        if (currentUser) refreshAllViews();
                     }
-                } catch(e) {}
+                }
+            } catch (e) {
+                console.error("Falha ao puxar REST", e);
             }
-            if (connected) { 
-                document.getElementById('header-cloud-badge').innerHTML = `<i class="fa-solid fa-cloud"></i><span>Nuvem Online</span>`; 
-                if (currentUser) refreshAllViews(); 
-            }
+            connectFirebaseCloud(); // Inicia o Tempo Real
+        }
+
+        function connectFirebaseCloud() {
+            try {
+                if (typeof firebase === 'undefined') { setTimeout(connectFirebaseCloud, 1000); return; }
+                if (!firebase.apps.length) {
+                    firebase.initializeApp({
+                        apiKey: "AIzaSyCjtHwSZL_dHk-GtJLq_BVmKdbKac_U4Ic", 
+                        authDomain: "gestao-acs-marcelo.firebaseapp.com", 
+                        databaseURL: "https://gestao-acs-marcelo-default-rtdb.firebaseio.com", 
+                        projectId: "gestao-acs-marcelo"
+                    });
+                }
+                firebaseDB = firebase.database(); 
+                dbRef = firebaseDB.ref('gestao_acs_90_db');
+                dbRef.off('value'); // Remove duplicatas
+                dbRef.on('value', (snapshot) => {
+                    let data = snapshot.val();
+                    if (data) {
+                        replaceDatabaseObject(data);
+                        let badge = document.getElementById('header-cloud-badge');
+                        if (badge) badge.innerHTML = `<i class="fa-solid fa-cloud-arrow-down"></i><span>Sincronizado Tempo Real</span>`;
+                        if (currentUser) refreshAllViews();
+                    }
+                });
+            } catch (e) {}
         }
 
         function persistDB() {
             db.version = CURRENT_VERSION; 
-            let cleanCopy = JSON.parse(JSON.stringify(db)); 
-            localStorage.setItem('ivcf_db_v3', JSON.stringify(cleanCopy));
-            fetch(activeRestEndpoint, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cleanCopy) }).catch(()=>{});
+            ensureMasterUsers(); 
+            let c = JSON.parse(JSON.stringify(db)); 
+            localStorage.setItem('ivcf_db_v3', JSON.stringify(c));
+            
+            if (dbRef) dbRef.set(c).catch(()=>{});
+            else fetch(activeRestEndpoint.replace('.json', ''), { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(c) }).catch(()=>{});
             
             let t = document.getElementById('save-toast'); 
-            if(t) { 
-                t.classList.remove('translate-y-20', 'opacity-0'); 
-                setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 2000); 
-            }
+            if (t) { t.classList.remove('translate-y-20', 'opacity-0'); setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 2000); }
         }
 
-        function forceCloudSync() { persistDB(); fetchCloudViaRest(); alert("Sincronizado na Nuvem!"); }
-
-        function mergeDatabaseObject(imp) {
-            if (!imp || typeof imp !== 'object') return;
-            let iUsers = Array.isArray(imp.users) ? imp.users : Object.values(imp.users || {}); 
-            iUsers.forEach(iu => { if (iu && iu.email && !db.users.find(u => u.email.toLowerCase() === iu.email.toLowerCase())) db.users.push(iu); });
-            
-            let iItems = Array.isArray(imp.items) ? imp.items : Object.values(imp.items || {}); 
-            iItems.forEach(ii => { if (ii && !db.items.find(i => i.id === ii.id)) { ii.userEmail = ii.userEmail || MASTER_EMAIL; db.items.push(ii); } });
-            
-            let iRevs = Array.isArray(imp.revenues) ? imp.revenues : Object.values(imp.revenues || {}); 
-            iRevs.forEach(ir => {
-                if (ir && !db.revenues.find(r => r.id === ir.id)) { 
-                    ir.userEmail = ir.userEmail || MASTER_EMAIL; 
-                    ir.medications = Array.isArray(ir.medications) ? ir.medications : Object.values(ir.medications || {}); 
-                    db.revenues.push(ir); 
-                } else if(ir) { 
-                    let ext = db.revenues.find(r => r.id === ir.id); 
-                    let nM = Array.isArray(ir.medications) ? ir.medications : Object.values(ir.medications || {}); 
-                    if(nM.length > 0) { ext.medications = ext.medications || []; ext.medications.push(...nM); } 
-                }
-            });
-            cleanExistingDuplicates();
-        }
-
-        function cleanExistingDuplicates() {
-            if (!db.revenues) return; 
-            let uMap = new Map(); 
-            let cList = [];
-            db.revenues.forEach(rev => {
-                let key = String(rev.userEmail || MASTER_EMAIL).trim().toLowerCase() + '|' + String(rev.paciente || '').trim().toLowerCase();
-                if (uMap.has(key)) { 
-                    let p = uMap.get(key); 
-                    if (Array.isArray(rev.medications)) p.medications.push(...rev.medications.filter(m => m && m.name)); 
-                    archiveOldIdenticalMedications(p); 
-                } else { 
-                    archiveOldIdenticalMedications(rev); 
-                    uMap.set(key, rev); 
-                    cList.push(rev); 
-                }
-            });
-            db.revenues = cList;
-        }
-
-        function archiveOldIdenticalMedications(r) {
-            if (!r) return; 
-            r.medications = r.medications || []; 
-            r.medHistory = r.medHistory || [];
-            let l = new Map();
-            r.medications.forEach(m => {
-                if (!m || !m.name) return; 
-                let k = String(m.name).trim().toLowerCase();
-                if (!l.has(k)) l.set(k, m);
-                else {
-                    let e = l.get(k); 
-                    let tE = new Date((e.baseDate || '2000-01-01') + 'T00:00:00').getTime(); 
-                    let tN = new Date((m.baseDate || '2000-01-01') + 'T00:00:00').getTime();
-                    if (tN >= tE) { 
-                        r.medHistory.push({ ...e, archivedAt: m.baseDate || new Date().toISOString().split('T')[0] }); 
-                        l.set(k, m); 
-                    } else {
-                        r.medHistory.push({ ...m, archivedAt: e.baseDate || new Date().toISOString().split('T')[0] });
-                    }
-                }
-            });
-            r.medications = Array.from(l.values());
-        }
+        function forceCloudSync() { fetchCloudViaRest(); alert("Tela Atualizada com a Nuvem!"); }
 
         function initDB() {
-            let saved = localStorage.getItem('ivcf_db_v3') || localStorage.getItem('ivcf_db');
-            if (saved) { try { mergeDatabaseObject(JSON.parse(saved)); } catch (e) {} }
-            ensureMasterUsers(); 
-            fetchCloudViaRest();
+            let s = localStorage.getItem('ivcf_db_v3') || localStorage.getItem('ivcf_db');
+            if (s) { try { let parsed = JSON.parse(s); replaceDatabaseObject(parsed.gestao_acs_90_db || parsed); } catch (e) {} }
+            ensureMasterUsers();
+            
             try { 
                 let ss = sessionStorage.getItem('acs_active_user'); 
-                if (ss) { let p = JSON.parse(ss); if (p && p.email) { currentUser = p; initSession(); } } 
+                if (ss) { 
+                    let p = JSON.parse(ss); 
+                    if (p && p.email) { currentUser = p; initSession(); return; } 
+                } 
             } catch (e) {}
+            fetchCloudViaRest();
         }
 
+        // ==========================================
+        // 3. REGRAS DE DATA, FERIADOS E SEG/TER
+        // ==========================================
+        function addDaysToDate(dateObj, days) { let d = new Date(dateObj.getTime()); d.setDate(d.getDate() + days); return d; }
         function toISODateString(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
         function formatDateBR(s) { if (!s) return ''; let p = String(s).split('-'); if (p.length === 3) return `${p[2]}/${p[1]}/${p[0]}`; return s; }
         
-        function getRenewalDateDetails(b, a) {
-            let o = b ? new Date(b + 'T00:00:00') : new Date(); 
-            if (isNaN(o.getTime())) o = new Date();
-            let t = new Date(o.getTime()); 
-            t.setDate(t.getDate() + parseInt(a || 30));
-            while (t.getDay() === 0 || t.getDay() === 6) t.setDate(t.getDate() - 1);
-            return { finalDate: toISODateString(t), finalWeekday: WEEKDAYS_SHORT_PT[t.getDay()] };
+        function getEasterSunday(year) {
+            let a = year % 19, b = Math.floor(year / 100), c = year % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+            return new Date(year, month - 1, day);
         }
+
+        function loadAutoHolidaysForYear(y) {
+            let e = getEasterSunday(y);
+            let cM = toISODateString(addDaysToDate(e, -48)), cT = toISODateString(addDaysToDate(e, -47)), gF = toISODateString(addDaysToDate(e, -2)), cp = toISODateString(addDaysToDate(e, 60));
+            let dM = new Date(y, 4, 1), sM = toISODateString(new Date(y, 4, 1 + ((8 - dM.getDay()) % 7) + 7));
+            let hs = [
+                { d: `${y}-01-01`, n: "Ano Novo" }, { d: cM, n: "Carnaval" }, { d: cT, n: "Carnaval" }, { d: gF, n: "Sexta Santa" }, { d: `${y}-04-21`, n: "Tiradentes" }, { d: `${y}-05-01`, n: "Dia Trabalhador" }, { d: `${y}-05-10`, n: "Aniv. Maringá" }, { d: cp, n: "Corpus Christi" }, { d: `${y}-08-15`, n: "Padroeira Maringá" }, { d: `${y}-09-07`, n: "Independência" }, { d: `${y}-10-12`, n: "N.Sra Aparecida" }, { d: `${y}-11-02`, n: "Finados" }, { d: `${y}-11-15`, n: "Proc. República" }, { d: `${y}-11-20`, n: "Consc. Negra" }, { d: `${y}-12-19`, n: "Emancipação (PR)" }, { d: `${y}-12-25`, n: "Natal" }
+            ];
+            if (sM !== `${y}-05-10`) hs.push({ d: sM, n: "Aniv. Maringá (Móvel)" });
+
+            if (!db.holidays) db.holidays = [];
+            let changed = false;
+            hs.forEach(a => { if (!db.holidays.find(h => h && h.date === a.d)) { db.holidays.push({ date: a.d, desc: a.n, isAuto: true }); changed = true; } });
+            if (changed) persistDB();
+        }
+
+        function initHolidayYearSelector() {
+            let sel = document.getElementById('holiday-year-selector'); if (!sel) return;
+            let curY = new Date().getFullYear(), html = '';
+            for (let y = curY - 1; y <= curY + 5; y++) html += `<option value="${y}" ${y === curY ? 'selected' : ''}>${y}</option>`;
+            sel.innerHTML = html; loadAutoHolidaysForYear(curY);
+        }
+
+        function addHoliday() {
+            let d = document.getElementById('holiday-date').value, desc = document.getElementById('holiday-desc').value.trim();
+            if (!d || !desc) return alert("Preencha data e descrição.");
+            db.holidays.push({ date: d, desc, isAuto: false }); document.getElementById('holiday-date').value = ''; document.getElementById('holiday-desc').value = ''; persistDB(); refreshAllViews();
+        }
+
+        function renderHolidays() {
+            let cnt = document.getElementById('holiday-list'); if (!cnt) return;
+            let yS = document.getElementById('holiday-year-selector'), sY = yS && yS.value ? parseInt(yS.value) : new Date().getFullYear();
+            loadAutoHolidaysForYear(sY);
+            let list = (db.holidays || []).filter(h => h && h.date && h.date.startsWith(sY.toString()));
+            list.sort((a, b) => a.date.localeCompare(b.date));
+            cnt.innerHTML = list.map((h) => `<div class="flex justify-between items-center bg-white p-2 rounded border border-slate-200 mb-1"><div><span class="font-bold text-slate-800">${formatDateBR(h.date)}</span> - ${h.desc} ${h.isAuto ? '<span class="text-[9px] bg-blue-100 text-blue-700 px-1 rounded ml-1">Auto</span>' : ''}</div><button onclick="removeHoliday('${h.date}')" class="text-red-600 font-bold text-[10px] cursor-pointer"><i class="fa-solid fa-trash"></i></button></div>`).join('');
+        }
+
+        function removeHoliday(dStr) { db.holidays = db.holidays.filter(h => h && h.date !== dStr); persistDB(); refreshAllViews(); }
         
+        function saveVacations() {
+            let nV = [];
+            for (let i = 1; i <= 3; i++) { let s = document.getElementById(`vac-start-${i}`).value, e = document.getElementById(`vac-end-${i}`).value; if (s && e) nV.push({ start: s, end: e }); }
+            db.vacations = nV; persistDB(); refreshAllViews(); alert("Férias do Médico Salvas!");
+        }
+
+        function renderVacationsInputs() {
+            for (let i = 1; i <= 3; i++) {
+                let vs = document.getElementById(`vac-start-${i}`), ve = document.getElementById(`vac-end-${i}`), s = (db.vacations || [])[i - 1];
+                if (vs) vs.value = s ? (s.start || '') : ''; if (ve) ve.value = s ? (s.end || '') : '';
+            }
+        }
+
+        function getRenewalDateDetails(baseDateStr, addDays) {
+            let baseObj = baseDateStr ? new Date(baseDateStr + 'T00:00:00') : new Date(); if (isNaN(baseObj.getTime())) baseObj = new Date();
+            let exactDueObj = new Date(baseObj.getTime()); exactDueObj.setDate(exactDueObj.getDate() + parseInt(addDays || 30));
+            let exactDueStr = toISODateString(exactDueObj);
+            let targetDate = new Date(exactDueObj.getTime());
+            let reasonsSet = new Set();
+            let safety = 0;
+
+            while (safety < 365) {
+                let ds = toISODateString(targetDate), dw = targetDate.getDay();
+                let iH = (db.holidays || []).some(h => h && h.date === ds);
+                let iV = (db.vacations || []).some(v => v && v.start && v.end && targetDate >= new Date(v.start+'T00:00:00') && targetDate <= new Date(v.end+'T00:00:00'));
+
+                if ((dw === 1 || dw === 2) && !iH && !iV) break; // Seg/Ter livre
+
+                if (iV) reasonsSet.add("Férias Dr");
+                if (iH && (ds === exactDueStr || dw === 1 || dw === 2)) reasonsSet.add("Feriado");
+                targetDate.setDate(targetDate.getDate() - 1); safety++;
+            }
+
+            let finalDateStr = toISODateString(targetDate); let diffDays = Math.round((exactDueObj.getTime() - targetDate.getTime()) / 86400000);
+            if (diffDays > 0 && exactDueObj.getDay() !== 1 && exactDueObj.getDay() !== 2 && reasonsSet.size === 0) reasonsSet.add("Ajuste Seg/Ter");
+            return { finalDate: finalDateStr, finalWeekday: WEEKDAYS_SHORT_PT[targetDate.getDay()], diffDays: diffDays, reasons: Array.from(reasonsSet) };
+        }
         function calculateValidDate(b, a) { return getRenewalDateDetails(b, a).finalDate; }
 
         function isVisibleToCurrentUser(rE) {
-            if (!currentUser) return false; 
-            let mE = String(currentUser.email).trim().toLowerCase(), e = String(rE || MASTER_EMAIL).trim().toLowerCase();
-            if (isMasterAccount(mE) || currentUser.role === 'admin') { 
-                let f = document.getElementById('master-acs-filter'); 
-                let v = f ? f.value : 'all'; 
-                if (v === 'all') return true; 
-                if (v === 'mine') return e === mE; 
-                return e === v.toLowerCase(); 
-            }
+            if (!currentUser) return false; let mE = String(currentUser.email).trim().toLowerCase(), e = String(rE || MASTER_EMAIL).trim().toLowerCase();
+            if (isMasterAccount(mE) || currentUser.role === 'admin') { let f = document.getElementById('master-acs-filter'); let v = f ? f.value : 'all'; if (v === 'all') return true; if (v === 'mine') return e === mE; return e === v.toLowerCase(); }
             return e === mE;
         }
 
-        function refreshAllViews() { 
-            if (!currentUser) return; 
-            try { renderItems(); renderRevenues(); renderPatients(); renderCycles(); renderRenewals(); renderCharts(); } catch (e) {} 
+        function refreshAllViews() {
+            if (!currentUser) return;
+            try { renderItems(); renderRevenues(); renderPatients(); renderCycles(); renderRenewals(); renderCharts(); renderUsers(); renderHolidays(); renderVacationsInputs(); } catch(e){}
         }
 
         function switchTab(tab) {
-            ['evaluations', 'revenues', 'patients', 'cycles', 'renewals', 'history', 'reports', 'backup', 'admin'].forEach(t => { 
-                let el = document.getElementById(`tab-${t}`); if (el) el.classList.add('hidden'); 
-            });
-            let tgt = document.getElementById(`tab-${tab}`); 
-            if (tgt) tgt.classList.remove('hidden');
-            refreshAllViews();
+            ['evaluations', 'revenues', 'patients', 'cycles', 'renewals', 'history', 'reports', 'backup', 'admin'].forEach(t => { let el = document.getElementById(`tab-${t}`); if (el) el.classList.add('hidden'); });
+            let tgt = document.getElementById(`tab-${tab}`); if (tgt) tgt.classList.remove('hidden'); refreshAllViews();
         }
 
         function getSearchTerm() { let e = document.getElementById('global-search'); return e ? e.value.trim().toLowerCase() : ''; }
         function handleGlobalSearch() { refreshAllViews(); }
         function getCycleSearchTerm() { let e = document.getElementById('cycle-search'); return e ? e.value.trim().toLowerCase() : ''; }
 
-        // ABA DE RENOVAÇÃO (15 DIAS E LIMPEZA)
+        // ==========================================
+        // 4. JUSTIFICATIVAS E HISTÓRICO OCULTO
+        // ==========================================
+        function triggerGeneralPrint(funcName, label, revId = null) {
+            pendingPrintAction = { funcName, label, revId };
+            document.getElementById('print-reason-custom').value = '';
+            document.getElementById('print-confirm-alert-text').innerHTML = `<b>Acção:</b> ${label}<br>Por segurança, justifique o motivo desta ação de sistema.`;
+            document.getElementById('print-confirm-modal').classList.remove('hidden');
+        }
+
+        function closePrintConfirmModal() { document.getElementById('print-confirm-modal').classList.add('hidden'); pendingPrintAction = null; }
+
+        function confirmPrintWithReason() {
+            let reason = document.getElementById('print-reason-custom').value.trim();
+            if(reason.length < 3) return alert("Digite um motivo válido para prosseguir.");
+            document.getElementById('print-confirm-modal').classList.add('hidden');
+            
+            if (pendingPrintAction.revId) {
+                let rev = db.revenues.find(r => r && r.id === pendingPrintAction.revId);
+                if(rev) { rev.printHistory = rev.printHistory || []; rev.printHistory.push({ date: toISODateString(new Date()), time: new Date().toLocaleTimeString(), userEmail: currentUser.email, action: pendingPrintAction.label, reason: reason }); persistDB(); }
+            }
+            
+            let fn = pendingPrintAction.funcName;
+            if (fn === 'exportAllPatientsPDF') exportAllPatientsPDF();
+            else if (fn === 'exportRevenuesPDF') exportRevenuesPDF();
+            else if (fn === 'exportPDF') exportPDF('group');
+            else if (fn === 'exportBackupJSON') exportBackupJSON();
+            else if (fn === 'exportRenewalsPDF') exportRenewalsPDF();
+            else if (fn === 'downloadGroupPDF') downloadGroupPDFAction(pendingPrintAction.revId);
+            else if (fn === 'deletePatient') finalizeDeletePatient(pendingPrintAction.revId, reason);
+            
+            pendingPrintAction = null;
+        }
+
+        function showMedHistoryModal(revId) {
+            let r = db.revenues.find(x => x && x.id === revId); if (!r) return;
+            let act = r.medications || [], pst = r.medHistory || [], prt = r.printHistory || [];
+            let ph = prt.length > 0 ? prt.slice().reverse().map(p => `<div class="bg-slate-50 p-2 border rounded text-xs"><b>${formatDateBR(p.date)} ${p.time||''}</b> - <span class="text-blue-700 font-bold">${p.action}</span><br><i>Motivo/Resp:</i> ${p.reason} (${p.userEmail})</div>`).join('') : '<p class="text-xs text-slate-500">Sem registros de auditoria</p>';
+            let ah = act.length > 0 ? act.map(m => `<div class="bg-emerald-50 p-2 border border-emerald-200 rounded text-xs font-bold text-emerald-900">• ${m.name} (${m.cycleDays}d) - Atualizado: ${formatDateBR(m.baseDate)}</div>`).join('') : '<p class="text-xs text-slate-500">Nenhum ativo</p>';
+            let ch = pst.length > 0 ? pst.slice().reverse().map(m => `<div class="bg-slate-50 p-2 border rounded text-xs text-slate-600"><del>${m.name} (${m.cycleDays}d)</del> - Arquivado em: ${formatDateBR(m.archivedAt)}</div>`).join('') : '<p class="text-xs text-slate-500">Sem medicações antigas</p>';
+            
+            document.getElementById('med-history-modal-content').innerHTML = `
+                <div class="mb-4"><b>Paciente:</b> ${r.paciente} <br><span class="text-xs text-slate-500">Gestor: ${r.gestor} | Status: <span class="font-bold uppercase ${r.status==='inactive'?'text-red-600':'text-emerald-600'}">${r.status==='inactive'?'Inativo':'Ativo'}</span></span></div>
+                <div class="space-y-4">
+                    <div><h4 class="font-bold text-blue-800 text-xs uppercase mb-1">Auditoria de Ações (Oculto)</h4><div class="max-h-40 overflow-y-auto space-y-1">${ph}</div></div>
+                    <div><h4 class="font-bold text-emerald-800 text-xs uppercase mb-1">Medicações Ativas</h4><div class="space-y-1">${ah}</div></div>
+                    <div><h4 class="font-bold text-slate-800 text-xs uppercase mb-1">Medicações Arquivadas (Histórico)</h4><div class="max-h-32 overflow-y-auto space-y-1">${ch}</div></div>
+                </div>`;
+            document.getElementById('med-history-modal').classList.remove('hidden');
+        }
+
+        // ==========================================
+        // 5. RENOVAÇÃO INTELIGENTE (LIMPEZA AUTOMÁTICA)
+        // ==========================================
         function toggle15DaysFilter() {
             filter15DaysActive = !filter15DaysActive;
-            let btn = document.getElementById('btn-filter-15d'); 
-            let label = document.getElementById('label-filter-15d');
-            if (filter15DaysActive) {
-                btn.className = "bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer";
-                label.innerText = "Foco: Atrasos e Próx 15 Dias";
-            } else {
-                btn.className = "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer";
-                label.innerText = "Mostrar Toda a Agenda Futura";
-            }
+            let b = document.getElementById('btn-filter-15d'), l = document.getElementById('label-filter-15d');
+            if (filter15DaysActive) { b.className = "bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-4 py-2 rounded-xl text-xs font-bold shadow-sm cursor-pointer"; l.innerText = "Foco: Atrasos e Próx 15 Dias"; } 
+            else { b.className = "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold shadow-sm cursor-pointer"; l.innerText = "Mostrar Toda a Agenda"; }
             renderRenewals();
         }
 
         function renderRenewals() {
-            let tbody = document.getElementById('renewals-table-body'); 
-            let empty = document.getElementById('empty-renewal-state');
-            if (!tbody || !currentUser) return; 
-            tbody.innerHTML = '';
+            let tb = document.getElementById('renewals-table-body'), em = document.getElementById('empty-renewal-state');
+            if (!tb || !currentUser) return; tb.innerHTML = '';
+            let term = getSearchTerm(), list = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail)), gM = {};
+            let tO = new Date(); tO.setHours(0,0,0,0); let tS = toISODateString(tO), lO = new Date(); lO.setDate(lO.getDate() + 15); let tL = toISODateString(lO);
             
-            let term = getSearchTerm(); 
-            let list = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail)); 
-            let groupsMap = {};
-
-            let todayObj = new Date(); todayObj.setHours(0,0,0,0); let todayStr = toISODateString(todayObj);
-            let limitObj = new Date(); limitObj.setDate(limitObj.getDate() + 15); let todayLimitStr = toISODateString(limitObj);
-
-            list.forEach(rev => {
-                if (rev.status === 'inactive' || !rev.medications) return;
-                rev.medications.forEach((med, mIdx) => {
-                    let details = getRenewalDateDetails(med.baseDate, med.cycleDays); 
-                    let nextDate = details.finalDate; 
-                    let groupKey = rev.id + '_' + nextDate;
-                    if (!groupsMap[groupKey]) { groupsMap[groupKey] = { revId: rev.id, paciente: rev.paciente, nextDate: nextDate, medications: [] }; }
-                    groupsMap[groupKey].medications.push({ name: med.name, cycleDays: med.cycleDays, baseDate: med.baseDate });
+            list.forEach(r => {
+                if (r.status === 'inactive' || !r.medications) return;
+                r.medications.forEach((m, i) => {
+                    let d = getRenewalDateDetails(m.baseDate, m.cycleDays), k = r.id + '_' + d.finalDate;
+                    if (!gM[k]) gM[k] = { revId: r.id, paciente: r.paciente, nextDate: d.finalDate, medications: [], maxDiffDays: 0, rArray: d.reasons };
+                    if (d.diffDays > gM[k].maxDiffDays) gM[k].maxDiffDays = d.diffDays;
+                    gM[k].medications.push({ name: m.name, cycleDays: m.cycleDays, baseDate: m.baseDate });
                 });
             });
 
-            let groupsList = Object.values(groupsMap);
-            
-            if (filter15DaysActive) groupsList = groupsList.filter(g => g.nextDate <= todayLimitStr);
-            if (term) groupsList = groupsList.filter(g => (g.paciente || '').toLowerCase().includes(term) || g.medications.some(m => (m.name || '').toLowerCase().includes(term)));
-            
-            groupsList.sort((a, b) => new Date(a.nextDate) - new Date(b.nextDate));
+            let gL = Object.values(gM);
+            if (filter15DaysActive) gL = gL.filter(g => g.nextDate <= tL); // LIMPEZA DA TELA
+            if (term) gL = gL.filter(g => (g.paciente || '').toLowerCase().includes(term) || g.medications.some(m => (m.name || '').toLowerCase().includes(term)));
+            gL.sort((a, b) => new Date(a.nextDate) - new Date(b.nextDate));
 
-            if (groupsList.length === 0) { empty.classList.remove('hidden'); return; }
-            empty.classList.add('hidden');
+            if (gL.length === 0) { em.classList.remove('hidden'); return; }
+            em.classList.add('hidden');
 
-            groupsList.forEach(g => {
-                let isOverdue = g.nextDate < todayStr;
-                let dateColor = isOverdue ? "text-red-700 bg-red-50 border-red-200" : "text-emerald-700 bg-emerald-50 border-emerald-200";
-                let medsHtml = g.medications.map(m => `<div class="bg-white p-2 rounded-lg border my-1 truncate">• <b>${m.name}</b> <span class="text-[11px]">(${m.cycleDays}d)</span></div>`).join('');
-                
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 border-b ${isOverdue ? 'bg-red-50/30' : ''}">
-                        <td class="p-4 text-center"><input type="checkbox" class="renewal-checkbox w-4 h-4 cursor-pointer" data-revid="${g.revId}" data-nextdate="${g.nextDate}"></td>
-                        <td class="p-4 w-64"><div class="font-mono font-bold text-sm px-2 py-1 rounded-lg border ${dateColor} inline-block">${formatDateBR(g.nextDate)} ${isOverdue ? '⚠️' : ''}</div></td>
-                        <td class="p-4 font-bold text-slate-800">${g.paciente || ''}</td>
-                        <td class="p-4 text-xs text-slate-700 w-72">${medsHtml}</td>
-                        <td class="p-4 text-center"><button onclick='renewGroupMedications("${g.revId}","${g.nextDate}")' class="w-full px-3 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold cursor-pointer shadow-sm"><i class="fa-solid fa-check-double mr-1"></i>Renovar</button></td>
-                    </tr>`;
+            gL.forEach(g => {
+                let o = g.nextDate < tS, c = o ? "text-red-700 bg-red-50 border-red-200" : "text-emerald-700 bg-emerald-50 border-emerald-200";
+                let badge = g.maxDiffDays > 0 ? `<div class="mt-1 text-[10px] text-amber-700 font-bold bg-amber-50 px-2 py-1 rounded border border-amber-200 leading-tight">Adiantada: ${g.rArray.join(', ')}</div>` : '';
+                let mH = g.medications.map(m => `<div class="bg-white p-2 rounded-lg border border-slate-200 my-1 truncate">• <b>${m.name}</b> <span class="text-[11px] font-bold text-slate-500">(${m.cycleDays}d)</span></div>`).join('');
+                tb.innerHTML += `<tr class="hover:bg-slate-50 border-b ${o?'bg-red-50/30':''}"><td class="p-4 text-center"><input type="checkbox" class="renewal-checkbox w-4 h-4 cursor-pointer" data-revid="${g.revId}" data-nextdate="${g.nextDate}"></td><td class="p-4 w-64 align-top"><div class="font-mono font-bold text-sm px-2 py-1 rounded-lg border ${c} inline-block">${formatDateBR(g.nextDate)} ${o?'⚠️':''}</div>${badge}</td><td class="p-4 font-bold text-slate-800 align-top">${g.paciente||''}</td><td class="p-4 text-xs text-slate-700 w-72 align-top">${mH}</td><td class="p-4 text-center space-y-2 align-top"><button onclick='renewGroupMedications("${g.revId}","${g.nextDate}")' class="w-full px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold cursor-pointer shadow-sm"><i class="fa-solid fa-check-double mr-1"></i>Renovar Grupo</button><div class="flex gap-1"><button onclick='showMedHistoryModal("${g.revId}")' class="flex-1 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-[10px] font-bold border border-indigo-200 cursor-pointer"><i class="fa-solid fa-clock-rotate-left"></i> Histórico</button><button onclick='triggerGeneralPrint("downloadGroupPDF", "Imprimir Receita do Grupo", "${g.revId}")' class="flex-1 py-1.5 bg-slate-700 text-white rounded-lg text-[10px] font-bold cursor-pointer"><i class="fa-solid fa-print"></i> Imprimir</button></div></td></tr>`;
             });
         }
 
         function renewGroupMedications(rId, tD) {
-            let r = db.revenues.find(x => x.id === rId); if (!r || !r.medications) return;
+            let r = db.revenues.find(x => x && x.id === rId); if (!r || !r.medications) return;
             currentRenewalContext = { revId: rId, targetDate: tD };
             let c = document.getElementById('renew-group-meds-container'); c.innerHTML = '';
-            
             r.medications.forEach((m, i) => {
                 if (calculateValidDate(m.baseDate, m.cycleDays) === tD) {
-                    c.innerHTML += `<div class="flex justify-between bg-slate-50 p-3 rounded-xl border mb-2 items-center"><div class="font-bold text-sm">${m.name}</div><div class="flex items-center gap-2"><span class="text-xs">Ciclo:</span><input type="number" id="renew-med-cycle-${i}" value="${m.cycleDays}" class="w-16 px-2 py-1 border rounded-lg text-sm font-bold text-center"></div></div>`;
+                    c.innerHTML += `<div class="flex justify-between bg-slate-50 p-3 rounded-xl border mb-2 items-center"><div class="font-bold text-sm text-slate-800">${m.name}</div><div class="flex items-center gap-2"><span class="text-xs font-semibold text-slate-600">Ciclo:</span><input type="number" id="renew-med-cycle-${i}" value="${m.cycleDays}" class="w-16 px-2 py-1.5 border border-slate-300 rounded-lg text-sm font-bold text-center outline-none"></div></div>`;
                 }
             });
             document.getElementById('renew-group-patient-name').innerText = `Paciente: ${r.paciente}`;
@@ -613,98 +659,60 @@
         }
 
         function saveGroupRenewal(e) {
-            e.preventDefault(); 
-            if (!currentRenewalContext) return; 
-            let c = currentRenewalContext, r = db.revenues.find(x => x.id === c.revId); 
-            if (!r) return;
-            let t = toISODateString(new Date()); 
-            r.medHistory = r.medHistory || [];
-            
+            e.preventDefault(); if (!currentRenewalContext) return; let c = currentRenewalContext, r = db.revenues.find(x => x && x.id === c.revId); if (!r) return;
+            let t = toISODateString(new Date()); r.medHistory = r.medHistory || [];
             r.medications.forEach((m, i) => {
                 if (calculateValidDate(m.baseDate, m.cycleDays) === c.targetDate) {
                     let inp = document.getElementById(`renew-med-cycle-${i}`);
-                    if (inp) {
-                        let d = parseInt(inp.value);
-                        if (!isNaN(d) && d > 0) { 
-                            r.medHistory.push({ ...m, archivedAt: t }); 
-                            m.cycleDays = d; 
-                            m.baseDate = t; 
-                        }
-                    }
+                    if (inp) { let d = parseInt(inp.value); if (!isNaN(d) && d > 0) { r.medHistory.push({ ...m, archivedAt: t }); m.cycleDays = d; m.baseDate = t; } }
                 }
             });
-            document.getElementById('renew-group-modal').classList.add('hidden'); 
-            currentRenewalContext = null; 
-            persistDB(); 
-            refreshAllViews();
+            r.printHistory = r.printHistory || []; r.printHistory.push({ date: t, time: new Date().toLocaleTimeString(), userEmail: currentUser.email, action: "Renovação de Grupo Inteligente", reason: "Renovação Automática na Janela" });
+            document.getElementById('renew-group-modal').classList.add('hidden'); currentRenewalContext = null; persistDB(); refreshAllViews();
         }
 
         function toggleSelectAllRenewals(m) { document.querySelectorAll('.renewal-checkbox').forEach(c => c.checked = m.checked); }
 
-        // AVALIAÇÕES IVCF-20 E IMPORTAÇÃO CSV
+        // ==========================================
+        // 6. AVALIAÇÕES IVCF-20 E CSV
+        // ==========================================
         function renderItems() {
-            let tb = document.getElementById('items-table-body'); let em = document.getElementById('empty-state');
+            let tb = document.getElementById('items-table-body'), em = document.getElementById('empty-state');
             if (!tb || !currentUser) return; tb.innerHTML = '';
-            let term = getSearchTerm(), cf = document.getElementById('ivcf-color-filter') ? document.getElementById('ivcf-color-filter').value : 'all';
-            let l = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail));
-            
+            let term = getSearchTerm(), cf = document.getElementById('ivcf-color-filter') ? document.getElementById('ivcf-color-filter').value : 'all', l = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail));
             if (term) l = l.filter(i => (i.name || '').toLowerCase().includes(term) || (i.gestor || '').toLowerCase().includes(term));
-            if (cf !== 'all') {
-                l = l.filter(i => {
-                    let s = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0;
-                    if (cf === 'red') return s >= 15;
-                    if (cf === 'yellow') return s >= 7 && s <= 14;
-                    return s <= 6;
-                });
-            }
-            
-            l.sort((a, b) => {
-                let a2 = parseInt(a.ivcf20 !== undefined ? a.ivcf20 : a.value) || 0, b2 = parseInt(b.ivcf20 !== undefined ? b.ivcf20 : b.value) || 0;
-                if (a2 !== b2) return ivcfSortDirection === 'desc' ? b2 - a2 : a2 - b2;
-                return ivcfSortDirection === 'desc' ? (parseInt(b.ivsf10 || 0) - parseInt(a.ivsf10 || 0)) : (parseInt(a.ivsf10 || 0) - parseInt(b.ivsf10 || 0));
-            });
+            if (cf !== 'all') l = l.filter(i => { let s = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0; if (cf === 'red') return s >= 15; if (cf === 'yellow') return s >= 7 && s <= 14; return s <= 6; });
+            l.sort((a, b) => { let a2 = parseInt(a.ivcf20 !== undefined ? a.ivcf20 : a.value) || 0, b2 = parseInt(b.ivcf20 !== undefined ? b.ivcf20 : b.value) || 0; if (a2 !== b2) return ivcfSortDirection === 'desc' ? b2 - a2 : a2 - b2; return ivcfSortDirection === 'desc' ? (parseInt(b.ivsf10 || 0) - parseInt(a.ivsf10 || 0)) : (parseInt(a.ivsf10 || 0) - parseInt(b.ivsf10 || 0)); });
             
             if (l.length === 0) { em.classList.remove('hidden'); return; }
             em.classList.add('hidden');
             
             l.forEach(i => {
-                let s2 = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0, s1 = parseInt(i.ivsf10 || 0);
-                let bg = s2 >= 15 ? "bg-red-600 text-white" : (s2 >= 7 ? "bg-yellow-400 text-black" : "bg-emerald-600 text-white");
-                tb.innerHTML += `<tr class="border-b"><td class="p-4">${i.gestor || ''}</td><td class="p-4 font-bold text-slate-800">${i.name || ''}</td><td class="p-4"><span class="px-2 py-1 rounded-full text-xs font-bold ${bg}">${s2}</span></td><td class="p-4 font-bold">${s1}</td><td class="p-4">${formatDateBR(i.date)}</td><td class="p-4 text-blue-700 font-bold">${formatDateBR(calculateValidDate(i.date, i.profile || 90))}</td><td class="p-4 text-center"><button onclick="deleteItem('${i.id}')" class="px-2 py-1 bg-red-100 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+                let s2 = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0, s1 = parseInt(i.ivsf10 || 0), bg = s2 >= 15 ? "bg-red-600 text-white" : (s2 >= 7 ? "bg-yellow-400 text-black" : "bg-emerald-600 text-white");
+                let dx = getRenewalDateDetails(i.date, i.profile || 90);
+                tb.innerHTML += `<tr class="border-b"><td class="p-4">${i.gestor || ''}</td><td class="p-4 font-bold text-slate-800">${i.name || ''}</td><td class="p-4"><span class="px-2 py-1 rounded-full text-xs font-bold ${bg}">${s2}</span></td><td class="p-4 font-bold">${s1}</td><td class="p-4 text-xs">${formatDateBR(i.date)}</td><td class="p-4 text-blue-700 font-bold text-xs">${formatDateBR(dx.finalDate)} (${dx.finalWeekday})</td><td class="p-4 text-center"><button onclick="deleteItem('${i.id}')" class="px-2 py-1 bg-red-100 text-red-600 rounded cursor-pointer"><i class="fa-solid fa-trash"></i></button></td></tr>`;
             });
         }
 
         function toggleIvcfSortOrder() { ivcfSortDirection = ivcfSortDirection === 'desc' ? 'asc' : 'desc'; renderItems(); }
         
         function importCSV(e) {
-            let f = e.target.files[0]; if (!f) return;
-            let r = new FileReader();
+            let f = e.target.files[0]; if (!f) return; let r = new FileReader();
             r.onload = function(evt) {
                 let t = evt.target.result.split('\n'), iC = 0;
                 t.forEach(l => {
                     l = l.trim(); if (!l) return;
-                    let p = l.includes(';') ? l.split(';') : (l.includes(',') ? l.split(',') : l.split(/\s+/));
-                    p = p.map(x => x.trim()); if (p.length < 5) return;
-                    
+                    let p = l.includes(';') ? l.split(';') : (l.includes(',') ? l.split(',') : l.split(/\s+/)); p = p.map(x => x.trim()); if (p.length < 5) return;
                     let dR = p.pop(), i1 = parseInt(p.pop()), i2 = parseInt(p.pop()), g = p.shift(), n = p.join(' ');
                     if (isNaN(i2) || isNaN(i1)) return;
-                    
-                    let eD = dR;
-                    if (dR.includes('/')) { let dp = dR.split('/'); if (dp.length === 3) eD = `${dp[2]}-${dp[1]}-${dp[0]}`; }
-                    
-                    let pr = (i2 >= 15 || i1 >= 10) ? 90 : ((i2 >= 7 || i1 >= 5) ? 180 : 360);
-                    let nx = calculateValidDate(eD, pr);
-                    let ex = db.items.find(i => isVisibleToCurrentUser(i.userEmail) && i.name.toLowerCase() === n.toLowerCase());
-                    
-                    if (ex) {
-                        ex.gestor = g; ex.ivcf20 = i2; ex.ivsf10 = i1; ex.value = i2; ex.profile = pr; ex.date = eD; ex.nextDate = nx;
-                    } else {
-                        db.items.push({ id: 'csv_' + Date.now() + Math.random(), userEmail: currentUser.email, gestor: g, name: n, ivcf20: i2, ivsf10: i1, value: i2, profile: pr, date: eD, nextDate: nx });
-                    }
+                    let eD = dR; if (dR.includes('/')) { let dp = dR.split('/'); if (dp.length === 3) eD = `${dp[2]}-${dp[1]}-${dp[0]}`; }
+                    let pr = (i2 >= 15 || i1 >= 10) ? 90 : ((i2 >= 7 || i1 >= 5) ? 180 : 360), nx = calculateValidDate(eD, pr);
+                    let ex = db.items.find(i => i && isVisibleToCurrentUser(i.userEmail) && i.name.toLowerCase() === n.toLowerCase());
+                    if (ex) { ex.gestor = g; ex.ivcf20 = i2; ex.ivsf10 = i1; ex.value = i2; ex.profile = pr; ex.date = eD; ex.nextDate = nx; } 
+                    else { db.items.push({ id: 'csv_' + Date.now() + Math.random(), userEmail: currentUser.email, gestor: g, name: n, ivcf20: i2, ivsf10: i1, value: i2, profile: pr, date: eD, nextDate: nx }); }
                     iC++;
                 });
-                if (iC > 0) { persistDB(); refreshAllViews(); alert("Importação CSV Concluída!"); }
-                e.target.value = '';
+                if (iC > 0) { persistDB(); refreshAllViews(); alert("CSV Importado!"); } e.target.value = '';
             };
             r.readAsText(f);
         }
@@ -712,62 +720,86 @@
         function openItemModal() { document.getElementById('item-modal').classList.remove('hidden'); document.getElementById('item-form').reset(); document.getElementById('item-eval-date').value = new Date().toISOString().split('T')[0]; if(!isMasterAccount(currentUser.email)) document.getElementById('item-gestor').value = currentUser.name || ''; }
         function closeItemModal() { document.getElementById('item-modal').classList.add('hidden'); }
         function saveItem(e) {
-            e.preventDefault();
-            let g = document.getElementById('item-gestor').value.trim(), n = document.getElementById('item-name').value.trim(), d = document.getElementById('item-eval-date').value, i2 = parseInt(document.getElementById('item-ivcf20').value) || 0, i1 = parseInt(document.getElementById('item-ivsf10').value) || 0;
-            let p = (i2 >= 15 || i1 >= 10) ? 90 : ((i2 >= 7 || i1 >= 5) ? 180 : 360);
+            e.preventDefault(); let g = document.getElementById('item-gestor').value.trim(), n = document.getElementById('item-name').value.trim(), d = document.getElementById('item-eval-date').value, i2 = parseInt(document.getElementById('item-ivcf20').value) || 0, i1 = parseInt(document.getElementById('item-ivsf10').value) || 0, p = (i2 >= 15 || i1 >= 10) ? 90 : ((i2 >= 7 || i1 >= 5) ? 180 : 360);
             db.items.push({ id: Date.now().toString(), userEmail: currentUser.email, gestor: g, name: n, ivcf20: i2, ivsf10: i1, value: i2, profile: p, date: d });
             persistDB(); closeItemModal(); refreshAllViews();
         }
-        function deleteItem(id) { if (confirm("Excluir?")) { db.items = db.items.filter(i => i.id !== id); persistDB(); refreshAllViews(); } }
+        function deleteItem(id) { if (confirm("Excluir Avaliação?")) { db.items = db.items.filter(i => i && i.id !== id); persistDB(); refreshAllViews(); } }
 
-        // RECEITAS
+        // ==========================================
+        // 7. RECEITAS, PACIENTES E COMORBIDADES
+        // ==========================================
+        function autoGuessComorbidities() {
+            let meds = []; document.querySelectorAll('input[name="med_name"]').forEach(i => meds.push(i.value.toLowerCase()));
+            let dt = new Set();
+            meds.forEach(n => {
+                if (n.includes('losartana')||n.includes('enalapril')||n.includes('captopril')||n.includes('atenolol')||n.includes('propranolol')||n.includes('anlodipino')||n.includes('hidroclorotiazida')||n.includes('furosemida')||n.includes('espironolactona')||n.includes('nifedipino')) dt.add('Hipertensão / Cardíaca');
+                if (n.includes('metformina')||n.includes('gliclazida')||n.includes('insulina')||n.includes('dapagliflozina')||n.includes('empagliflozina')||n.includes('glibenclamida')||n.includes('forxiga')||n.includes('jardiance')) dt.add('Diabetes');
+                if (n.includes('clonazepam')||n.includes('diazepam')||n.includes('fluoxetina')||n.includes('sertralina')||n.includes('amitriptilina')||n.includes('escitalopram')||n.includes('haloperidol')||n.includes('risperidona')||n.includes('quetiapina')||n.includes('carbamazepina')||n.includes('acido valproico')||n.includes('fenobarbital')) dt.add('Saúde Mental / Neuro');
+                if (n.includes('sinvastatina')||n.includes('atorvastatina')||n.includes('rosuvastatina')||n.includes('ciprofibrato')) dt.add('Colesterol / Dislipidemia');
+                if (n.includes('levotiroxina')||n.includes('puran')||n.includes('tapazol')) dt.add('Tireoide');
+                if (n.includes('aerolin')||n.includes('salbutamol')||n.includes('alenia')||n.includes('formoterol')||n.includes('budesonida')||n.includes('symbicort')) dt.add('Asma / DPOC');
+            });
+            document.querySelectorAll('.comorb-cb').forEach(cb => { if (dt.has(cb.value)) cb.checked = true; });
+        }
+
         function renderRevenues() {
-            let tb = document.getElementById('revenues-table-body'), em = document.getElementById('empty-revenue-state');
-            if (!tb || !currentUser) return; tb.innerHTML = '';
-            let t = getSearchTerm(), l = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+            let tb = document.getElementById('revenues-table-body'); if (!tb || !currentUser) return; tb.innerHTML = '';
+            let t = getSearchTerm(), l = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail) && i.status !== 'inactive');
             if (t) l = l.filter(r => (r.paciente || '').toLowerCase().includes(t) || (r.medications && r.medications.some(m => (m.name || '').toLowerCase().includes(t))));
-            if (l.length === 0) { em.classList.remove('hidden'); return; }
-            em.classList.add('hidden');
+            l.sort((a, b) => (a.paciente || '').localeCompare(b.paciente || '')); // Ordem Alfabética!
+            
             l.forEach(i => {
                 let mh = (i.medications || []).map(m => `<div class="truncate">• ${m.name} <span class="text-xs text-slate-500">(${m.cycleDays}d)</span></div>`).join('');
-                tb.innerHTML += `<tr class="border-b"><td class="p-4">${i.gestor || ''}</td><td class="p-4 font-bold text-slate-800">${i.paciente || ''}</td><td class="p-4">${i.medico || ''}</td><td class="p-4 text-xs">${mh}</td><td class="p-4 text-center"><button onclick="deleteRevenue('${i.id}')" class="px-2 py-1 bg-red-100 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+                let cbs = Array.isArray(i.comorbidades) ? i.comorbidades.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 rounded text-[9px] uppercase font-bold mr-1">${c}</span>`).join('') : '';
+                tb.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-4">${i.gestor || ''}</td><td class="p-4 font-bold text-slate-800">${i.paciente || ''}<div class="mt-1">${cbs}</div></td><td class="p-4">${i.medico || ''}</td><td class="p-4 text-xs">${mh}</td><td class="p-4 text-center space-x-1"><button onclick="showMedHistoryModal('${i.id}')" class="px-2 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded cursor-pointer" title="Histórico"><i class="fa-solid fa-clock-rotate-left"></i></button><button onclick="triggerGeneralPrint('deletePatient', 'Inativar Paciente e Arquivar', '${i.id}')" class="px-2 py-1 bg-red-100 text-red-600 rounded cursor-pointer"><i class="fa-solid fa-trash"></i></button></td></tr>`;
             });
         }
 
-        function openRevenueModal() { document.getElementById('revenue-modal').classList.remove('hidden'); document.getElementById('revenue-form').reset(); document.getElementById('medication-rows-container').innerHTML = ''; if(!isMasterAccount(currentUser.email)) document.getElementById('revenue-gestor').value = currentUser.name || ''; addMedicationRow(); }
+        function openRevenueModal() { document.getElementById('revenue-modal').classList.remove('hidden'); document.getElementById('revenue-form').reset(); document.getElementById('medication-rows-container').innerHTML = ''; document.querySelectorAll('.comorb-cb').forEach(cb => cb.checked = false); document.getElementById('comorb-outras').value = ''; if(!isMasterAccount(currentUser.email)) document.getElementById('revenue-gestor').value = currentUser.name || ''; addMedicationRow(); }
         function closeRevenueModal() { document.getElementById('revenue-modal').classList.add('hidden'); }
         function addMedicationRow() {
             let id = 'med_' + Date.now(), d = new Date().toISOString().split('T')[0];
-            document.getElementById('medication-rows-container').insertAdjacentHTML('beforeend', `<div id="${id}" class="bg-slate-50 p-3 rounded-xl border flex flex-wrap gap-2 items-end"><div class="flex-1 min-w-[120px]"><label class="text-[10px] font-bold">Med</label><input type="text" name="med_name" required class="w-full px-2 py-1.5 border rounded text-sm"></div><div class="w-20"><label class="text-[10px] font-bold">Ciclo</label><input type="number" name="med_cycle" value="30" class="w-full px-2 py-1.5 border rounded text-sm"></div><div class="w-32"><label class="text-[10px] font-bold">Data</label><input type="date" name="med_date" required value="${d}" class="w-full px-2 py-1.5 border rounded text-sm"></div><div><button type="button" onclick="document.getElementById('${id}').remove()" class="px-2 py-1.5 bg-red-100 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button></div></div>`);
+            document.getElementById('medication-rows-container').insertAdjacentHTML('beforeend', `<div id="${id}" class="bg-slate-50 p-3 rounded-xl border flex flex-wrap gap-2 items-end"><div class="flex-1 min-w-[120px]"><label class="text-[10px] font-bold">Medicação / Nome</label><input type="text" name="med_name" required oninput="autoGuessComorbidities()" class="w-full px-2 py-1.5 border rounded text-sm bg-white"></div><div class="w-20"><label class="text-[10px] font-bold">Ciclo</label><input type="number" name="med_cycle" value="30" class="w-full px-2 py-1.5 border rounded text-sm bg-white"></div><div class="w-32"><label class="text-[10px] font-bold">Data Base</label><input type="date" name="med_date" required value="${d}" class="w-full px-2 py-1.5 border rounded text-sm bg-white"></div><div><button type="button" onclick="document.getElementById('${id}').remove()" class="px-2 py-1.5 bg-red-100 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button></div></div>`);
         }
+        
         function saveRevenue(e) {
-            e.preventDefault();
-            let g = document.getElementById('revenue-gestor').value.trim(), p = document.getElementById('revenue-paciente').value.trim(), m = document.getElementById('revenue-medico').value.trim(), meds = [];
-            document.querySelectorAll('#medication-rows-container > div').forEach(r => {
-                let n = r.querySelector('input[name="med_name"]').value.trim(), c = parseInt(r.querySelector('input[name="med_cycle"]').value) || 30, d = r.querySelector('input[name="med_date"]').value;
-                if (n && d) meds.push({ name: n, cycleDays: c, baseDate: d });
-            });
+            e.preventDefault(); let g = document.getElementById('revenue-gestor').value.trim(), p = document.getElementById('revenue-paciente').value.trim(), m = document.getElementById('revenue-medico').value.trim(), meds = [], combs = [];
+            document.querySelectorAll('.comorb-cb:checked').forEach(cb => combs.push(cb.value));
+            let out = document.getElementById('comorb-outras').value; if (out) out.split(',').forEach(c => { if (c.trim()) combs.push(c.trim()) });
+            document.querySelectorAll('#medication-rows-container > div').forEach(r => { let n = r.querySelector('input[name="med_name"]').value.trim(), c = parseInt(r.querySelector('input[name="med_cycle"]').value) || 30, d = r.querySelector('input[name="med_date"]').value; if (n && d) meds.push({ name: n, cycleDays: c, baseDate: d }); });
             if (meds.length === 0) return;
-            db.revenues.push({ id: Date.now().toString(), userEmail: currentUser.email, gestor: g, paciente: p, medico: m, status: 'active', medications: meds, medHistory: [] });
-            persistDB(); closeRevenueModal(); refreshAllViews();
+            
+            let newRev = { id: Date.now().toString(), userEmail: currentUser.email, gestor: g, paciente: p, medico: m, status: 'active', comorbidades: combs, medications: meds, medHistory: [], printHistory: [] };
+            newRev.printHistory.push({ date: toISODateString(new Date()), time: new Date().toLocaleTimeString(), userEmail: currentUser.email, action: "Inclusão de Paciente", reason: "Cadastro Inicial Sistêmico" });
+            
+            db.revenues.push(newRev); persistDB(); closeRevenueModal(); refreshAllViews();
         }
-        function deleteRevenue(id) { if (confirm("Excluir receita?")) { db.revenues = db.revenues.filter(i => i.id !== id); persistDB(); refreshAllViews(); } }
+
+        function finalizeDeletePatient(id, reason) {
+            let r = (db.revenues || []).find(x => x && x.id === id); if (!r) return;
+            r.status = 'inactive'; r.printHistory = r.printHistory || [];
+            r.printHistory.push({ date: toISODateString(new Date()), time: new Date().toLocaleTimeString(), userEmail: currentUser.email, action: "Paciente Excluído/Inativado", reason: reason });
+            persistDB(); refreshAllViews(); alert("Paciente arquivado com sucesso. Pode consultar na aba Pacientes Inativos.");
+        }
 
         function renderPatients() {
             let tb = document.getElementById('patients-table-body'); if (!tb || !currentUser) return; tb.innerHTML = '';
-            let l = [...(db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail))];
-            l.sort((a, b) => (a.paciente || '').localeCompare(b.paciente || ''));
+            let l = [...(db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail))]; 
+            l.sort((a, b) => (a.paciente || '').localeCompare(b.paciente || '')); // Ordem Alfabética!
+            
             l.forEach(r => {
                 let sb = r.status === 'inactive' ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-xs font-bold">Inativo</span>` : `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-bold">Ativo</span>`;
-                let mh = (r.medications || []).map(m => `<div>• <b>${m.name}</b> (${m.cycleDays}d) - <span class="text-xs text-indigo-600 font-bold">Venc: ${formatDateBR(calculateValidDate(m.baseDate, m.cycleDays))}</span></div>`).join('');
-                tb.innerHTML += `<tr class="border-b"><td class="p-4 font-bold">${r.paciente}</td><td class="p-4">${r.gestor}</td><td class="p-4 text-xs">${mh}</td><td class="p-4">${sb}</td><td class="p-4 text-center"></td></tr>`;
+                let mh = (r.medications || []).map(m => { let dx = getRenewalDateDetails(m.baseDate, m.cycleDays); return `<div>• <b>${m.name}</b> (${m.cycleDays}d) - <span class="text-xs text-indigo-600 font-bold">Venc: ${formatDateBR(dx.finalDate)} (${dx.finalWeekday})</span></div>`; }).join('');
+                let btn = r.status === 'inactive' ? `<button onclick="togglePatientStatus('${r.id}')" class="px-2 py-1 bg-amber-100 text-amber-800 rounded text-xs font-bold cursor-pointer">Reativar</button>` : '';
+                tb.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-4 font-bold">${r.paciente}</td><td class="p-4">${r.gestor}</td><td class="p-4 text-xs">${mh}</td><td class="p-4">${sb}</td><td class="p-4 text-center space-x-1"><button onclick="showMedHistoryModal('${r.id}')" class="px-2 py-1 bg-indigo-50 border border-indigo-200 text-indigo-800 rounded text-xs font-bold cursor-pointer" title="Auditoria"><i class="fa-solid fa-clock-rotate-left"></i></button>${btn}</td></tr>`;
             });
         }
-
+        function togglePatientStatus(id) { let r = db.revenues.find(i => i && i.id === id); if (r) { r.status = r.status === 'inactive' ? 'active' : 'inactive'; persistDB(); refreshAllViews(); } }
+        
         function renderCycles() {
             let c3 = document.getElementById('cycle-list-30'), c6 = document.getElementById('cycle-list-60'), c9 = document.getElementById('cycle-list-90'), c1 = document.getElementById('cycle-list-180'), cO = document.getElementById('cycle-list-outros');
-            if (!c3 || !currentUser) return;
-            c3.innerHTML = ''; c6.innerHTML = ''; c9.innerHTML = ''; c1.innerHTML = ''; cO.innerHTML = '';
+            if (!c3 || !currentUser) return; c3.innerHTML = ''; c6.innerHTML = ''; c9.innerHTML = ''; c1.innerHTML = ''; cO.innerHTML = '';
             let t = getCycleSearchTerm(), l = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail));
             l.forEach(r => {
                 if (r.status === 'inactive' || !r.medications) return;
@@ -775,66 +807,76 @@
                 cP.forEach(c => {
                     let mC = r.medications.filter(m => String(m.cycleDays) === c);
                     if (!t || (r.paciente || '').toLowerCase().includes(t) || mC.some(m => (m.name || '').toLowerCase().includes(t))) {
-                        let card = `<div class="bg-slate-50 p-2 rounded border my-1"><p class="font-bold text-slate-800">${r.paciente}</p><p class="text-[10px] text-slate-500">Meds: ${mC.length}</p></div>`;
+                        let card = `<div class="bg-slate-50 p-2 rounded border border-slate-200 my-1 shadow-sm"><p class="font-bold text-slate-800">${r.paciente}</p><p class="text-[10px] text-slate-500">Meds: ${mC.length}</p></div>`;
                         if (c === '30') c3.innerHTML += card; else if (c === '60') c6.innerHTML += card; else if (c === '90') c9.innerHTML += card; else if (c === '180') c1.innerHTML += card; else cO.innerHTML += card;
                     }
                 });
             });
         }
+        function renderUsers() {
+            let tb = document.getElementById('users-table-body'); if (!tb) return;
+            tb.innerHTML = (db.users || []).filter(u => u && u.email).map(u => `<tr class="border-b hover:bg-slate-50"><td class="p-4 font-bold text-slate-800">${u.name || u.email.split('@')[0]}</td><td class="p-4 font-mono text-xs text-slate-600">${u.email}</td><td class="p-4">${u.status === 'inactive' ? '<span class="text-red-600 font-bold">Bloqueado</span>' : '<span class="text-emerald-600 font-bold">Ativo</span>'}</td></tr>`).join('');
+        }
 
-        // GRÁFICOS E BACKUP/PDF
+        // ==========================================
+        // 8. DASHBOARD GRÁFICOS
+        // ==========================================
+        let scoreChartInstance=null, revenueChartInstance=null, topMedsChartInst=null, comorbChartInst=null;
+        
         function renderCharts() {
             if (typeof Chart === 'undefined' || !currentUser) return;
-            let rL = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail)), iL = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+            let rL = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail) && i.status !== 'inactive'), iL = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+            
             let c1 = document.getElementById('scoreChart');
             if (c1) {
                 let rc = { 'Alto Risco': 0, 'Médio Risco': 0, 'Baixo Risco': 0 };
                 iL.forEach(i => { let v = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0; if (v >= 15) rc['Alto Risco']++; else if (v >= 7) rc['Médio Risco']++; else rc['Baixo Risco']++; });
-                new Chart(c1, { type: 'bar', data: { labels: Object.keys(rc), datasets: [{ label: 'Pacientes', data: Object.values(rc), backgroundColor: ['#dc2626', '#eab308', '#10b981'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+                if (scoreChartInstance) scoreChartInstance.destroy();
+                scoreChartInstance = new Chart(c1, { type: 'bar', data: { labels: Object.keys(rc), datasets: [{ label: 'Qtd Pacientes', data: Object.values(rc), backgroundColor: ['#dc2626', '#eab308', '#10b981'] }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
+            
             let c2 = document.getElementById('revenueChart');
             if (c2) {
                 let c = { '30d': 0, '60d': 0, '90d': 0, '180d': 0, 'Outros': 0 };
                 rL.forEach(r => (r.medications || []).forEach(m => { if (m.cycleDays == 30) c['30d']++; else if (m.cycleDays == 60) c['60d']++; else if (m.cycleDays == 90) c['90d']++; else if (m.cycleDays == 180) c['180d']++; else c['Outros']++; }));
-                new Chart(c2, { type: 'bar', data: { labels: Object.keys(c), datasets: [{ label: 'Meds', data: Object.values(c), backgroundColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: false } });
+                if (revenueChartInstance) revenueChartInstance.destroy();
+                revenueChartInstance = new Chart(c2, { type: 'bar', data: { labels: Object.keys(c), datasets: [{ label: 'Meds por Ciclo', data: Object.values(c), backgroundColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: false } });
+            }
+            
+            let c3 = document.getElementById('topMedsChart');
+            if (c3) {
+                let mC = {}; rL.forEach(r => (r.medications || []).forEach(m => { if (!m.name) return; let n = m.name.trim().toLowerCase(); n = n.charAt(0).toUpperCase() + n.slice(1); mC[n] = (mC[n] || 0) + 1; }));
+                let sM = Object.entries(mC).sort((a, b) => b[1] - a[1]).slice(0, 10);
+                if (topMedsChartInst) topMedsChartInst.destroy();
+                topMedsChartInst = new Chart(c3, { type: 'bar', data: { labels: sM.map(i => i[0]), datasets: [{ label: 'Meds Mais Usados', data: sM.map(i => i[1]), backgroundColor: '#6366f1' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false } });
+            }
+            
+            let c4 = document.getElementById('comorbChart');
+            if (c4) {
+                let cbC = {}; rL.forEach(r => { let cL = Array.isArray(r.comorbidades) && r.comorbidades.length > 0 ? r.comorbidades : ['Sem Registro']; cL.forEach(c => { let k = c.trim(); if (k) cbC[k] = (cbC[k] || 0) + 1 }) });
+                let sC = Object.entries(cbC).sort((a, b) => b[1] - a[1]).slice(0, 6);
+                if (comorbChartInst) comorbChartInst.destroy();
+                comorbChartInst = new Chart(c4, { type: 'doughnut', data: { labels: sC.map(i => i[0]), datasets: [{ data: sC.map(i => i[1]), backgroundColor: ['#ef4444', '#3b82f6', '#eab308', '#10b981', '#8b5cf6', '#f97316'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } } } } });
             }
         }
 
-        function exportRenewalsPDF() {
-            if (!window.jspdf) return; const { jsPDF } = window.jspdf; let d = new jsPDF(); d.text(`Renovações Pendentes - v${CURRENT_VERSION}`, 14, 20);
-            let r = [];
-            (db.revenues || []).filter(x => isVisibleToCurrentUser(x.userEmail)).forEach(x => (x.medications || []).forEach(m => r.push([formatDateBR(calculateValidDate(m.baseDate, m.cycleDays)), x.paciente, m.name, x.gestor])));
-            d.autoTable({ startY: 28, head: [["Renovação", "Paciente", "Medicamento", "Gestor"]], body: r }); d.save(`renovacoes_v${CURRENT_VERSION}.pdf`);
+        // ==========================================
+        // 9. EXPORTAÇÕES (PDF/JSON)
+        // ==========================================
+        function downloadGroupPDFAction(revId) {
+            if (!window.jspdf) return; const { jsPDF } = window.jspdf; let d = new jsPDF(); let rev = db.revenues.find(i => i && i.id === revId); if (!rev) return;
+            d.text(`Receita Individual - v${CURRENT_VERSION}`, 14, 20); d.setFontSize(10); d.text(`Paciente: ${rev.paciente} | Médico: ${rev.medico}`, 14, 28);
+            let r = []; (rev.medications || []).forEach(m => { let det = getRenewalDateDetails(m.baseDate, m.cycleDays); r.push([m.name, `${m.cycleDays}d`, formatDateBR(m.baseDate), `${formatDateBR(det.finalDate)} (${det.finalWeekday})`]); });
+            d.autoTable({ startY: 34, head: [["Medicamento", "Ciclo", "Confecção", "Vencimento"]], body: r }); d.save(`receita_${rev.paciente}.pdf`);
         }
+
+        function exportRenewalsPDF() { if (!window.jspdf) return; const { jsPDF } = window.jspdf; let d = new jsPDF(); d.text(`Renovações Pendentes - v${CURRENT_VERSION}`, 14, 20); let r = []; (db.revenues || []).filter(x => isVisibleToCurrentUser(x.userEmail)).forEach(x => (x.medications || []).forEach(m => { let dx = getRenewalDateDetails(m.baseDate, m.cycleDays); r.push([formatDateBR(dx.finalDate), x.paciente, m.name, x.gestor]) })); d.autoTable({ startY: 28, head: [["Renovação", "Paciente", "Medicamento", "Gestor"]], body: r }); d.save(`renovacoes_v${CURRENT_VERSION}.pdf`); }
+        function exportAllPatientsPDF() { exportRevenuesPDF(); }
+        function exportRevenuesPDF() { if (!window.jspdf) return; const { jsPDF } = window.jspdf; let d = new jsPDF(); d.text(`Receitas e Comorbidades - v${CURRENT_VERSION}`, 14, 20); let rows = (db.revenues || []).filter(r => isVisibleToCurrentUser(r.userEmail) && r.status !== 'inactive').map(r => { let cT = Array.isArray(r.comorbidades) && r.comorbidades.length > 0 ? `\n[${r.comorbidades.join(', ')}]` : ''; return [r.gestor, r.paciente + cT, (r.medications || []).map(m => m.name).join(', ')] }); d.autoTable({ startY: 28, head: [["Gestor", "Paciente [Comorbidades]", "Meds Ativos"]], body: rows }); d.save(`receitas_v${CURRENT_VERSION}.pdf`); }
+        function exportPDF(t) { if (!window.jspdf) return; const { jsPDF } = window.jspdf; let d = new jsPDF(); d.text(`IVCF - v${CURRENT_VERSION}`, 14, 20); let rows = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail)).map(i => [i.gestor, i.name, i.ivcf20 !== undefined ? i.ivcf20 : i.value, formatDateBR(i.date)]); d.autoTable({ startY: 28, head: [["Gestor", "Paciente", "IVCF", "Data"]], body: rows }); d.save(`ivcf.pdf`); }
         
-        function exportBackupJSON() { 
-            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2)); 
-            let a = document.createElement('a'); 
-            a.href = dataStr; 
-            a.download = `backup_ACS_v${CURRENT_VERSION}.json`; 
-            document.body.appendChild(a); 
-            a.click(); 
-            a.remove(); 
-        }
-        
-        function importBackupJSON(e) { 
-            let f = e.target.files[0]; 
-            if (!f) return; 
-            let r = new FileReader(); 
-            r.onload = function(evt) { 
-                try { 
-                    let imp = JSON.parse(evt.target.result);
-                    if (imp && imp.gestao_acs_90_db) mergeDatabaseObject(imp.gestao_acs_90_db);
-                    mergeDatabaseObject(imp);
-                    persistDB(); 
-                    refreshAllViews(); 
-                    alert("Backup Mesclado!"); 
-                } catch (err) { 
-                    alert("Erro ao ler JSON."); 
-                } 
-            }; 
-            r.readAsText(f); 
-        }
+        function exportBackupJSON() { let ds = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2)); let a = document.createElement('a'); a.href = ds; a.download = `backup_ACS.json`; document.body.appendChild(a); a.click(); a.remove(); }
+        function importBackupJSON(e) { let f = e.target.files[0]; if (!f) return; let r = new FileReader(); r.onload = function(evt) { try { let i = JSON.parse(evt.target.result); replaceDatabaseObject(i.gestao_acs_90_db || i); persistDB(); refreshAllViews(); alert("Backup Mesclado com Sucesso!"); } catch (err) { alert("Erro ao ler JSON."); } }; r.readAsText(f); }
 
         initDB();
     </script>
