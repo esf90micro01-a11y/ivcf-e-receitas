@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Segura ACS Marcelo 90/01 - v22.3 Cloud</title>
-    
-    <!-- ESTILO CRÍTICO NATIVO -->
-    <style>
-        .hidden { display: none !important; }
-    </style>
+    <title>Gestão Segura ACS Marcelo 90/01 - v22.2 Cloud</title>
 
     <!-- LIMPADOR IMEDIATO DE CACHE ANTIGO -->
     <script>
@@ -51,18 +46,18 @@
     <!-- App Container -->
     <div id="app" class="flex-1 flex flex-col h-full overflow-hidden">
         
-        <!-- LOGIN SCREEN -->
-        <div id="auth-screen" class="flex-1 flex items-center justify-center p-4 bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 overflow-y-auto" style="display: flex;">
+        <!-- LOGIN SCREEN (APENAS E-MAIL E SENHA) -->
+        <div id="auth-screen" class="flex-1 flex items-center justify-center p-4 bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 overflow-y-auto">
             <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100 my-auto">
                 <div class="text-center mb-6">
                     <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl mb-3">
                         <i class="fa-solid fa-cloud-bolt text-2xl"></i>
                     </div>
                     <h1 class="text-xl font-bold text-slate-900">
-                        Gestão Segura ACS Marcelo 90/01 <span class="ver-tag text-blue-600">v22.3</span>
+                        Gestão Segura ACS Marcelo 90/01 <span class="ver-tag text-blue-600">v22.2</span>
                     </h1>
                     <p class="text-xs text-slate-500 mt-1">
-                        <span class="ver-full-label font-semibold text-slate-700">Versão 22.3 Cloud</span> — Limpeza de Tela & Importação CSV
+                        <span class="ver-full-label font-semibold text-slate-700">Versão 22.2 Cloud</span> — Grupos de Receitas & Backup p/ E-mail
                     </p>
                     <div class="mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700" id="login-cloud-status">
                         <i class="fa-solid fa-circle-check"></i>
@@ -95,7 +90,7 @@
                 </div>
 
                 <div class="mt-6 pt-4 border-t border-slate-100 text-center">
-                    <p class="text-[11px] text-slate-400">Banco na Nuvem: <span class="font-mono text-slate-600">gestao-acs-marcelo (v22.3)</span></p>
+                    <p class="text-[11px] text-slate-400">Banco na Nuvem: <span class="font-mono text-slate-600">gestao-acs-marcelo (v22.2)</span></p>
                 </div>
             </div>
         </div>
@@ -110,7 +105,7 @@
                     <div>
                         <div class="flex items-center space-x-2">
                             <h2 class="font-bold text-slate-800 text-sm sm:text-base leading-tight">
-                                Gestão Segura ACS Marcelo 90/01 — <span class="ver-tag text-blue-600 font-extrabold">v22.3</span>
+                                Gestão Segura ACS Marcelo 90/01 — <span class="ver-tag text-blue-600 font-extrabold">v22.2</span>
                             </h2>
                             <button type="button" onclick="forceCloudSync()" id="header-cloud-badge" title="Clique para sincronizar agora com o Firebase" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex items-center space-x-1 cursor-pointer hover:bg-emerald-200 transition-all">
                                 <i class="fa-solid fa-cloud"></i><span>Sincronizar Nuvem</span>
@@ -120,9 +115,12 @@
                     </div>
                 </div>
                 
+                <!-- BARRA DE BUSCA GLOBAL + FILTRO MASTER DE ACS -->
                 <div class="flex-1 flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-2">
                     <div class="relative flex-1 min-w-[200px]">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400"><i class="fa-solid fa-search"></i></span>
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-search"></i>
+                        </span>
                         <input type="text" id="global-search" oninput="handleGlobalSearch()" placeholder="Pesquisar paciente, comorbidade, gestor ou med..." class="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50">
                     </div>
 
@@ -154,6 +152,7 @@
             </header>
 
             <div class="flex-1 flex overflow-hidden">
+                <!-- BARRA LATERAL SEMPRE VISÍVEL -->
                 <aside class="w-60 sm:w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 overflow-y-auto">
                     <div class="space-y-1.5">
                         <button onclick="switchTab('evaluations')" id="tab-btn-evaluations" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 cursor-pointer">
@@ -190,7 +189,7 @@
 
                     <div class="pt-4 border-t border-slate-100 text-center">
                         <span class="inline-block px-3 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-mono font-bold">
-                            APK <span class="ver-full-label">Versão 22.3 Cloud</span>
+                            APK <span class="ver-full-label">Versão 22.2 Cloud</span>
                         </span>
                     </div>
                 </aside>
@@ -201,7 +200,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Avaliações IVCF-20 & IVSF-10</h3>
-                                <p class="text-xs text-slate-500">Ordenado automaticamente do maior risco (Vermelho &rarr; Amarelo &rarr; Verde).</p>
+                                <p class="text-xs text-slate-500">Ordenado automaticamente do maior risco (Vermelho &rarr; Amarelo &rarr; Verde). Datas de avaliação editáveis.</p>
                             </div>
                             <div class="flex flex-wrap items-center gap-3">
                                 <div class="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
@@ -213,12 +212,8 @@
                                         <option value="green">🟢 Apenas Verdes (Robusto 0 a 6)</option>
                                     </select>
                                 </div>
-                                <label class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow transition-all cursor-pointer">
-                                    <i class="fa-solid fa-file-import mr-1.5"></i>Importar CSV/TXT
-                                    <input type="file" id="csv-upload" accept=".csv,.txt" class="hidden" onchange="importCSV(event)">
-                                </label>
                                 <button id="btn-new-item" onclick="openItemModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow transition-all cursor-pointer">
-                                    <i class="fa-solid fa-plus mr-1.5"></i>Adicionar Avaliação
+                                    <i class="fa-solid fa-plus mr-2"></i>Adicionar Avaliação
                                 </button>
                             </div>
                         </div>
@@ -279,7 +274,7 @@
                         </div>
                     </div>
 
-                    <!-- ABA GRUPOS DE RECEITAS (SEPARADOS POR COMORBIDADE) -->
+                    <!-- NOVA ABA: GRUPOS DE RECEITAS (SEPARADOS POR COMORBIDADE) -->
                     <div id="tab-comorb_groups" class="hidden space-y-6 max-w-7xl mx-auto">
                         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                             <div>
@@ -307,6 +302,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div id="comorb-groups-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
                     </div>
 
@@ -349,37 +345,71 @@
                                 <input type="text" id="cycle-search" oninput="renderCycles()" placeholder="Filtrar nesta aba..." class="w-full px-3 py-2 border rounded-xl text-sm bg-slate-50 outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                         </div>
+                        
                         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between"><div class="space-y-3"><div class="flex justify-between items-center bg-blue-50 text-blue-700 px-3 py-2 rounded-xl font-bold text-sm"><span>30 Dias</span><button onclick="exportCyclePDF('30')" class="text-xs hover:text-blue-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button></div><div id="cycle-list-30" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div></div></div>
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between"><div class="space-y-3"><div class="flex justify-between items-center bg-emerald-50 text-emerald-700 px-3 py-2 rounded-xl font-bold text-sm"><span>60 Dias</span><button onclick="exportCyclePDF('60')" class="text-xs hover:text-emerald-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button></div><div id="cycle-list-60" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div></div></div>
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between"><div class="space-y-3"><div class="flex justify-between items-center bg-amber-50 text-amber-700 px-3 py-2 rounded-xl font-bold text-sm"><span>90 Dias</span><button onclick="exportCyclePDF('90')" class="text-xs hover:text-amber-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button></div><div id="cycle-list-90" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div></div></div>
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between"><div class="space-y-3"><div class="flex justify-between items-center bg-purple-50 text-purple-700 px-3 py-2 rounded-xl font-bold text-sm"><span>180 Dias</span><button onclick="exportCyclePDF('180')" class="text-xs hover:text-purple-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button></div><div id="cycle-list-180" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div></div></div>
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between"><div class="space-y-3"><div class="flex justify-between items-center bg-slate-100 text-slate-700 px-3 py-2 rounded-xl font-bold text-sm"><span>Outros (Manual)</span><button onclick="exportCyclePDF('outros')" class="text-xs hover:text-slate-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button></div><div id="cycle-list-outros" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div></div></div>
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center bg-blue-50 text-blue-700 px-3 py-2 rounded-xl font-bold text-sm">
+                                        <span>30 Dias</span>
+                                        <button onclick="exportCyclePDF('30')" class="text-xs hover:text-blue-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button>
+                                    </div>
+                                    <div id="cycle-list-30" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center bg-emerald-50 text-emerald-700 px-3 py-2 rounded-xl font-bold text-sm">
+                                        <span>60 Dias</span>
+                                        <button onclick="exportCyclePDF('60')" class="text-xs hover:text-emerald-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button>
+                                    </div>
+                                    <div id="cycle-list-60" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center bg-amber-50 text-amber-700 px-3 py-2 rounded-xl font-bold text-sm">
+                                        <span>90 Dias</span>
+                                        <button onclick="exportCyclePDF('90')" class="text-xs hover:text-amber-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button>
+                                    </div>
+                                    <div id="cycle-list-90" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center bg-purple-50 text-purple-700 px-3 py-2 rounded-xl font-bold text-sm">
+                                        <span>180 Dias</span>
+                                        <button onclick="exportCyclePDF('180')" class="text-xs hover:text-purple-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button>
+                                    </div>
+                                    <div id="cycle-list-180" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center bg-slate-100 text-slate-700 px-3 py-2 rounded-xl font-bold text-sm">
+                                        <span>Outros (Manual)</span>
+                                        <button onclick="exportCyclePDF('outros')" class="text-xs hover:text-slate-900 cursor-pointer"><i class="fa-solid fa-file-pdf"></i></button>
+                                    </div>
+                                    <div id="cycle-list-outros" class="space-y-2 text-xs max-h-[60vh] overflow-y-auto"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- ABA DE RENOVAÇÃO (COM FILTRO INTELIGENTE 15 DIAS E JANELA DE REAGENDAMENTO INDIVIDUAL) -->
+                    <!-- ABA DE RENOVAÇÃO -->
                     <div id="tab-renewals" class="hidden space-y-6 max-w-7xl mx-auto">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800">Aba de Renovação & Controle de Impressão</h3>
-                                <p class="text-xs text-slate-500">Ao renovar, o paciente sai imediatamente desta lista de pendências e reaparece na próxima data.</p>
+                                <p class="text-xs text-slate-500">Bloqueia impressões/renovações duplicadas em dias seguidos e exige justificativa quando solicitadas antes da data programada.</p>
                             </div>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <div class="flex items-center space-x-1.5 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-                                    <i class="fa-solid fa-filter text-slate-400 text-xs"></i>
-                                    <select id="renewals-filter" onchange="renderRenewals()" class="bg-transparent text-xs font-bold text-blue-700 outline-none cursor-pointer">
-                                        <option value="15days" selected>Atrasadas e Próximos 15 Dias</option>
-                                        <option value="all">Mostrar Toda a Agenda do Futuro</option>
-                                    </select>
-                                </div>
-                                <button onclick="exportRenewalsPDF()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow transition-all cursor-pointer">
-                                    <i class="fa-solid fa-file-pdf mr-1"></i>PDF Geral
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="exportRenewalsPDF()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow transition-all cursor-pointer">
+                                    <i class="fa-solid fa-file-pdf mr-2"></i>PDF Lista Geral
                                 </button>
-                                <button onclick="exportRenewalsSeparatedByUserPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow transition-all cursor-pointer">
-                                    <i class="fa-solid fa-file-pdf mr-1"></i>PDF por Paciente
+                                <button onclick="exportRenewalsSeparatedByUserPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow transition-all cursor-pointer">
+                                    <i class="fa-solid fa-file-pdf mr-2"></i>PDF Separado por Paciente
                                 </button>
-                                <button onclick="renewSelectedGroups()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow transition-all flex items-center space-x-1.5 cursor-pointer">
+                                <button onclick="renewSelectedGroups()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow transition-all flex items-center space-x-2 cursor-pointer">
                                     <i class="fa-solid fa-check-double"></i>
                                     <span>Renovar Selecionados</span>
                                 </button>
@@ -390,7 +420,7 @@
                                 <thead>
                                     <tr class="bg-emerald-50 border-b border-emerald-200 text-emerald-800 text-xs font-bold uppercase">
                                         <th class="p-4 text-center w-12"><input type="checkbox" id="select-all-renewals" onclick="toggleSelectAllRenewals(this)" title="Selecionar Todos"></th>
-                                        <th class="p-4">Data de Renovação & Motivo</th>
+                                        <th class="p-4">Data de Renovação & Motivo do Adiantamento</th>
                                         <th class="p-4">Paciente & Status de Impressão</th>
                                         <th class="p-4">Medicamentos do Grupo (Dose, Posologia & Confecção)</th>
                                         <th class="p-4">Gestor / ACS</th>
@@ -400,7 +430,7 @@
                                 </thead>
                                 <tbody id="renewals-table-body" class="divide-y divide-slate-100 text-sm"></tbody>
                             </table>
-                            <div id="empty-renewal-state" class="hidden text-center py-12 text-slate-400">Sua lista está limpa! Nenhum medicamento precisando de renovação no período selecionado.</div>
+                            <div id="empty-renewal-state" class="hidden text-center py-12 text-slate-400">Nenhum medicamento pendente de renovação.</div>
                         </div>
                     </div>
 
@@ -409,13 +439,13 @@
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
                             <div>
                                 <h3 class="text-lg font-bold text-slate-800 mb-1">Dashboard Epidemiológico e Produtividade</h3>
-                                <p class="text-xs text-slate-500">Mapeamento de comorbidades reais cadastradas por você, rankings de medicamentos e classificação de risco.</p>
+                                <p class="text-xs text-slate-500">Mapeamento de comorbidades reais cadastradas por você, rankings de medicamentos e evolução da sua microárea.</p>
                             </div>
                             
                             <div class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-                                        <h4 class="font-bold text-slate-700 text-sm">Classificação de Risco Epidemiológico (IVCF-20 / IVSF-10)</h4>
+                                        <h4 class="font-bold text-slate-700 text-sm">Evolução de Pontuações (IVCF-20)</h4>
                                         <div class="h-72 relative"><canvas id="scoreChart"></canvas></div>
                                     </div>
                                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
@@ -473,7 +503,7 @@
                         <div class="bg-blue-50 border border-blue-200 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
                             <div class="space-y-1">
                                 <h4 class="font-bold text-blue-900 text-base">
-                                    <i class="fa-solid fa-cloud mr-2"></i>Banco de Dados Online Firebase (<span class="ver-full-label">Versão 22.3 Cloud</span>)
+                                    <i class="fa-solid fa-cloud mr-2"></i>Banco de Dados Online Firebase (<span class="ver-full-label">Versão 22.2 Cloud</span>)
                                 </h4>
                                 <p class="text-xs text-blue-800 leading-relaxed">
                                     Sincronizado diretamente com `gestao_acs_90_db` no Firebase (`gestao-acs-marcelo`).<br>
@@ -606,68 +636,20 @@
         </div>
     </div>
 
-    <!-- MODAL INTELIGENTE DE RENOVAÇÃO DE GRUPO (PERMITE EDITAR CICLOS INDIVIDUAIS ANTES DE CONFIRMAR) -->
-    <div id="renew-group-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-200 flex flex-col max-h-[90vh]">
-            <div class="px-6 py-4 bg-emerald-50 border-b border-emerald-200 flex justify-between items-center">
-                <h3 class="font-bold text-emerald-900 text-sm sm:text-base flex items-center">
-                    <i class="fa-solid fa-calendar-check mr-2 text-emerald-600"></i>Renovação Inteligente de Medicamentos
-                </h3>
-                <button type="button" onclick="document.getElementById('renew-group-modal').classList.add('hidden')" class="cursor-pointer text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <form onsubmit="saveGroupRenewal(event)" class="p-6 space-y-4 overflow-y-auto flex-1 text-sm">
-                <p class="font-bold text-slate-800" id="renew-group-patient-name"></p>
-                <p class="text-xs text-slate-500 mb-2">Edite os ciclos abaixo caso o médico tenha alterado a prescrição. O sistema reagendará as próximas datas automaticamente com base no ciclo de cada remédio.</p>
-                
-                <div id="renew-group-meds-container" class="space-y-2 mb-4"></div>
-
-                <div id="renew-group-reason-box" class="hidden space-y-3 pt-3 border-t">
-                    <div id="renew-group-alert-text"></div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Motivo da Impressão / Adiantamento *</label>
-                        <select id="renew-group-reason-select" onchange="toggleRenewGroupCustomReason()" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="">-- Escolha um motivo obrigatório --</option>
-                            <option value="Perda ou extravio da receita pelo paciente">Perda ou extravio da receita pelo paciente</option>
-                            <option value="Receita rasgada, manchada ou danificada">Receita rasgada, manchada ou danificada</option>
-                            <option value="Alteração de dosagem / posologia pelo médico">Alteração de dosagem / posologia pelo médico</option>
-                            <option value="Viagem programada do paciente">Viagem programada do paciente</option>
-                            <option value="Adiantamento autorizado pela equipe da UBS">Adiantamento autorizado pela equipe da UBS</option>
-                            <option value="Erro na impressão anterior (falha de impressora)">Erro na impressão anterior (falha de impressora)</option>
-                            <option value="custom">Outro motivo (especificar abaixo)...</option>
-                        </select>
-                    </div>
-                    <div id="renew-group-reason-custom-box" class="hidden">
-                        <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Descreva o Motivo Específico *</label>
-                        <input type="text" id="renew-group-reason-custom" maxlength="120" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite o motivo detalhado...">
-                    </div>
-                </div>
-
-                <div class="flex justify-end space-x-2 pt-4 border-t">
-                    <button type="button" onclick="document.getElementById('renew-group-modal').classList.add('hidden')" class="px-4 py-2.5 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow cursor-pointer">
-                        <i class="fa-solid fa-check mr-1.5"></i>Confirmar e Reagendar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL DE CONFIRMAÇÃO DE IMPRESSÃO INDIVIDUAL (PDF) -->
+    <!-- MODAL DE CONFIRMAÇÃO E MOTIVO DE IMPRESSÃO / SOLICITAÇÃO ANTECIPADA OU REPETIDA -->
     <div id="print-confirm-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200">
             <div id="print-confirm-header" class="px-6 py-4 bg-amber-50 border-b border-amber-200 flex justify-between items-center">
                 <h3 id="print-confirm-title" class="font-bold text-amber-900 text-sm sm:text-base flex items-center">
-                    <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-600"></i>Confirmação de Impressão
+                    <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-600"></i>Confirmação de Impressão / Solicitação
                 </h3>
                 <button type="button" onclick="closePrintConfirmModal()" class="cursor-pointer text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-6 space-y-4 text-sm">
                 <div id="print-confirm-alert-text" class="p-3.5 rounded-xl border text-xs leading-relaxed"></div>
+
                 <div>
-                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Selecione o Motivo da Impressão *</label>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Selecione o Motivo da Impressão / Solicitação *</label>
                     <select id="print-reason-select" onchange="toggleCustomPrintReason()" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">-- Escolha um motivo obrigatório --</option>
                         <option value="Perda ou extravio da receita pelo paciente">Perda ou extravio da receita pelo paciente</option>
@@ -679,13 +661,19 @@
                         <option value="custom">Outro motivo (especificar abaixo)...</option>
                     </select>
                 </div>
+
                 <div id="print-reason-custom-box" class="hidden">
                     <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Descreva o Motivo Específico *</label>
                     <input type="text" id="print-reason-custom" maxlength="120" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite o motivo detalhado...">
                 </div>
+
                 <div class="flex justify-end space-x-2 pt-3 border-t">
-                    <button type="button" onclick="closePrintConfirmModal()" class="px-4 py-2.5 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">Cancelar</button>
-                    <button type="button" onclick="confirmPrintWithReason()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow cursor-pointer"><i class="fa-solid fa-print mr-1.5"></i>Confirmar e Imprimir</button>
+                    <button type="button" onclick="closePrintConfirmModal()" class="px-4 py-2.5 border rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer">
+                        Cancelar (Não Imprimir)
+                    </button>
+                    <button type="button" onclick="confirmPrintWithReason()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow cursor-pointer">
+                        <i class="fa-solid fa-print mr-1.5"></i>Confirmar Motivo e Continuar
+                    </button>
                 </div>
             </div>
         </div>
@@ -792,7 +780,7 @@
 
                 <!-- PAINEL DE COMORBIDADES DO PACIENTE -->
                 <div class="border-t border-slate-200 pt-4 pb-2">
-                    <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Comorbidades do Paciente (Para o Gráfico Epidemiológico)</label>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Comorbidades do Paciente (Separa nos Grupos de Receitas e Atualiza Gráficos)</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-[11px] font-semibold text-slate-700 mb-3" id="comorb-checkboxes">
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Hipertensão / Cardíaca" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Hipertensão / Cardíaca</span></label>
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Diabetes" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Diabetes</span></label>
@@ -801,7 +789,7 @@
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Tireoide" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Tireoide</span></label>
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Asma / DPOC" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Asma / DPOC</span></label>
                     </div>
-                    <input type="text" id="comorb-outras" placeholder="Outras (separadas por vírgula)... Ex: Artrose, Obesidade, Fibromialgia" class="w-full px-3 py-2 border rounded-lg text-xs bg-white text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="comorb-outras" placeholder="Outras comorbidades (separadas por vírgula)... Ex: Artrose, Obesidade, Fibromialgia" class="w-full px-3 py-2 border rounded-lg text-xs bg-white text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div class="border-t pt-4">
@@ -934,9 +922,23 @@
         </div>
     </div>
 
-    <!-- SCRIPT PRINCIPAL (VERSÃO 22.3 CLOUD) -->
+    <!-- MODAL DE DETALHES DO PACIENTE -->
+    <div id="patient-detail-modal" class="fixed inset-0 z-50 bg-slate-900/50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden">
+            <div class="px-6 py-4 bg-slate-50 border-b flex justify-between items-center">
+                <h3 id="modal-patient-name" class="font-bold text-slate-800">Detalhes do Paciente</h3>
+                <button onclick="closePatientDetailModal()" class="cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modal-patient-content" class="p-6 space-y-3 text-sm"></div>
+            <div class="px-6 py-3 bg-slate-50 border-t flex justify-end">
+                <button onclick="closePatientDetailModal()" class="px-4 py-2 bg-slate-800 text-white rounded-xl text-xs font-semibold cursor-pointer">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL (VERSÃO 22.2 CLOUD) -->
     <script>
-        const CURRENT_VERSION = "22.3";
+        const CURRENT_VERSION = "22.2";
         const APP_BASE_NAME = "Gestão Segura ACS Marcelo 90/01";
         const MASTER_EMAIL = "marcelo.doetz@gmail.com";
         const MASTER_DEFAULT_PASS = "R@ul2011";
@@ -977,7 +979,7 @@
         let duplicateMatchId = null;
         let shouldUnify = false;
         let ivcfSortDirection = 'desc';
-        let currentRenewalContext = null;
+        let pendingPrintContext = null;
         let preUpgradeBackupDone = false;
 
         const WEEKDAYS_SHORT_PT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -990,13 +992,18 @@
             if (!rawObj || typeof rawObj !== 'object' || preUpgradeBackupDone) return;
             let hasRecords = (rawObj.items && Object.keys(rawObj.items).length > 0) || (rawObj.revenues && Object.keys(rawObj.revenues).length > 0);
             if (!hasRecords) return;
+
             let oldVer = String(rawObj.version || 'anterior');
             let lastBackedUpTransition = localStorage.getItem('acs_last_version_backup');
             let transitionKey = `${oldVer}_to_${CURRENT_VERSION}`;
+
             if (oldVer !== CURRENT_VERSION && lastBackedUpTransition !== transitionKey) {
                 preUpgradeBackupDone = true;
                 localStorage.setItem('acs_last_version_backup', transitionKey);
-                setTimeout(() => { generateAndEmailBackup(`Pre_Upgrade_v${oldVer}_para_v${CURRENT_VERSION}`, rawObj, true); }, 800);
+                // Faz o download do .json com os dados anteriores e envia para esf90micro01@gmail.com
+                setTimeout(() => {
+                    generateAndEmailBackup(`Pre_Upgrade_v${oldVer}_para_v${CURRENT_VERSION}`, rawObj, true);
+                }, 800);
             }
         }
 
@@ -1007,25 +1014,44 @@
             let safeReason = String(reasonLabel).replace(/[^a-zA-Z0-9_-]/g, '_');
             let fileName = `backup_ACS_${safeReason}_${dateTag}.json`;
 
+            // 1. Gera e baixa o arquivo .json automaticamente no computador
             try {
                 let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonString);
-                let a = document.createElement('a'); a.href = dataStr; a.download = fileName; document.body.appendChild(a); a.click(); a.remove();
+                let a = document.createElement('a');
+                a.href = dataStr;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
             } catch (e) {}
 
+            // 2. Envia cópia automática para esf90micro01@gmail.com via FormSubmit AJAX
             let itemsLen = Array.isArray(targetObj.items) ? targetObj.items.length : Object.keys(targetObj.items || {}).length;
             let revsLen = Array.isArray(targetObj.revenues) ? targetObj.revenues.length : Object.keys(targetObj.revenues || {}).length;
 
             fetch(`https://formsubmit.co/ajax/${SECONDARY_MASTER}`, {
-                method: "POST", headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify({
                     _subject: `[Backup JSON ACS] ${reasonLabel} - v${CURRENT_VERSION} (${dateTag})`,
-                    Sistema: `${APP_BASE_NAME} - v${CURRENT_VERSION}`, Motivo_do_Backup: reasonLabel,
-                    Resumo_Registros: `${itemsLen} Avaliações IVCF | ${revsLen} Receitas/Pacientes`, Arquivo_JSON_Completo: jsonString
+                    Sistema: `${APP_BASE_NAME} - v${CURRENT_VERSION}`,
+                    Motivo_do_Backup: reasonLabel,
+                    Resumo_Registros: `${itemsLen} Avaliações IVCF | ${revsLen} Receitas/Pacientes`,
+                    Arquivo_JSON_Completo: jsonString
                 })
             }).then(res => {
-                if (!isSilentAuto) alert(`✅ Backup "${fileName}" baixado no seu computador!\n📧 Uma cópia completa também foi disparada para o e-mail: ${SECONDARY_MASTER}.`);
+                if (!isSilentAuto) {
+                    alert(`✅ Backup "${fileName}" baixado no seu computador!\n📧 Uma cópia completa também foi disparada para o e-mail: ${SECONDARY_MASTER}.\n\n(Obs: Se for a primeira vez, verifique a caixa de entrada/spam de ${SECONDARY_MASTER} para confirmar o recebimento automático).`);
+                }
             }).catch(() => {
-                if (!isSilentAuto && confirm(`✅ O arquivo "${fileName}" foi baixado no seu computador!\nDeseja abrir seu programa de e-mail para encaminhar uma cópia para ${SECONDARY_MASTER}?`)) openGmailWithBackup();
+                if (!isSilentAuto) {
+                    if (confirm(`✅ O arquivo "${fileName}" foi baixado no seu computador!\nDeseja abrir seu programa de e-mail para encaminhar uma cópia para ${SECONDARY_MASTER}?`)) {
+                        openGmailWithBackup();
+                    }
+                }
             });
         }
 
@@ -1071,20 +1097,28 @@
 
         function doSystemLogin() {
             try {
-                let errBox = document.getElementById('login-error-box'); if (errBox) errBox.classList.add('hidden');
-                let emailEl = document.getElementById('login-email'); let passEl = document.getElementById('login-password');
-                let email = (emailEl ? emailEl.value : '').trim().toLowerCase(); let pass = (passEl ? passEl.value : '').trim();
+                let errBox = document.getElementById('login-error-box');
+                if (errBox) errBox.classList.add('hidden');
+
+                let emailEl = document.getElementById('login-email');
+                let passEl = document.getElementById('login-password');
+                let email = (emailEl ? emailEl.value : '').trim().toLowerCase();
+                let pass = (passEl ? passEl.value : '').trim();
 
                 if (!email) { showLoginError("Por favor, preencha o e-mail de usuário."); return; }
                 if (!pass) { showLoginError("Por favor, digite a sua senha de acesso."); if (passEl) passEl.focus(); return; }
 
                 if (email === MASTER_EMAIL && (pass === MASTER_DEFAULT_PASS || pass.toLowerCase() === MASTER_DEFAULT_PASS.toLowerCase() || pass.toLowerCase() === 'raul2011')) {
                     currentUser = { email: MASTER_EMAIL, name: "ADM Master Marcelo", password: MASTER_DEFAULT_PASS, role: "admin", status: "active" };
-                    if (passEl) passEl.value = ''; initSession(); return;
+                    if (passEl) passEl.value = '';
+                    initSession();
+                    return;
                 }
                 if (email === SECONDARY_MASTER && (pass === SECONDARY_DEFAULT_PASS || pass.toLowerCase() === SECONDARY_DEFAULT_PASS.toLowerCase())) {
                     currentUser = { email: SECONDARY_MASTER, name: "ESF 90 Master", password: SECONDARY_DEFAULT_PASS, role: "admin", status: "active" };
-                    if (passEl) passEl.value = ''; initSession(); return;
+                    if (passEl) passEl.value = '';
+                    initSession();
+                    return;
                 }
 
                 ensureMasterUsers();
@@ -1092,55 +1126,88 @@
 
                 if (user && pass === String(user.password || '').trim()) {
                     if (user.status === 'inactive') { showLoginError("ACESSO BLOQUEADO: Seu acesso foi suspenso pelo ADM Master."); return; }
-                    currentUser = user; if (passEl) passEl.value = ''; initSession(); return;
-                } else if (user) { showLoginError("ACESSO NEGADO: Senha incorreta."); return; }
+                    currentUser = user;
+                    if (passEl) passEl.value = '';
+                    initSession();
+                    return;
+                } else if (user) {
+                    showLoginError("ACESSO NEGADO: Senha incorreta.");
+                    return;
+                }
                 showLoginError("ACESSO BLOQUEADO: E-mail não autorizado.");
-            } catch (err) { currentUser = { email: MASTER_EMAIL, name: "ADM Master Marcelo", role: "admin", status: "active" }; initSession(); }
+            } catch (err) {
+                currentUser = { email: MASTER_EMAIL, name: "ADM Master Marcelo", role: "admin", status: "active" };
+                initSession();
+            }
         }
 
         function initSession() {
             try {
                 sessionStorage.setItem('acs_active_user', JSON.stringify(currentUser));
-                let authEl = document.getElementById('auth-screen'); let mainEl = document.getElementById('main-screen');
-                if (authEl) { authEl.classList.add('hidden'); authEl.style.display = 'none'; }
-                if (mainEl) { mainEl.classList.remove('hidden'); mainEl.style.display = 'flex'; }
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('main-screen').classList.remove('hidden');
 
                 document.getElementById('user-display-name').innerText = currentUser.name || currentUser.email;
                 document.getElementById('user-display-email').innerText = currentUser.email;
 
-                let badge = document.getElementById('badge-role'); let adminTab = document.getElementById('admin-tab-btn'); let adminRep = document.getElementById('admin-report-card');
+                let colorFilterEl = document.getElementById('ivcf-color-filter');
+                if (colorFilterEl) colorFilterEl.value = 'all';
+
+                let badge = document.getElementById('badge-role');
+                let adminTab = document.getElementById('admin-tab-btn');
+                let adminRep = document.getElementById('admin-report-card');
                 if (isMasterAccount(currentUser.email) || currentUser.role === 'admin') {
-                    badge.innerText = "Administrador Master"; badge.className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700";
-                    adminTab.classList.remove('hidden'); adminTab.classList.add('flex'); adminRep.classList.remove('hidden');
+                    badge.innerText = "Administrador Master";
+                    badge.className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700";
+                    adminTab.classList.remove('hidden'); adminTab.classList.add('flex');
+                    adminRep.classList.remove('hidden');
                 } else {
-                    badge.innerText = "ACS / Gestor Autorizado (Área Individual)"; badge.className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-700";
+                    badge.innerText = "ACS / Gestor Autorizado (Área Individual)";
+                    badge.className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-700";
                     adminTab.classList.add('hidden'); adminRep.classList.add('hidden');
                 }
-                updateMasterFilterDropdown(); initHolidayYearSelector();
+                updateMasterFilterDropdown();
+                initHolidayYearSelector();
             } catch (e) {}
-            try { switchTab('evaluations'); } catch(e) {} try { refreshAllViews(); } catch(e) {}
+
+            try { switchTab('evaluations'); } catch(e) {}
+            try { refreshAllViews(); } catch(e) {}
             fetchCloudViaRest();
         }
 
         function logout() {
-            currentUser = null; sessionStorage.removeItem('acs_active_user');
-            let authEl = document.getElementById('auth-screen'); let mainEl = document.getElementById('main-screen');
-            if (mainEl) { mainEl.classList.add('hidden'); mainEl.style.display = 'none'; }
-            if (authEl) { authEl.classList.remove('hidden'); authEl.style.display = 'flex'; }
+            currentUser = null;
+            sessionStorage.removeItem('acs_active_user');
+            document.getElementById('main-screen').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
         }
 
         // =========================================================================
-        // 3. LEITURA COMPLETA E MESCLAGEM COM FIREBASE
+        // 3. BUSCA MULTICAMINHO NO FIREBASE
         // =========================================================================
         function updateCloudBadges(status, message) {
-            let loginBadge = document.getElementById('login-cloud-status'); let headerBadge = document.getElementById('header-cloud-badge');
+            let loginBadge = document.getElementById('login-cloud-status');
+            let headerBadge = document.getElementById('header-cloud-badge');
             let countInfo = `${(db.items || []).length} aval. | ${(db.revenues || []).length} rec.`;
+
             if (status === 'online') {
-                if (loginBadge) { loginBadge.className = "mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700"; loginBadge.innerHTML = `<i class="fa-solid fa-cloud-check"></i><span>Firebase Conectado (${countInfo})</span>`; }
-                if (headerBadge) { headerBadge.className = "text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex items-center space-x-1 cursor-pointer hover:bg-emerald-200"; headerBadge.innerHTML = `<i class="fa-solid fa-cloud"></i><span>Nuvem Conectada (${countInfo})</span>`; }
+                if (loginBadge) {
+                    loginBadge.className = "mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700";
+                    loginBadge.innerHTML = `<i class="fa-solid fa-cloud-check"></i><span>Firebase Conectado (${countInfo})</span>`;
+                }
+                if (headerBadge) {
+                    headerBadge.className = "text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex items-center space-x-1 cursor-pointer hover:bg-emerald-200";
+                    headerBadge.innerHTML = `<i class="fa-solid fa-cloud"></i><span>Nuvem Conectada (${countInfo})</span>`;
+                }
             } else {
-                if (loginBadge) { loginBadge.className = "mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800"; loginBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>${message || 'Sistema Pronto (' + countInfo + ')'}</span>`; }
-                if (headerBadge) { headerBadge.className = "text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 flex items-center space-x-1 cursor-pointer"; headerBadge.innerHTML = `<i class="fa-solid fa-cloud"></i><span>${message || 'Sincronizar Nuvem (' + countInfo + ')'}</span>`; }
+                if (loginBadge) {
+                    loginBadge.className = "mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800";
+                    loginBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>${message || 'Sistema Pronto (' + countInfo + ')'}</span>`;
+                }
+                if (headerBadge) {
+                    headerBadge.className = "text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 flex items-center space-x-1 cursor-pointer";
+                    headerBadge.innerHTML = `<i class="fa-solid fa-cloud"></i><span>${message || 'Sincronizar Nuvem (' + countInfo + ')'}</span>`;
+                }
             }
         }
 
@@ -1151,116 +1218,350 @@
                 try {
                     const response = await fetch(url, { method: 'GET', cache: 'no-store' });
                     if (response.ok) {
-                        connectedAny = true; const data = await response.json();
+                        connectedAny = true;
+                        const data = await response.json();
                         if (data && typeof data === 'object') {
-                            if (data.gestao_acs_90_db && typeof data.gestao_acs_90_db === 'object') { checkAndTriggerVersionUpgradeBackup(data.gestao_acs_90_db); mergeDatabaseObject(data.gestao_acs_90_db); }
-                            if (data.items || data.revenues || data.users || data.history) { checkAndTriggerVersionUpgradeBackup(data); mergeDatabaseObject(data); }
-                            if (url.includes('gestao_acs_90_db.json')) activeRestEndpoint = url;
+                            if (data.gestao_acs_90_db && typeof data.gestao_acs_90_db === 'object') {
+                                checkAndTriggerVersionUpgradeBackup(data.gestao_acs_90_db);
+                                mergeDatabaseObject(data.gestao_acs_90_db);
+                            }
+                            if (data.items || data.revenues || data.users || data.history) {
+                                checkAndTriggerVersionUpgradeBackup(data);
+                                mergeDatabaseObject(data);
+                            }
+                            if (url.includes('gestao_acs_90_db.json')) {
+                                activeRestEndpoint = url;
+                            }
                         }
                     }
                 } catch (e) {}
             }
+
             if (connectedAny) {
-                localStorage.setItem('ivcf_db_v3', JSON.stringify(db)); updateCloudBadges('online');
-                if (currentUser) { updateMasterFilterDropdown(); refreshAllViews(); }
-            } else updateCloudBadges('offline', 'Modo Local');
+                localStorage.setItem('ivcf_db_v3', JSON.stringify(db));
+                updateCloudBadges('online');
+                if (currentUser) {
+                    updateMasterFilterDropdown();
+                    refreshAllViews();
+                }
+            } else {
+                updateCloudBadges('offline', 'Modo Local');
+            }
         }
 
         function connectFirebaseCloud() {
             fetchCloudViaRest();
             try {
-                if (typeof firebase === 'undefined') { setTimeout(connectFirebaseCloud, 1200); return; }
-                const firebaseConfig = { apiKey: "AIzaSyCjtHwSZL_dHk-GtJLq_BVmKdbKac_U4Ic", authDomain: "gestao-acs-marcelo.firebaseapp.com", databaseURL: FIREBASE_DB_URL, projectId: "gestao-acs-marcelo", storageBucket: "gestao-acs-marcelo.firebasestorage.app", messagingSenderId: "962078506582", appId: "1:962078506582:web:51cdd7e1434dc50fd845f7", measurementId: "G-34KHWRJ336" };
+                if (typeof firebase === 'undefined') {
+                    setTimeout(connectFirebaseCloud, 1200);
+                    return;
+                }
+                const firebaseConfig = {
+                    apiKey: "AIzaSyCjtHwSZL_dHk-GtJLq_BVmKdbKac_U4Ic",
+                    authDomain: "gestao-acs-marcelo.firebaseapp.com",
+                    databaseURL: FIREBASE_DB_URL,
+                    projectId: "gestao-acs-marcelo",
+                    storageBucket: "gestao-acs-marcelo.firebasestorage.app",
+                    messagingSenderId: "962078506582",
+                    appId: "1:962078506582:web:51cdd7e1434dc50fd845f7",
+                    measurementId: "G-34KHWRJ336"
+                };
                 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-                firebaseDB = firebase.database(); dbRef = firebaseDB.ref('gestao_acs_90_db');
+                firebaseDB = firebase.database();
+                dbRef = firebaseDB.ref('gestao_acs_90_db');
+
                 dbRef.on('value', (snapshot) => {
                     const cloudData = snapshot.val();
                     if (cloudData && typeof cloudData === 'object') {
-                        checkAndTriggerVersionUpgradeBackup(cloudData); mergeDatabaseObject(cloudData); localStorage.setItem('ivcf_db_v3', JSON.stringify(db)); updateCloudBadges('online');
-                        if (currentUser) { updateMasterFilterDropdown(); refreshAllViews(); }
+                        checkAndTriggerVersionUpgradeBackup(cloudData);
+                        mergeDatabaseObject(cloudData);
+                        localStorage.setItem('ivcf_db_v3', JSON.stringify(db));
+                        updateCloudBadges('online');
+                        if (currentUser) {
+                            updateMasterFilterDropdown();
+                            refreshAllViews();
+                        }
                     }
                 });
             } catch (err) {}
         }
 
         function persistDB() {
-            db.version = CURRENT_VERSION; ensureMasterUsers(); let cleanCopy = JSON.parse(JSON.stringify(db)); localStorage.setItem('ivcf_db_v3', JSON.stringify(cleanCopy));
-            fetch(activeRestEndpoint, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cleanCopy) }).then(res => { if (res.ok) updateCloudBadges('online'); }).catch(() => {});
+            db.version = CURRENT_VERSION;
+            ensureMasterUsers();
+            let cleanCopy = JSON.parse(JSON.stringify(db));
+            localStorage.setItem('ivcf_db_v3', JSON.stringify(cleanCopy));
+
+            fetch(activeRestEndpoint, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(cleanCopy)
+            }).then(res => { if (res.ok) updateCloudBadges('online'); }).catch(() => {});
+
             if (dbRef) dbRef.set(cleanCopy).then(() => updateCloudBadges('online')).catch(() => {});
-            let toast = document.getElementById('save-toast'); if (toast) { toast.classList.remove('translate-y-20', 'opacity-0'); setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2000); }
+
+            let toast = document.getElementById('save-toast');
+            if (toast) {
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2000);
+            }
         }
 
-        function forceCloudSync() { fetchCloudViaRest().then(() => { persistDB(); alert(`Sincronização com o Firebase (v${CURRENT_VERSION}) concluída!\nRegistros ativos: ${(db.items || []).length} avaliações e ${(db.revenues || []).length} receitas.`); }); }
+        function forceCloudSync() {
+            fetchCloudViaRest().then(() => {
+                persistDB();
+                alert(`Sincronização com o Firebase (v${CURRENT_VERSION}) concluída!\nRegistros ativos: ${(db.items || []).length} avaliações e ${(db.revenues || []).length} receitas.`);
+            });
+        }
+
+        function initHolidayYearSelector() {
+            let sel = document.getElementById('holiday-year-selector');
+            if (!sel) return;
+            let curY = new Date().getFullYear();
+            let html = '';
+            for (let y = curY - 1; y <= curY + 5; y++) {
+                html += `<option value="${y}" ${y === curY ? 'selected' : ''}>${y}</option>`;
+            }
+            sel.innerHTML = html;
+        }
 
         function initDB() {
-            document.title = `${APP_BASE_NAME} - v${CURRENT_VERSION} Cloud`; document.querySelectorAll('.ver-tag').forEach(el => el.innerText = `v${CURRENT_VERSION}`); document.querySelectorAll('.ver-full-label').forEach(el => el.innerText = `Versão ${CURRENT_VERSION} Cloud`); initHolidayYearSelector();
-            ['ivcf_db_v3', 'ivcf_db', 'acs_db'].forEach(key => { let rawLocal = localStorage.getItem(key); if (rawLocal) { try { let parsed = JSON.parse(rawLocal); checkAndTriggerVersionUpgradeBackup(parsed); mergeDatabaseObject(parsed); } catch (e) {} } });
-            ensureMasterUsers(); updateCloudBadges('offline', 'Sistema Pronto — Digite E-mail e Senha');
-            connectFirebaseCloud();
-            try { let savedSession = sessionStorage.getItem('acs_active_user'); if (savedSession) { let parsedUser = JSON.parse(savedSession); if (parsedUser && parsedUser.email) { currentUser = parsedUser; initSession(); } } } catch (e) {}
-        }
+            document.title = `${APP_BASE_NAME} - v${CURRENT_VERSION} Cloud`;
+            document.querySelectorAll('.ver-tag').forEach(el => el.innerText = `v${CURRENT_VERSION}`);
+            document.querySelectorAll('.ver-full-label').forEach(el => el.innerText = `Versão ${CURRENT_VERSION} Cloud`);
+            initHolidayYearSelector();
 
-        // =========================================================================
-        // IMPORTAÇÃO CSV (NOVA FUNÇÃO) E CÁLCULO INTELIGENTE
-        // =========================================================================
-        function importCSV(e) {
-            let file = e.target.files[0];
-            if (!file) return;
-            let reader = new FileReader();
-            reader.onload = function(evt) {
-                let text = evt.target.result;
-                let lines = text.split('\n');
-                let importedCount = 0;
-
-                lines.forEach(line => {
-                    line = line.trim();
-                    if (!line) return;
-                    let parts = line.split(/\s+/);
-                    if (parts.length < 5) return;
-                    
-                    let dateRaw = parts.pop();
-                    let ivsf10 = parseInt(parts.pop());
-                    let ivcf20 = parseInt(parts.pop());
-                    let gestor = parts.shift();
-                    let name = parts.join(' ');
-                    
-                    if (isNaN(ivcf20) || isNaN(ivsf10)) return;
-
-                    let dParts = dateRaw.split('/');
-                    let evalDate = dParts.length === 3 ? `${dParts[2]}-${dParts[1]}-${dParts[0]}` : dateRaw;
-
-                    let profile = 360; let c20 = "Idoso Robusto"; let c10 = "Baixa Vulnerabilidade";
-                    if (ivcf20 >= 15 || ivsf10 >= 10) { profile = 90; c20 = "Idoso Frágil"; c10 = "Alta Vulnerabilidade"; }
-                    else if (ivcf20 >= 7 || ivsf10 >= 5) { profile = 180; c20 = "Risco de Fragilização"; c10 = "Média Vulnerabilidade"; }
-
-                    let nextStr = calculateValidDate(evalDate, profile);
-                    let existing = db.items.find(i => isVisibleToCurrentUser(i.userEmail) && stringsAreSimilar(i.name, name));
-                    
-                    if (existing) {
-                        if (!Array.isArray(existing.history)) existing.history = [];
-                        existing.history.push({ ivcf20, ivsf10, date: evalDate, profile });
-                        existing.gestor = gestor; existing.ivcf20 = ivcf20; existing.ivsf10 = ivsf10; existing.value = ivcf20; existing.profile = profile; existing.date = evalDate; existing.nextDate = nextStr; existing.class20 = c20; existing.class10 = c10;
-                    } else {
-                        db.items.push({ id: 'csv_' + Date.now() + Math.random(), userEmail: currentUser.email, gestor, name, ivcf20, ivsf10, value: ivcf20, profile, date: evalDate, nextDate: nextStr, class20: c20, class10: c10, history: [{ ivcf20, ivsf10, date: evalDate, profile }] });
-                    }
-                    db.history.push({ id: 'h_' + Date.now() + Math.random(), userEmail: currentUser.email, name, value: ivcf20, ivsf10, date: evalDate });
-                    importedCount++;
-                });
-
-                if (importedCount > 0) {
-                    persistDB();
-                    refreshAllViews();
-                    alert(`✅ Importação Concluída!\nForam processadas e salvas na nuvem as avaliações de ${importedCount} paciente(s).`);
-                } else {
-                    alert("⚠️ Nenhum registro válido encontrado. Verifique se o formato está correto:\nEx: 1189892 IDAIR DE LIMA 17 6 10/08/2026");
+            ['ivcf_db_v3', 'ivcf_db', 'acs_db'].forEach(key => {
+                let rawLocal = localStorage.getItem(key);
+                if (rawLocal) {
+                    try {
+                        let parsed = JSON.parse(rawLocal);
+                        checkAndTriggerVersionUpgradeBackup(parsed);
+                        mergeDatabaseObject(parsed);
+                    } catch (e) {}
                 }
-                e.target.value = ''; // Reset input
-            };
-            reader.readAsText(file);
+            });
+            ensureMasterUsers();
+            updateCloudBadges('offline', 'Sistema Pronto — Digite E-mail e Senha');
+
+            connectFirebaseCloud();
+
+            try {
+                let savedSession = sessionStorage.getItem('acs_active_user');
+                if (savedSession) {
+                    let parsedUser = JSON.parse(savedSession);
+                    if (parsedUser && parsedUser.email) {
+                        currentUser = parsedUser;
+                        initSession();
+                    }
+                }
+            } catch (e) {}
         }
 
         // =========================================================================
-        // CONTROLE DE IMPRESSÃO / SOLICITAÇÃO (2 DIAS SEGUIDOS)
+        // 4. NOVA ABA: GRUPOS DE RECEITAS (POR COMORBIDADE)
+        // =========================================================================
+        function getPatientComorbiditiesList(rev) {
+            if (!rev) return ['Sem Comorbidade Específica'];
+            let cList = Array.isArray(rev.comorbidades) && rev.comorbidades.length > 0
+                ? rev.comorbidades.filter(Boolean)
+                : autoGuessComorbidities(rev.medications || []);
+            if (cList.length === 0) return ['Sem Comorbidade Específica'];
+            return cList;
+        }
+
+        function renderComorbidityGroups() {
+            let container = document.getElementById('comorb-groups-container');
+            if (!container || !currentUser) return;
+            container.innerHTML = '';
+
+            let term = getSearchTerm();
+            let filterEl = document.getElementById('comorb-group-filter');
+            let selectedComorb = filterEl ? filterEl.value : 'all';
+
+            let list = (db.revenues || []).filter(r => isVisibleToCurrentUser(r.userEmail));
+            if (term) {
+                list = list.filter(rev =>
+                    (rev.paciente || '').toLowerCase().includes(term) ||
+                    (rev.gestor || '').toLowerCase().includes(term) ||
+                    getPatientComorbiditiesList(rev).some(c => c.toLowerCase().includes(term)) ||
+                    (rev.medications && rev.medications.some(m => (m.name || '').toLowerCase().includes(term)))
+                );
+            }
+
+            let groupsMap = {
+                'Hipertensão / Cardíaca': [],
+                'Diabetes': [],
+                'Saúde Mental / Neuro': [],
+                'Colesterol / Dislipidemia': [],
+                'Tireoide': [],
+                'Asma / DPOC': []
+            };
+
+            list.forEach(rev => {
+                let comorbs = getPatientComorbiditiesList(rev);
+                comorbs.forEach(c => {
+                    let cName = c.trim();
+                    if (!groupsMap[cName]) groupsMap[cName] = [];
+                    groupsMap[cName].push(rev);
+                });
+            });
+
+            let colorThemes = {
+                'Hipertensão / Cardíaca': { header: 'bg-red-50 border-red-200 text-red-900', badge: 'bg-red-600 text-white', icon: 'fa-heart-pulse text-red-600' },
+                'Diabetes': { header: 'bg-blue-50 border-blue-200 text-blue-900', badge: 'bg-blue-600 text-white', icon: 'fa-droplet text-blue-600' },
+                'Saúde Mental / Neuro': { header: 'bg-amber-50 border-amber-200 text-amber-900', badge: 'bg-amber-500 text-white', icon: 'fa-brain text-amber-600' },
+                'Colesterol / Dislipidemia': { header: 'bg-emerald-50 border-emerald-200 text-emerald-900', badge: 'bg-emerald-600 text-white', icon: 'fa-vial text-emerald-600' },
+                'Tireoide': { header: 'bg-purple-50 border-purple-200 text-purple-900', badge: 'bg-purple-600 text-white', icon: 'fa-Dna text-purple-600' },
+                'Asma / DPOC': { header: 'bg-cyan-50 border-cyan-200 text-cyan-900', badge: 'bg-cyan-600 text-white', icon: 'fa-lungs text-cyan-600' }
+            };
+
+            let entries = Object.entries(groupsMap);
+            if (selectedComorb !== 'all') {
+                entries = entries.filter(e => e[0] === selectedComorb);
+            }
+
+            let anyRendered = false;
+            entries.forEach(([comorbName, patientsInGroup]) => {
+                if (patientsInGroup.length === 0 && selectedComorb === 'all' && !colorThemes[comorbName]) return;
+                anyRendered = true;
+
+                patientsInGroup.sort((a, b) => (a.paciente || '').localeCompare(b.paciente || ''));
+                let theme = colorThemes[comorbName] || { header: 'bg-slate-100 border-slate-300 text-slate-800', badge: 'bg-slate-700 text-white', icon: 'fa-notes-medical text-slate-700' };
+
+                let patientsHtml = patientsInGroup.length === 0
+                    ? `<div class="p-6 text-center text-xs text-slate-400 italic">Nenhum paciente cadastrado neste grupo de comorbidade.</div>`
+                    : patientsInGroup.map(rev => {
+                        let isInactive = rev.status === 'inactive';
+                        let statusBadge = isInactive
+                            ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-[10px] font-bold">Inativo</span>`
+                            : `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-bold">Ativo</span>`;
+
+                        let medsListHtml = (rev.medications || []).map((m, mIdx) => {
+                            let nextD = calculateValidDate(m.baseDate, m.cycleDays);
+                            return `
+                                <div class="flex items-center justify-between bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs gap-2">
+                                    <div class="truncate">
+                                        <span class="font-bold text-slate-800">• ${m.name}</span>
+                                        ${m.dose ? `<span class="text-indigo-700 font-semibold">${m.dose}</span>` : ''}
+                                        ${m.posologia ? `<span class="text-slate-500">[${m.posologia}]</span>` : ''}
+                                        <span class="text-[11px] font-mono text-emerald-700 font-semibold ml-1">(${m.cycleDays}d &rarr; ${formatDateBR(nextD)})</span>
+                                    </div>
+                                    <div class="flex items-center space-x-1 shrink-0">
+                                        <button type="button" onclick="openRevenueModal('${rev.id}')" class="p-1 text-blue-600 hover:bg-blue-50 rounded cursor-pointer" title="Editar este medicamento"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                                        <button type="button" onclick="deleteSingleMedicationFromGroup('${rev.id}', ${mIdx})" class="p-1 text-red-500 hover:bg-red-50 rounded cursor-pointer" title="Excluir este medicamento"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                                    </div>
+                                </div>`;
+                        }).join('');
+
+                        return `
+                            <div class="p-3.5 rounded-xl border ${isInactive ? 'bg-slate-100/70 border-slate-200 opacity-75' : 'bg-slate-50 border-slate-200'} space-y-2">
+                                <div class="flex flex-wrap justify-between items-start gap-2">
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold text-slate-900 text-sm">${rev.paciente || 'N/D'}</span>
+                                            ${statusBadge}
+                                        </div>
+                                        <p class="text-[11px] text-slate-500">Gestor/ACS: <b>${rev.gestor || ''}</b> | Médico: ${rev.medico || 'Dr. Andrey'}</p>
+                                    </div>
+                                    <div class="flex flex-wrap items-center gap-1">
+                                        <button type="button" onclick="openRevenueModal('${rev.id}')" class="px-2 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-[11px] font-semibold cursor-pointer" title="Incluir Medicação / Editar Paciente e Comorbidades">
+                                            <i class="fa-solid fa-pen-to-square mr-1"></i>Editar / +Med
+                                        </button>
+                                        <button type="button" onclick="togglePatientStatus('${rev.id}')" class="px-2 py-1 bg-amber-50 text-amber-800 hover:bg-amber-100 rounded-lg text-[11px] font-semibold cursor-pointer" title="Inativar ou Ativar Paciente">
+                                            ${isInactive ? 'Ativar' : 'Inativar'}
+                                        </button>
+                                        <button type="button" onclick="deleteRevenue('${rev.id}')" class="px-2 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-[11px] font-semibold cursor-pointer" title="Excluir Paciente/Receita">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="space-y-1">${medsListHtml}</div>
+                            </div>`;
+                    }).join('');
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+                        <div class="px-5 py-3.5 border-b flex justify-between items-center ${theme.header}">
+                            <div class="flex items-center space-x-2.5">
+                                <i class="fa-solid ${theme.icon} text-base"></i>
+                                <h4 class="font-bold text-sm sm:text-base">${comorbName}</h4>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${theme.badge}">${patientsInGroup.length} pac.</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <button type="button" onclick="openRevenueModalWithPreselectedComorb('${comorbName}')" class="px-2.5 py-1 bg-white/90 hover:bg-white text-slate-800 rounded-lg text-xs font-bold shadow-sm border cursor-pointer" title="Adicionar novo paciente já nesta comorbidade">
+                                    <i class="fa-solid fa-plus mr-1"></i>Incluir Aqui
+                                </button>
+                                <button type="button" onclick="exportComorbidityGroupPDF('${comorbName}')" class="p-1.5 bg-white/90 hover:bg-white text-slate-700 rounded-lg text-xs shadow-sm border cursor-pointer" title="Baixar PDF deste Grupo de Comorbidade">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4 space-y-3 max-h-[520px] overflow-y-auto flex-1">
+                            ${patientsHtml}
+                        </div>
+                    </div>`;
+            });
+
+            if (!anyRendered) {
+                container.innerHTML = `<div class="col-span-2 bg-white p-12 rounded-2xl text-center text-slate-400">Nenhum grupo de comorbidade encontrado.</div>`;
+            }
+        }
+
+        function openRevenueModalWithPreselectedComorb(comorbName) {
+            openRevenueModal(null);
+            let cb = document.querySelector(`.comorb-cb[value="${comorbName}"]`);
+            if (cb) {
+                cb.checked = true;
+            } else if (comorbName !== 'Sem Comorbidade Específica') {
+                document.getElementById('comorb-outras').value = comorbName;
+            }
+        }
+
+        function deleteSingleMedicationFromGroup(revId, medIdx) {
+            let rev = db.revenues.find(r => r.id === revId);
+            if (!rev || !Array.isArray(rev.medications) || !rev.medications[medIdx]) return;
+            let med = rev.medications[medIdx];
+            if (!confirm(`Deseja remover o medicamento "${med.name}" do paciente ${rev.paciente}?`)) return;
+
+            if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
+            rev.medHistory.push({
+                ...med,
+                archivedAt: toISODateString(new Date()),
+                reason: "Excluído manualmente na aba Grupos de Receitas"
+            });
+            rev.medications.splice(medIdx, 1);
+
+            if (rev.medications.length === 0) {
+                if (confirm(`O paciente ${rev.paciente} ficou sem medicamentos ativos. Deseja inativar ou excluir o cadastro dele? (OK = Inativar | Cancelar = Manter cadastro)`)) {
+                    rev.status = 'inactive';
+                }
+            }
+            persistDB();
+            refreshAllViews();
+        }
+
+        function exportComorbidityGroupPDF(comorbName) {
+            if (!window.jspdf) { alert("Aguarde 1 segundo, carregando gerador de PDF..."); return; }
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.setFontSize(14);
+            doc.text(`Grupo de Receitas — Comorbidade: ${comorbName} (v${CURRENT_VERSION})`, 14, 18);
+
+            let list = (db.revenues || []).filter(r => isVisibleToCurrentUser(r.userEmail) && getPatientComorbiditiesList(r).includes(comorbName));
+            let rows = [];
+            list.forEach(r => {
+                (r.medications || []).forEach(m => {
+                    let nextD = calculateValidDate(m.baseDate, m.cycleDays);
+                    rows.push([r.paciente, r.status === 'inactive' ? 'Inativo' : 'Ativo', formatMedFullLabel(m), `${m.cycleDays}d`, formatDateBR(nextD), r.gestor]);
+                });
+            });
+            doc.autoTable({ startY: 26, head: [["Paciente", "Status", "Medicamento / Dose / Posologia", "Ciclo", "Próx. Renovação", "Gestor"]], body: rows });
+            doc.save(`grupo_${comorbName.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
+        }
+
+        // =========================================================================
+        // 5. CONTROLE DE IMPRESSÃO / SOLICITAÇÃO (2 DIAS SEGUIDOS)
         // =========================================================================
         function getNowTimeStr() { let now = new Date(); return String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0'); }
         function getEarliestScheduledRenewal(rev, specificTargetDate = null) {
@@ -1292,264 +1593,10 @@
             persistDB(); refreshAllViews();
         }
 
-        // =========================================================================
-        // JANELA INTELIGENTE DE RENOVAÇÃO DE GRUPO E LIMPEZA DE TELA
-        // =========================================================================
-        function renewGroupMedications(revId, targetDate) {
-            let rev = db.revenues.find(r => r.id === revId); if (!rev || !rev.medications) return;
-
-            let todayStr = toISODateString(new Date());
-            let scheduledDate = getEarliestScheduledRenewal(rev, targetDate);
-            let recentPrint = getRecentPrintWithin2Days(rev);
-            let isEarlyRequest = todayStr < scheduledDate;
-
-            currentRenewalContext = { revId, targetDate, scheduledDate, isEarlyRequest, recentPrint, actionLabel: "Renovação Inteligente de Receita" };
-
-            let container = document.getElementById('renew-group-meds-container');
-            container.innerHTML = '';
-
-            let medCount = 0;
-            rev.medications.forEach((med, idx) => {
-                if (calculateValidDate(med.baseDate, med.cycleDays) === targetDate) {
-                    medCount++;
-                    container.innerHTML += `
-                        <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border mb-2 gap-2">
-                            <div class="flex-1 font-bold text-sm text-slate-800">${formatMedFullLabel(med)}</div>
-                            <div class="flex items-center space-x-2 shrink-0">
-                                <span class="text-xs text-slate-600 font-semibold hidden sm:inline">Novo Ciclo:</span>
-                                <input type="number" id="renew-med-cycle-${idx}" value="${med.cycleDays}" class="w-16 px-2 py-1.5 border border-slate-300 rounded-lg text-sm font-bold text-emerald-700 text-center outline-none focus:ring-2 focus:ring-emerald-500">
-                                <span class="text-xs text-slate-500">dias</span>
-                            </div>
-                        </div>`;
-                }
-            });
-            
-            if(medCount === 0) return;
-
-            document.getElementById('renew-group-patient-name').innerText = `Paciente: ${rev.paciente}`;
-            let reasonBox = document.getElementById('renew-group-reason-box');
-            let reasonAlert = document.getElementById('renew-group-alert-text');
-            let reasonSelect = document.getElementById('renew-group-reason-select');
-            let customInput = document.getElementById('renew-group-reason-custom');
-            
-            reasonSelect.value = ''; customInput.value = '';
-            document.getElementById('renew-group-reason-custom-box').classList.add('hidden');
-
-            if (recentPrint || isEarlyRequest) {
-                reasonBox.classList.remove('hidden');
-                if (recentPrint) {
-                    reasonAlert.innerHTML = `<div class="p-3 mb-2 rounded-xl bg-red-50 border border-red-300 text-red-900 text-xs leading-snug"><span class="font-bold"><i class="fa-solid fa-ban mr-1 text-red-600"></i>Bloqueio: Já impresso há menos de 48h!</span><br>Foi impresso em ${formatDateBR(recentPrint.date)} às ${recentPrint.time}. Obrigatório justificar o motivo da 2ª via abaixo.</div>`;
-                } else {
-                    let dToday = new Date(todayStr + 'T00:00:00'); let dSched = new Date(scheduledDate + 'T00:00:00'); let daysLeft = Math.round((dSched.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24));
-                    reasonAlert.innerHTML = `<div class="p-3 mb-2 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs leading-snug"><span class="font-bold"><i class="fa-solid fa-clock mr-1 text-amber-600"></i>Antecipação de Renovação</span><br>Renovação prevista apenas para ${formatDateBR(scheduledDate)} (faltam ${daysLeft} dias). Justifique o adiantamento abaixo.</div>`;
-                }
-            } else { reasonBox.classList.add('hidden'); }
-
-            document.getElementById('renew-group-modal').classList.remove('hidden');
-        }
-
-        function toggleRenewGroupCustomReason() {
-            let sel = document.getElementById('renew-group-reason-select').value;
-            let box = document.getElementById('renew-group-reason-custom-box');
-            if (sel === 'custom') { box.classList.remove('hidden'); document.getElementById('renew-group-reason-custom').focus(); } else box.classList.add('hidden');
-        }
-
-        function saveGroupRenewal(e) {
-            e.preventDefault();
-            if (!currentRenewalContext) return;
-            let ctx = currentRenewalContext;
-            let rev = db.revenues.find(r => r.id === ctx.revId);
-            if (!rev) return;
-
-            let finalReason = "Renovação no prazo regular";
-            if (ctx.recentPrint || ctx.isEarlyRequest) {
-                let sel = document.getElementById('renew-group-reason-select').value;
-                let cust = document.getElementById('renew-group-reason-custom').value.trim();
-                if (!sel) { alert("Selecione o motivo da renovação antecipada/repetida."); return; }
-                finalReason = sel === 'custom' ? cust : sel;
-                if (finalReason.length < 3) { alert("Descreva o motivo válido."); return; }
-            }
-
-            let todayStr = toISODateString(new Date());
-            if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
-
-            rev.medications.forEach((med, idx) => {
-                if (calculateValidDate(med.baseDate, med.cycleDays) === ctx.targetDate) {
-                    let inputEl = document.getElementById(`renew-med-cycle-${idx}`);
-                    if (inputEl) {
-                        let newDays = parseInt(inputEl.value);
-                        if (!isNaN(newDays) && newDays > 0) {
-                            rev.medHistory.push({ ...med, archivedAt: todayStr, reason: "Renovação agrupada de receita" });
-                            med.cycleDays = newDays;
-                            med.baseDate = todayStr;
-                        }
-                    }
-                }
-            });
-            
-            recordPrintLog(rev, ctx.actionLabel, ctx.scheduledDate, finalReason, ctx.isEarlyRequest, !!ctx.recentPrint);
-            document.getElementById('renew-group-modal').classList.add('hidden');
-            currentRenewalContext = null;
-            persistDB();
-            refreshAllViews();
-        }
-
-        function renderRenewals() {
-            let tbody = document.getElementById('renewals-table-body'); let empty = document.getElementById('empty-renewal-state');
-            if (!tbody || !currentUser) return; tbody.innerHTML = '';
-
-            let term = getSearchTerm(); 
-            let filterVal = document.getElementById('renewals-filter') ? document.getElementById('renewals-filter').value : '15days';
-            
-            let list = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail)); let groupsMap = {};
-            
-            let todayLimit = new Date();
-            todayLimit.setDate(todayLimit.getDate() + 15);
-            let todayLimitStr = toISODateString(todayLimit);
-
-            list.forEach(rev => {
-                if (rev.status === 'inactive' || !rev.medications) return;
-                rev.medications.forEach((med, mIdx) => {
-                    let details = getRenewalDateDetails(med.baseDate, med.cycleDays); let nextDate = details.finalDate; let groupKey = rev.id + '_' + nextDate;
-                    if (!groupsMap[groupKey]) { groupsMap[groupKey] = { revObj: rev, revId: rev.id, paciente: rev.paciente, gestor: rev.gestor, medico: rev.medico || 'Dr. Andrey', nextDate: nextDate, finalWeekday: details.finalWeekday, medications: [], allReasons: new Set(), maxDiffDays: 0, hadVacation: false, hadHoliday: false }; }
-                    if (details.diffDays > groupsMap[groupKey].maxDiffDays) groupsMap[groupKey].maxDiffDays = details.diffDays;
-                    if (details.hadVacationBlock) groupsMap[groupKey].hadVacation = true; if (details.hadHolidayBlock) groupsMap[groupKey].hadHoliday = true;
-                    details.reasons.forEach(r => groupsMap[groupKey].allReasons.add(r));
-                    groupsMap[groupKey].medications.push({ medIndex: mIdx, name: med.name, dose: med.dose || '', posologia: med.posologia || '', cycleDays: med.cycleDays, baseDate: med.baseDate, exactDueDate: details.exactDueDate, diffDays: details.diffDays, obs: med.obs || '' });
-                });
-            });
-
-            let groupsList = Object.values(groupsMap);
-            
-            if (filterVal === '15days') {
-                groupsList = groupsList.filter(g => g.nextDate <= todayLimitStr);
-            }
-
-            if (term) groupsList = groupsList.filter(g => (g.paciente || '').toLowerCase().includes(term) || g.medications.some(m => (m.name || '').toLowerCase().includes(term)));
-            groupsList.sort((a, b) => new Date(a.nextDate) - new Date(b.nextDate));
-
-            if (groupsList.length === 0) { empty.classList.remove('hidden'); return; }
-            empty.classList.add('hidden');
-
-            groupsList.forEach(g => {
-                let reasonBadgeHtml = ''; let reasonsArr = Array.from(g.allReasons);
-                if (g.maxDiffDays === 0) reasonBadgeHtml = `<div class="mt-1.5 inline-block px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">✅ No prazo exato (Vencimento original já cai na ${g.finalWeekday} útil)</div>`;
-                else {
-                    let badgeStyle = g.hadVacation ? "bg-purple-50 border-purple-200 text-purple-900" : (g.hadHoliday ? "bg-red-50 border-red-200 text-red-800" : "bg-blue-50 border-blue-200 text-blue-800");
-                    reasonBadgeHtml = `<div class="mt-1.5 p-2 rounded-xl border ${badgeStyle} text-[11px] leading-snug space-y-0.5"><p class="font-bold">Adiantada em ${g.maxDiffDays} dia(s):</p>${reasonsArr.map(r => `<p>• ${r}</p>`).join('')}</div>`;
-                }
-
-                let medsHtml = g.medications.map(m => `<div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg border my-1 gap-2"><div>• <b>${m.name}</b> ${m.dose ? `<span class="text-indigo-700 font-semibold">${m.dose}</span>` : ''} ${m.posologia ? `<span class="text-slate-600">[${m.posologia}]</span>` : ''} (${m.cycleDays}d) | Conf: ${formatDateBR(m.baseDate)} <span class="text-[11px] text-slate-500 font-mono">(Venc. exato: ${formatDateBR(m.exactDueDate)})</span></div></div>`).join('');
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 border-b">
-                        <td class="p-4 text-center"><input type="checkbox" class="renewal-checkbox w-4 h-4 cursor-pointer" data-revid="${g.revId}" data-nextdate="${g.nextDate}"></td>
-                        <td class="p-4 align-top w-72"><div class="font-mono font-bold text-emerald-700 text-sm">${formatDateBR(g.nextDate)} <span class="text-xs font-sans text-slate-600">(${g.finalWeekday})</span></div>${reasonBadgeHtml}</td>
-                        <td class="p-4 align-top"><div class="font-semibold text-slate-800">${g.paciente || ''}</div>${getPrintStatusBadgeHtml(g.revObj)}</td>
-                        <td class="p-4 text-xs text-slate-700 align-top">${medsHtml}</td>
-                        <td class="p-4 text-slate-600 align-top">${g.gestor || ''}</td>
-                        <td class="p-4 text-slate-500 text-xs align-top">${g.medico || ''}</td>
-                        <td class="p-4 text-center space-y-1 align-top">
-                            <button onclick='renewGroupMedications("${g.revId}", "${g.nextDate}")' class="w-full px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold cursor-pointer transition-all shadow-sm"><i class="fa-solid fa-check-double mr-1"></i>Renovar Grupo</button>
-                            <button onclick='showMedHistoryModal("${g.revId}")' class="w-full px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-semibold cursor-pointer">Histórico Meds & Imp.</button>
-                            <button onclick='downloadGroupPDF("${g.revId}", "${g.nextDate}")' class="w-full px-3 py-1.5 bg-slate-700 text-white rounded-lg text-xs font-semibold cursor-pointer"><i class="fa-solid fa-print mr-1"></i>Imprimir PDF</button>
-                        </td>
-                    </tr>`;
-            });
-        }
-
-        // =========================================================================
-        // REVISÃO GRÁFICOS (NOVO GRÁFICO BARRAS PARA IVCF DE RISCO EPIDEMIOLÓGICO)
-        // =========================================================================
-        function renderCharts() {
-            if (typeof Chart === 'undefined' || !currentUser) return;
-            let revList = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail));
-            let itemsList = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail));
-
-            let ctx1El = document.getElementById('scoreChart');
-            if (ctx1El) {
-                let riskCounts = { 'Alto Risco (Frágil)': 0, 'Médio Risco (Fragilização)': 0, 'Baixo Risco (Robusto)': 0 };
-                itemsList.forEach(i => {
-                    let v20 = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0;
-                    let v10 = parseInt(i.ivsf10 || 0) || 0;
-                    if(v20 >= 15 || v10 >= 10) riskCounts['Alto Risco (Frágil)']++;
-                    else if(v20 >= 7 || v10 >= 5) riskCounts['Médio Risco (Fragilização)']++;
-                    else riskCounts['Baixo Risco (Robusto)']++;
-                });
-
-                if (scoreChartInstance) scoreChartInstance.destroy();
-                scoreChartInstance = new Chart(ctx1El.getContext('2d'), {
-                    type: 'bar',
-                    data: { 
-                        labels: Object.keys(riskCounts), 
-                        datasets: [{ label: 'Quantidade de Pacientes por Risco', data: Object.values(riskCounts), backgroundColor: ['#dc2626', '#eab308', '#10b981'] }] 
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
-                });
-            }
-
-            let ctx2El = document.getElementById('revenueChart');
-            if (ctx2El) {
-                let c = { '30d': 0, '60d': 0, '90d': 0, '180d': 0, 'Outros': 0 };
-                revList.filter(r => r.status !== 'inactive').forEach(r => (r.medications || []).forEach(m => {
-                    if (m.cycleDays == 30) c['30d']++; else if (m.cycleDays == 60) c['60d']++; else if (m.cycleDays == 90) c['90d']++; else if (m.cycleDays == 180) c['180d']++; else c['Outros']++;
-                }));
-                if (revenueChartInstance) revenueChartInstance.destroy();
-                revenueChartInstance = new Chart(ctx2El.getContext('2d'), { type: 'bar', data: { labels: ['30d', '60d', '90d', '180d', 'Outros'], datasets: [{ label: 'Medicamentos Ativos', data: [c['30d'], c['60d'], c['90d'], c['180d'], c['Outros']], backgroundColor: '#10b981' }] }, options: { responsive: true, maintainAspectRatio: false } });
-            }
-
-            let ctx3El = document.getElementById('cycleIntersectionChart');
-            if (ctx3El) {
-                let comboCounts = {};
-                revList.forEach(r => {
-                    if (r.status === 'inactive' || !r.medications || r.medications.length === 0) return;
-                    let cycles = Array.from(new Set(r.medications.map(m => m.cycleDays))).sort((a,b) => a - b);
-                    let comboKey = cycles.map(c => c + 'd').join(' + ');
-                    comboCounts[comboKey] = (comboCounts[comboKey] || 0) + 1;
-                });
-                let sortedCombos = Object.entries(comboCounts).sort((a, b) => b[1] - a[1]);
-                let topCombos = sortedCombos.slice(0, 5); let otherCombosCount = sortedCombos.slice(5).reduce((sum, item) => sum + item[1], 0);
-                if (otherCombosCount > 0) topCombos.push(['Outras Combinações', otherCombosCount]);
-                if (cycleIntersectionChartInst) cycleIntersectionChartInst.destroy();
-                cycleIntersectionChartInst = new Chart(ctx3El.getContext('2d'), { type: 'bar', data: { labels: topCombos.map(i => i[0]), datasets: [{ label: 'Qtd. de Pacientes', data: topCombos.map(i => i[1]), backgroundColor: '#f59e0b' }] }, options: { responsive: true, maintainAspectRatio: false } });
-            }
-
-            let ctx4El = document.getElementById('topMedsChart');
-            if (ctx4El) {
-                let medCounts = {};
-                revList.forEach(r => {
-                    if (r.status === 'inactive' || !r.medications) return;
-                    r.medications.forEach(m => { if (!m.name) return; let n = m.name.trim().toLowerCase(); n = n.charAt(0).toUpperCase() + n.slice(1); medCounts[n] = (medCounts[n] || 0) + 1; });
-                });
-                let sortedMeds = Object.entries(medCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
-                if (topMedsChartInst) topMedsChartInst.destroy();
-                topMedsChartInst = new Chart(ctx4El.getContext('2d'), { type: 'bar', data: { labels: sortedMeds.map(i => i[0]), datasets: [{ label: 'Qtd. Prescrições', data: sortedMeds.map(i => i[1]), backgroundColor: '#3b82f6' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false } });
-            }
-
-            let ctx5El = document.getElementById('comorbidityChart');
-            if (ctx5El) {
-                let comorbCounts = {};
-                revList.forEach(r => {
-                    if (r.status === 'inactive') return;
-                    let cList = getPatientComorbiditiesList(r);
-                    cList.forEach(c => { let key = c.trim(); if(key) comorbCounts[key] = (comorbCounts[key] || 0) + 1; });
-                });
-                let sortedC = Object.entries(comorbCounts).sort((a,b) => b[1] - a[1]);
-                let finalC = {}; let otherC = 0;
-                sortedC.forEach((item, idx) => { if (idx < 6) finalC[item[0]] = item[1]; else otherC += item[1]; });
-                if (otherC > 0) finalC['Outras Comorbidades'] = otherC;
-                if (comorbidityChartInst) comorbidityChartInst.destroy();
-                comorbidityChartInst = new Chart(ctx5El.getContext('2d'), { type: 'doughnut', data: { labels: Object.keys(finalC), datasets: [{ data: Object.values(finalC), backgroundColor: ['#ef4444', '#3b82f6', '#eab308', '#10b981', '#8b5cf6', '#06b6d4', '#64748b'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10 } } } } } });
-            }
-        }
-
-        // =========================================================================
-        // TODAS AS DEMAIS FUNÇÕES DE MANUTENÇÃO / EXPORTAÇÃO
-        // =========================================================================
         function verifyAndExecutePrintOrRenewal(revId, actionLabel, targetDateStr, callbackFn) {
             let rev = db.revenues.find(r => r.id === revId); if (!rev) return;
             let todayStr = toISODateString(new Date()); let scheduledDate = getEarliestScheduledRenewal(rev, targetDateStr); let recentPrint = getRecentPrintWithin2Days(rev); let isEarlyRequest = todayStr < scheduledDate;
-            if (!recentPrint && !isEarlyRequest) { recordPrintLog(rev, actionLabel, scheduledDate, "No prazo regular", false, false); callbackFn(); return; }
+            if (!recentPrint && !isEarlyRequest) { recordPrintLog(rev, actionLabel, scheduledDate, "No prazo regular de renovação", false, false); callbackFn(); return; }
             pendingPrintContext = { revId, actionLabel, scheduledDate, isEarlyRequest, isDuplicateConsecutive: !!recentPrint, callbackFn };
             let headerEl = document.getElementById('print-confirm-header'); let titleEl = document.getElementById('print-confirm-title'); let alertBoxEl = document.getElementById('print-confirm-alert-text'); let selectEl = document.getElementById('print-reason-select'); let customBoxEl = document.getElementById('print-reason-custom-box'); let customInputEl = document.getElementById('print-reason-custom');
             selectEl.value = ''; customInputEl.value = ''; customBoxEl.classList.add('hidden');
@@ -1565,17 +1612,63 @@
             alertBoxEl.innerHTML = messagesHtml; document.getElementById('print-confirm-modal').classList.remove('hidden');
         }
 
-        function toggleCustomPrintReason() { let sel = document.getElementById('print-reason-select').value; let box = document.getElementById('print-reason-custom-box'); if (sel === 'custom') { box.classList.remove('hidden'); document.getElementById('print-reason-custom').focus(); } else box.classList.add('hidden'); }
+        function toggleCustomPrintReason() {
+            let sel = document.getElementById('print-reason-select').value; let box = document.getElementById('print-reason-custom-box');
+            if (sel === 'custom') { box.classList.remove('hidden'); document.getElementById('print-reason-custom').focus(); } else box.classList.add('hidden');
+        }
+
         function closePrintConfirmModal() { document.getElementById('print-confirm-modal').classList.add('hidden'); pendingPrintContext = null; }
+
         function confirmPrintWithReason() {
-            if (!pendingPrintContext) return; let sel = document.getElementById('print-reason-select').value; let customText = document.getElementById('print-reason-custom').value.trim();
+            if (!pendingPrintContext) return;
+            let sel = document.getElementById('print-reason-select').value; let customText = document.getElementById('print-reason-custom').value.trim();
             if (!sel) { alert("Por favor, selecione o motivo da impressão/solicitação para continuar."); return; }
             let finalReason = sel === 'custom' ? customText : sel; if (!finalReason || finalReason.length < 3) { alert("Por favor, descreva o motivo da impressão."); return; }
             let ctx = pendingPrintContext; let rev = db.revenues.find(r => r.id === ctx.revId); closePrintConfirmModal();
             if (rev) { recordPrintLog(rev, ctx.actionLabel, ctx.scheduledDate, finalReason, ctx.isEarlyRequest, ctx.isDuplicateConsecutive); ctx.callbackFn(); }
         }
 
-        // Funções Originais Auxiliares que mantêm o sistema funcional
+        // =========================================================================
+        // 6. MESCLAGEM INTELIGENTE E GESTÃO DE COMORBIDADES
+        // =========================================================================
+        function autoGuessComorbidities(meds) {
+            let detected = new Set();
+            (meds || []).forEach(m => {
+                if (!m || !m.name) return; let n = String(m.name).toLowerCase();
+                if (n.includes('losartana') || n.includes('enalapril') || n.includes('captopril') || n.includes('atenolol') || n.includes('propranolol') || n.includes('anlodipino') || n.includes('hidroclorotiazida') || n.includes('furosemida') || n.includes('espironolactona') || n.includes('carvedilol') || n.includes('nifedipino') || n.includes('cilostazol') || n.includes('amiodarona') || n.includes('clopidogrel') || n.includes('aas') || n.includes('ácido acetil') || n.includes('valsartana') || n.includes('amlodipina')) detected.add('Hipertensão / Cardíaca');
+                else if (n.includes('metformina') || n.includes('gliclazida') || n.includes('glibenclamida') || n.includes('insulina') || n.includes('dapagliflozina') || n.includes('empagliflozina') || n.includes('sitagliptina') || n.includes('vildagliptina') || n.includes('galvus') || n.includes('forxiga') || n.includes('jardiance') || n.includes('glimepirida') || n.includes('diamicron')) detected.add('Diabetes');
+                else if (n.includes('clonazepam') || n.includes('diazepam') || n.includes('alprazolam') || n.includes('bromazepam') || n.includes('fluoxetina') || n.includes('sertralina') || n.includes('amitriptilina') || n.includes('nortriptilina') || n.includes('escitalopram') || n.includes('citalopram') || n.includes('fenobarbital') || n.includes('carbamazepina') || n.includes('valpro') || n.includes('haloperidol') || n.includes('risperidona') || n.includes('quetiapina') || n.includes('biperideno') || n.includes('clorpromazina') || n.includes('levomepromazina') || n.includes('duloxetina') || n.includes('venlafaxina') || n.includes('desvenlafaxina') || n.includes('pregabalina') || n.includes('gabapentina') || n.includes('zolpidem') || n.includes('rivotril') || n.includes('lexapro')) detected.add('Saúde Mental / Neuro');
+                else if (n.includes('sinvastatina') || n.includes('atorvastatina') || n.includes('rosuvastatina') || n.includes('ciprofibrato') || n.includes('fenofibrato')) detected.add('Colesterol / Dislipidemia');
+                else if (n.includes('levotiroxina') || n.includes('puran') || n.includes('synthroid') || n.includes('euthyrox') || n.includes('tapazol')) detected.add('Tireoide');
+                else if (n.includes('aerolin') || n.includes('salbutamol') || n.includes('formoterol') || n.includes('budesonida') || n.includes('alenia') || n.includes('symbicort') || n.includes('brometo')) detected.add('Asma / DPOC');
+            });
+            return Array.from(detected);
+        }
+
+        function archiveOldIdenticalMedications(rev) {
+            if (!rev) return;
+            if (!Array.isArray(rev.medications)) rev.medications = [];
+            if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
+            if (!Array.isArray(rev.printHistory)) rev.printHistory = [];
+            if (!Array.isArray(rev.comorbidades)) rev.comorbidades = [];
+
+            let latestByMedName = new Map();
+            rev.medications.forEach(med => {
+                if (!med || !med.name) return;
+                let key = String(med.name).trim().toLowerCase();
+                if (!latestByMedName.has(key)) latestByMedName.set(key, med);
+                else {
+                    let existing = latestByMedName.get(key);
+                    let timeExisting = new Date((existing.baseDate || '2000-01-01') + 'T00:00:00').getTime();
+                    let timeNew = new Date((med.baseDate || '2000-01-01') + 'T00:00:00').getTime();
+                    if (isNaN(timeExisting)) timeExisting = 0; if (isNaN(timeNew)) timeNew = 0;
+                    if (timeNew >= timeExisting) { rev.medHistory.push({ ...existing, archivedAt: med.baseDate || new Date().toISOString().split('T')[0], reason: "Substituído por receita mais recente" }); latestByMedName.set(key, med); }
+                    else rev.medHistory.push({ ...med, archivedAt: existing.baseDate || new Date().toISOString().split('T')[0], reason: "Registro anterior arquivado" });
+                }
+            });
+            rev.medications = Array.from(latestByMedName.values());
+        }
+
         function mergeDatabaseObject(imp) {
             if (!imp || typeof imp !== 'object') return;
             let impUsers = Array.isArray(imp.users) ? imp.users : Object.values(imp.users || {});
@@ -1624,21 +1717,6 @@
             cleanExistingDuplicates(); ensureMasterUsers();
         }
 
-        function normalizeDatabaseObject(raw) {
-            if (!raw || typeof raw !== 'object') return;
-            db.version = CURRENT_VERSION;
-            db.users = (Array.isArray(raw.users) ? raw.users : Object.values(raw.users || {})).filter(u => u && typeof u === 'object' && u.email);
-            db.items = (Array.isArray(raw.items) ? raw.items : Object.values(raw.items || {})).filter(i => i && typeof i === 'object').map(i => ({ ...i, userEmail: i.userEmail || MASTER_EMAIL, history: Array.isArray(i.history) ? i.history : Object.values(i.history || {}) }));
-            db.revenues = (Array.isArray(raw.revenues) ? raw.revenues : Object.values(raw.revenues || {})).filter(r => r && typeof r === 'object').map(r => ({
-                ...r, userEmail: r.userEmail || MASTER_EMAIL, medications: Array.isArray(r.medications) ? r.medications : Object.values(r.medications || {}), medHistory: Array.isArray(r.medHistory) ? r.medHistory : Object.values(r.medHistory || {}), printHistory: Array.isArray(r.printHistory) ? r.printHistory : Object.values(r.printHistory || {}), comorbidades: Array.isArray(r.comorbidades) ? r.comorbidades : Object.values(r.comorbidades || [])
-            }));
-            db.history = (Array.isArray(raw.history) ? raw.history : Object.values(raw.history || {})).filter(Boolean);
-            db.holidays = (Array.isArray(raw.holidays) ? raw.holidays : Object.values(raw.holidays || {})).filter(Boolean);
-            db.ignoredHolidays = (Array.isArray(raw.ignoredHolidays) ? raw.ignoredHolidays : Object.values(raw.ignoredHolidays || {})).filter(Boolean);
-            db.vacations = (Array.isArray(raw.vacations) ? raw.vacations : Object.values(raw.vacations || {})).filter(Boolean);
-            cleanExistingDuplicates(); ensureMasterUsers();
-        }
-
         function cleanExistingDuplicates() {
             if (!db.revenues || !Array.isArray(db.revenues)) return;
             let uniqueMap = new Map(); let cleanedList = [];
@@ -1663,6 +1741,537 @@
                 }
             });
             db.revenues = cleanedList;
+        }
+
+        // =========================================================================
+        // 7. CALENDÁRIO PERPÉTUO E FUNÇÕES DE FORMATAÇÃO
+        // =========================================================================
+        function addDaysToDate(dateObj, days) { let d = new Date(dateObj.getTime()); d.setDate(d.getDate() + days); return d; }
+        function toISODateString(d) { let yyyy = d.getFullYear(); let mm = String(d.getMonth() + 1).padStart(2, '0'); let dd = String(d.getDate()).padStart(2, '0'); return `${yyyy}-${mm}-${dd}`; }
+        function getEasterSunday(year) {
+            let a = year % 19, b = Math.floor(year / 100), c = year % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451), month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+            return new Date(year, month - 1, day);
+        }
+        function getSecondMondayOfMay(year) {
+            let d = new Date(year, 4, 1); let dayOfWeek = d.getDay(); let diffToFirstMonday = (8 - dayOfWeek) % 7; let secondMondayDay = 1 + diffToFirstMonday + 7;
+            return `${year}-05-${String(secondMondayDay).padStart(2, '0')}`;
+        }
+        function getAutomaticHolidaysForYear(year) {
+            let y = parseInt(year); if (isNaN(y)) y = new Date().getFullYear(); if (HOLIDAY_CACHE_BY_YEAR[y]) return HOLIDAY_CACHE_BY_YEAR[y];
+            let easter = getEasterSunday(y); let carnavalMon = toISODateString(addDaysToDate(easter, -48)); let carnavalTue = toISODateString(addDaysToDate(easter, -47)); let goodFriday = toISODateString(addDaysToDate(easter, -2)); let corpusChristi = toISODateString(addDaysToDate(easter, 60)); let secondMonMay = getSecondMondayOfMay(y);
+            let autoList = [
+                { date: `${y}-01-01`, desc: "Confraternização Universal (Nacional)", scope: "Nacional" }, { date: carnavalMon, desc: "Carnaval - Segunda-feira (Nacional)", scope: "Nacional" }, { date: carnavalTue, desc: "Carnaval - Terça-feira (Nacional)", scope: "Nacional" }, { date: goodFriday, desc: "Sexta-feira Santa (Nacional)", scope: "Nacional" }, { date: `${y}-04-21`, desc: "Tiradentes (Nacional)", scope: "Nacional" }, { date: `${y}-05-01`, desc: "Dia do Trabalhador (Nacional)", scope: "Nacional" }, { date: `${y}-05-10`, desc: "Aniversário de Maringá - Data Fixa", scope: "Maringá-PR" }
+            ];
+            if (secondMonMay !== `${y}-05-10`) autoList.push({ date: secondMonMay, desc: "Aniversário de Maringá - 2ª Seg. Maio", scope: "Maringá-PR" });
+            autoList.push({ date: corpusChristi, desc: "Corpus Christi", scope: "Maringá/Nacional" }, { date: `${y}-08-15`, desc: "Nossa Sra. da Glória - Padroeira", scope: "Maringá-PR" }, { date: `${y}-09-07`, desc: "Independência do Brasil", scope: "Nacional" }, { date: `${y}-10-12`, desc: "Nossa Sra. Aparecida", scope: "Nacional" }, { date: `${y}-11-02`, desc: "Finados", scope: "Nacional" }, { date: `${y}-11-15`, desc: "Proclamação da República", scope: "Nacional" }, { date: `${y}-11-20`, desc: "Dia da Consciência Negra", scope: "Nacional" }, { date: `${y}-12-19`, desc: "Emancipação Política do PR", scope: "Paraná" }, { date: `${y}-12-25`, desc: "Natal", scope: "Nacional" });
+            autoList.sort((a, b) => a.date.localeCompare(b.date)); HOLIDAY_CACHE_BY_YEAR[y] = autoList; return autoList;
+        }
+
+        function getActiveHolidayInfo(dateStr) {
+            if (!dateStr) return null;
+            if (Array.isArray(db.ignoredHolidays) && db.ignoredHolidays.includes(dateStr)) return null;
+            let manual = (db.holidays || []).find(h => h && h.date === dateStr);
+            if (manual) return { date: manual.date, desc: manual.desc, isAuto: false };
+            let year = parseInt(dateStr.split('-')[0]); let autoHolidays = getAutomaticHolidaysForYear(year); let foundAuto = autoHolidays.find(h => h.date === dateStr);
+            if (foundAuto) return { ...foundAuto, isAuto: true };
+            return null;
+        }
+
+        function toggleIgnoreAutoHoliday(dateStr) {
+            if (!Array.isArray(db.ignoredHolidays)) db.ignoredHolidays = [];
+            let idx = db.ignoredHolidays.indexOf(dateStr);
+            if (idx >= 0) db.ignoredHolidays.splice(idx, 1); else db.ignoredHolidays.push(dateStr);
+            persistDB(); refreshAllViews();
+        }
+
+        function getRenewalDateDetails(baseDateStr, addDays) {
+            let baseObj = baseDateStr ? new Date(baseDateStr + 'T00:00:00') : new Date();
+            if (isNaN(baseObj.getTime())) baseObj = new Date();
+            let exactDueObj = new Date(baseObj.getTime()); exactDueObj.setDate(exactDueObj.getDate() + parseInt(addDays || 30));
+            let exactDueStr = toISODateString(exactDueObj); let exactDayOfWeek = exactDueObj.getDay();
+            let targetDate = new Date(exactDueObj.getTime()); let reasonsSet = new Set(); let hadVacationBlock = false; let hadHolidayBlock = false;
+
+            const getVacationMatch = (dateObj) => {
+                return (db.vacations || []).find(v => {
+                    if (!v || !v.start || !v.end) return false;
+                    let start = new Date(v.start + 'T00:00:00'); let end = new Date(v.end + 'T00:00:00');
+                    return dateObj >= start && dateObj <= end;
+                });
+            };
+
+            let safety = 0;
+            while (safety < 365) {
+                let dStr = toISODateString(targetDate); let dayOfWeek = targetDate.getDay(); let vacMatch = getVacationMatch(targetDate); let holMatch = getActiveHolidayInfo(dStr);
+                let isMonOrTue = (dayOfWeek === 1 || dayOfWeek === 2);
+                if (isMonOrTue && !vacMatch && !holMatch) break;
+                if (vacMatch) { hadVacationBlock = true; reasonsSet.add(`🏖️ Férias Dr. Andrey (${formatDateBR(vacMatch.start)} a ${formatDateBR(vacMatch.end)})`); }
+                if (holMatch && (dStr === exactDueStr || isMonOrTue)) { hadHolidayBlock = true; reasonsSet.add(`🚩 Feriado: ${holMatch.desc} (${formatDateBR(dStr).slice(0,5)})`); }
+                targetDate.setDate(targetDate.getDate() - 1); safety++;
+            }
+
+            let finalDateStr = toISODateString(targetDate); let diffDays = Math.round((exactDueObj.getTime() - targetDate.getTime()) / (1000 * 60 * 60 * 24));
+            let finalWeekdayName = WEEKDAYS_SHORT_PT[targetDate.getDay()]; let exactWeekdayName = WEEKDAYS_SHORT_PT[exactDayOfWeek];
+            if (diffDays > 0 && exactDayOfWeek !== 1 && exactDayOfWeek !== 2 && !hadVacationBlock && !hadHolidayBlock) reasonsSet.add(`⏪ Venc. exato em ${formatDateBR(exactDueStr)} (${exactWeekdayName}) → Ajuste p/ ${finalWeekdayName} de atendimento`);
+            else if (diffDays > 0 && exactDayOfWeek !== 1 && exactDayOfWeek !== 2) reasonsSet.add(`📅 Venc. original em ${formatDateBR(exactDueStr)} (${exactWeekdayName})`);
+            let reasonsArray = Array.from(reasonsSet); let summaryText = diffDays === 0 ? `No prazo exato (${finalWeekdayName})` : `Adiantada em ${diffDays}d: ${reasonsArray.join(' | ')}`;
+            return { finalDate: finalDateStr, finalWeekday: finalWeekdayName, exactDueDate: exactDueStr, exactWeekday: exactWeekdayName, diffDays: diffDays, reasons: reasonsArray, hadVacationBlock, hadHolidayBlock, summaryText };
+        }
+
+        function calculateValidDate(baseDateStr, addDays) { return getRenewalDateDetails(baseDateStr, addDays).finalDate; }
+
+        function isVisibleToCurrentUser(recordUserEmail) {
+            if (!currentUser) return false;
+            let myEmail = String(currentUser.email).trim().toLowerCase(); let recEmail = String(recordUserEmail || MASTER_EMAIL).trim().toLowerCase();
+            if (isMasterAccount(myEmail) || currentUser.role === 'admin') {
+                let filterEl = document.getElementById('master-acs-filter'); let selectedFilter = filterEl ? filterEl.value : 'all';
+                if (selectedFilter === 'all') return true; if (selectedFilter === 'mine') return recEmail === myEmail; return recEmail === selectedFilter.toLowerCase();
+            }
+            return recEmail === myEmail;
+        }
+
+        function updateMasterFilterDropdown() {
+            let box = document.getElementById('master-view-filter-box'); let select = document.getElementById('master-acs-filter');
+            if (!box || !select || !currentUser) return;
+            let myEmail = String(currentUser.email).trim().toLowerCase();
+            if (myEmail === MASTER_EMAIL || myEmail === SECONDARY_MASTER || currentUser.role === 'admin') {
+                box.classList.remove('hidden'); let currentVal = select.value || 'all';
+                let html = `<option value="all">🌐 Todos os ACS (Equipe Completa)</option><option value="mine">👤 Apenas Meus Cadastros (${currentUser.name || currentUser.email})</option>`;
+                (db.users || []).forEach(u => { if (u && u.email && String(u.email).toLowerCase() !== myEmail) html += `<option value="${String(u.email).toLowerCase()}">📋 ACS: ${u.name || u.email} (${u.email})</option>`; });
+                select.innerHTML = html; if ([...select.options].some(o => o.value === currentVal)) select.value = currentVal;
+            } else box.classList.add('hidden');
+        }
+
+        function formatDateBR(dateStr) {
+            if (!dateStr) return ''; let parts = String(dateStr).split('-'); if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`; return dateStr;
+        }
+
+        function formatMedFullLabel(m) {
+            if (!m) return ''; let dosePart = m.dose ? ` ${m.dose}` : ''; let posPart = m.posologia ? ` — Posologia: ${m.posologia}` : ''; return `${m.name}${dosePart}${posPart}`;
+        }
+
+        // =========================================================================
+        // 8. DASHBOARD E RENDERIZAÇÃO DAS ABAS (ATUALIZAÇÃO AUTOMÁTICA DOS GRÁFICOS)
+        // =========================================================================
+        function refreshAllViews() {
+            if (!currentUser) return;
+            try { renderItems(); } catch (e) {}
+            try { renderRevenues(); } catch (e) {}
+            try { renderComorbidityGroups(); } catch (e) {}
+            try { renderPatients(); } catch (e) {}
+            try { renderCycles(); } catch (e) {}
+            try { renderRenewals(); } catch (e) {}
+            try { renderUsers(); } catch (e) {}
+            try { renderHolidays(); } catch (e) {}
+            try { renderVacationsInputs(); } catch (e) {}
+            try { renderCharts(); } catch (e) {}
+        }
+
+        function switchTab(tab) {
+            ['evaluations', 'revenues', 'comorb_groups', 'patients', 'cycles', 'renewals', 'history', 'reports', 'backup', 'admin'].forEach(t => {
+                let el = document.getElementById(`tab-${t}`); if (el) el.classList.add('hidden');
+                let btn = document.getElementById(`tab-btn-${t}`); if (btn) btn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer";
+            });
+            let target = document.getElementById(`tab-${tab}`); if (target) target.classList.remove('hidden');
+            let activeBtn = document.getElementById(`tab-btn-${tab}`); if (activeBtn) activeBtn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 cursor-pointer";
+            try {
+                if (tab === 'patients') renderPatients();
+                if (tab === 'comorb_groups') renderComorbidityGroups();
+                if (tab === 'cycles') renderCycles();
+                if (tab === 'renewals') renderRenewals();
+                if (tab === 'evaluations') renderItems();
+                if (tab === 'revenues') renderRevenues();
+                if (tab === 'history') renderCharts();
+                if (tab === 'admin') { renderUsers(); renderHolidays(); renderVacationsInputs(); }
+            } catch (e) {}
+        }
+
+        function openChangePasswordModal() { document.getElementById('change-password-form').reset(); document.getElementById('change-password-modal').classList.remove('hidden'); }
+        function closeChangePasswordModal() { document.getElementById('change-password-modal').classList.add('hidden'); }
+        function handleChangePassword(e) {
+            e.preventDefault();
+            let currPass = document.getElementById('current-password').value; let newPass = document.getElementById('new-password').value; let confPass = document.getElementById('confirm-new-password').value;
+            if (!currentUser) return;
+            if (currPass !== currentUser.password && !(currentUser.email.toLowerCase() === MASTER_EMAIL && currPass === MASTER_DEFAULT_PASS)) { alert("A senha atual informada está incorreta."); return; }
+            if (newPass !== confPass) { alert("A nova senha e a confirmação não coincidem."); return; }
+            let userInDb = db.users.find(u => u && u.email && String(u.email).toLowerCase() === String(currentUser.email).toLowerCase());
+            if (userInDb) { userInDb.password = newPass; currentUser.password = newPass; persistDB(); closeChangePasswordModal(); alert("Sua senha foi alterada e salva na nuvem com sucesso!"); }
+        }
+
+        function handleGlobalSearch() { refreshAllViews(); }
+        function getSearchTerm() { let el = document.getElementById('global-search'); return el ? el.value.trim().toLowerCase() : ''; }
+        function getCycleSearchTerm() { let el = document.getElementById('cycle-search'); return el ? el.value.trim().toLowerCase() : ''; }
+        function stringsAreSimilar(str1, str2) {
+            let s1 = (str1 || '').trim().toLowerCase(); let s2 = (str2 || '').trim().toLowerCase();
+            if (!s1 || !s2) return false; return s1 === s2 || s1.includes(s2) || s2.includes(s1);
+        }
+
+        function calculateAutoProfileFromIvcf() {
+            let val20 = parseInt(document.getElementById('item-ivcf20').value); let val10 = parseInt(document.getElementById('item-ivsf10').value); let evalDateStr = document.getElementById('item-eval-date').value || new Date().toISOString().split('T')[0]; let profileInput = document.getElementById('item-profile'); let displayInput = document.getElementById('item-profile-display');
+            if (isNaN(val20) && isNaN(val10)) { profileInput.value = "90"; displayInput.value = "Calculado pela pontuação e data da avaliação"; return; }
+            let v20 = isNaN(val20) ? 0 : val20; let v10 = isNaN(val10) ? 0 : val10; let days = 360; let riskLabel = "Baixo Risco / Robusto";
+            if (v20 >= 15 || v10 >= 10) { days = 90; riskLabel = "Alto Risco / Frágil"; } else if ((v20 >= 7 && v20 <= 14) || (v10 >= 5 && v10 <= 9)) { days = 180; riskLabel = "Médio Risco / Fragilização"; }
+            profileInput.value = String(days); let details = getRenewalDateDetails(evalDateStr, days); displayInput.value = `${days} dias (${riskLabel}) — Próx. Avaliação: ${formatDateBR(details.finalDate)} (${details.finalWeekday})`;
+        }
+
+        function checkDuplicateAndIvcf() {
+            let pName = document.getElementById('revenue-paciente').value.trim(); let currentRevId = document.getElementById('revenue-id').value; let alertBox = document.getElementById('ivcf-alert-box'); let alertText = document.getElementById('ivcf-alert-text'); let dupBox = document.getElementById('duplicate-alert-box'); let dupMsg = document.getElementById('duplicate-alert-msg');
+            if (!pName) { alertBox.classList.add('hidden'); dupBox.classList.add('hidden'); duplicateMatchId = null; return; }
+            let matchingIvcfs = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail) && stringsAreSimilar(i.name || '', pName));
+            if (matchingIvcfs.length > 0) {
+                matchingIvcfs.sort((a, b) => new Date(b.date || '2000-01-01') - new Date(a.date || '2000-01-01'));
+                let latestIvcf = matchingIvcfs[0]; let score20 = parseInt(latestIvcf.ivcf20 !== undefined ? latestIvcf.ivcf20 : latestIvcf.value) || 0; let score10 = parseInt(latestIvcf.ivsf10 || 0) || 0; let refProfile = latestIvcf.profile || (score20 >= 15 ? 90 : (score20 >= 7 ? 180 : 360)); let classLabel = score20 >= 15 ? "Idoso Frágil (Alto Risco)" : (score20 >= 7 ? "Risco de Fragilização (Médio Risco)" : "Idoso Robusto (Baixo Risco)");
+                alertBox.classList.remove('hidden');
+                if (score20 >= 15) alertBox.className = "p-3.5 rounded-xl border text-xs sm:text-sm flex items-center space-x-2.5 bg-red-600 text-yellow-300 font-bold border-red-700 shadow-sm"; else if (score20 >= 7) alertBox.className = "p-3.5 rounded-xl border text-xs sm:text-sm flex items-center space-x-2.5 bg-yellow-400 text-black font-bold border-yellow-500 shadow-sm"; else alertBox.className = "p-3.5 rounded-xl border text-xs sm:text-sm flex items-center space-x-2.5 bg-emerald-600 text-yellow-300 font-bold border-emerald-700 shadow-sm";
+                alertText.innerHTML = `ALERTA IVCF-20 ATUAL: ${score20} pts (${classLabel}) | IVSF-10: ${score10} pts — Avaliado em ${formatDateBR(latestIvcf.date)} (Ref. acompanhamento: ${refProfile} dias)`;
+            } else { alertBox.classList.add('hidden'); }
+
+            let existingRev = db.revenues.find(r => r.id !== currentRevId && isVisibleToCurrentUser(r.userEmail) && stringsAreSimilar(r.paciente || '', pName));
+            if (existingRev) {
+                duplicateMatchId = existingRev.id; dupBox.classList.remove('hidden'); let existingMeds = (existingRev.medications || []).map(m => `${m.name} ${m.dose || ''}`).join(', ');
+                dupMsg.innerHTML = `Encontramos um cadastro ativo para <b>${existingRev.paciente}</b> (Gestor: ${existingRev.gestor}) com os medicamentos: <i>${existingMeds}</i>. Deseja unificar (arquivando automaticamente no histórico caso haja remédio repetido de data anterior)?`;
+            } else { dupBox.classList.add('hidden'); duplicateMatchId = null; }
+        }
+
+        function resolveDuplicate(choice) {
+            shouldUnify = choice; let dupBox = document.getElementById('duplicate-alert-box');
+            if (choice) { dupBox.className = "p-4 rounded-xl border text-sm bg-emerald-50 border-emerald-300 text-emerald-900"; dupBox.innerHTML = `<div class="font-bold"><i class="fa-solid fa-check mr-2"></i> Unificação confirmada! Medicamentos repetidos de data anterior irão para o Histórico.</div>`; } else { dupBox.classList.add('hidden'); duplicateMatchId = null; }
+        }
+
+        function addMedicationRow(medName = '', cycleDays = '30', medObs = '', baseDateStr = '', medDose = '', medPosologia = '') {
+            let container = document.getElementById('medication-rows-container'); let rowId = 'med_row_' + Date.now() + Math.random().toString(36).substring(2, 5); let todayStr = new Date().toISOString().split('T')[0]; let dateVal = baseDateStr || todayStr;
+            let html = `
+                <div id="${rowId}" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2.5 shadow-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+                        <div class="md:col-span-5"><label class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">Medicamento</label><input type="text" name="med_name" required value="${medName}" placeholder="Ex: Losartana..." class="w-full px-3 py-2 border rounded-lg text-sm bg-white" oninput="checkSimilarMedicaments(this)"></div>
+                        <div class="md:col-span-3"><label class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">Dose / Unid.</label><input type="text" name="med_dose" value="${medDose}" placeholder="Ex: 50mg, 10gts" class="w-full px-3 py-2 border rounded-lg text-sm bg-white"></div>
+                        <div class="md:col-span-4"><label class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">Posologia</label><input type="text" name="med_posologia" value="${medPosologia}" placeholder="Ex: 1 cp de 12/12h" class="w-full px-3 py-2 border rounded-lg text-sm bg-white"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-end">
+                        <div class="md:col-span-3"><label class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">Data da Receita</label><input type="date" name="med_date" required value="${dateVal}" class="w-full px-3 py-2 border rounded-lg text-sm bg-white"></div>
+                        <div class="md:col-span-4 flex items-center space-x-2"><div class="flex-1"><label class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">Validade / Ciclo</label><select name="med_cycle" onchange="checkCustomCycle(this)" class="w-full px-3 py-2 border rounded-lg text-sm bg-white"><option value="30" ${cycleDays=='30'?'selected':''}>30 dias</option><option value="60" ${cycleDays=='60'?'selected':''}>60 dias</option><option value="90" ${cycleDays=='90'?'selected':''}>90 dias</option><option value="180" ${cycleDays=='180'?'selected':''}>180 dias</option><option value="360" ${cycleDays=='360'?'selected':''}>360 dias</option><option value="manual" ${!['30','60','90','180','360'].includes(String(cycleDays))?'selected':''}>Outro (Manual)</option></select></div><input type="number" name="med_manual_days" min="1" value="${!['30','60','90','180','360'].includes(String(cycleDays))?cycleDays:45}" placeholder="Dias" class="w-20 px-3 py-2 border rounded-lg text-sm bg-white mt-4 ${['30','60','90','180','360'].includes(String(cycleDays))?'hidden':''}"></div>
+                        <div class="md:col-span-4"><label class="block text-[10px] font-bold uppercase text-slate-500 mb-0.5">Observação</label><input type="text" name="med_obs" maxlength="100" value="${medObs}" placeholder="Opcional" class="w-full px-3 py-2 border rounded-lg text-sm bg-white text-slate-600"></div>
+                        <div class="md:col-span-1 text-right"><button type="button" onclick="document.getElementById('${rowId}').remove()" class="p-2 text-red-500 hover:bg-red-50 rounded-lg font-bold cursor-pointer" title="Remover este medicamento"><i class="fa-solid fa-trash"></i></button></div>
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+        function checkSimilarMedicaments(inputEl) {
+            let val = inputEl.value.trim().toLowerCase(); if (val.length < 3) return;
+            let allInputs = document.querySelectorAll('input[name="med_name"]'); let count = 0;
+            allInputs.forEach(inp => { if (stringsAreSimilar(inp.value, val)) count++; });
+            if (count > 1) { inputEl.classList.add('border-amber-500', 'bg-amber-50'); inputEl.title = "Atenção! Remédios iguais na mesma receita irão arquivar o de data anterior."; }
+            else { inputEl.classList.remove('border-amber-500', 'bg-amber-50'); }
+        }
+
+        function checkCustomCycle(selectEl) {
+            let manualInput = selectEl.parentElement.nextElementSibling; if (!manualInput) return;
+            if (selectEl.value === 'manual') manualInput.classList.remove('hidden'); else manualInput.classList.add('hidden');
+        }
+
+        function toggleIvcfSortOrder() {
+            ivcfSortDirection = ivcfSortDirection === 'desc' ? 'asc' : 'desc';
+            let icon = document.getElementById('ivcf-sort-icon');
+            if (icon) icon.className = ivcfSortDirection === 'desc' ? "fa-solid fa-arrow-down-wide-short" : "fa-solid fa-arrow-up-short-wide";
+            renderItems();
+        }
+
+        function renderItems() {
+            let tbody = document.getElementById('items-table-body'); let empty = document.getElementById('empty-state');
+            if (!tbody || !currentUser) return; tbody.innerHTML = '';
+
+            let term = getSearchTerm(); let colorFilterEl = document.getElementById('ivcf-color-filter'); let colorFilter = colorFilterEl ? colorFilterEl.value : 'all';
+            let list = (db.items || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+            if (term) list = list.filter(i => (i.name || '').toLowerCase().includes(term) || (i.gestor || '').toLowerCase().includes(term));
+            if (colorFilter !== 'all') {
+                list = list.filter(i => {
+                    let s20 = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0;
+                    if (colorFilter === 'red') return s20 >= 15; if (colorFilter === 'yellow') return s20 >= 7 && s20 <= 14; if (colorFilter === 'green') return s20 <= 6; return true;
+                });
+            }
+
+            list.sort((a, b) => {
+                let a20 = parseInt(a.ivcf20 !== undefined ? a.ivcf20 : a.value) || 0; let b20 = parseInt(b.ivcf20 !== undefined ? b.ivcf20 : b.value) || 0;
+                if (a20 !== b20) return ivcfSortDirection === 'desc' ? (b20 - a20) : (a20 - b20);
+                let a10 = parseInt(a.ivsf10 || 0) || 0; let b10 = parseInt(b.ivsf10 || 0) || 0;
+                return ivcfSortDirection === 'desc' ? (b10 - a10) : (a10 - b10);
+            });
+
+            if (list.length === 0) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            list.forEach(i => {
+                let score20 = parseInt(i.ivcf20 !== undefined ? i.ivcf20 : i.value) || 0; let score10 = parseInt(i.ivsf10 !== undefined ? i.ivsf10 : 0) || 0;
+                let badge20 = score20 >= 15 ? "bg-red-600 text-yellow-300 font-bold" : (score20 >= 7 ? "bg-yellow-400 text-black font-bold" : "bg-emerald-600 text-yellow-300 font-bold");
+                let class20 = score20 >= 15 ? "Idoso Frágil" : (score20 >= 7 ? "Risco de Fragilização" : "Idoso Robusto");
+                let badge10 = score10 >= 10 ? "bg-red-600 text-yellow-300 font-bold" : (score10 >= 5 ? "bg-yellow-400 text-red-600 font-bold" : "bg-emerald-600 text-yellow-300 font-bold");
+                let class10 = score10 >= 10 ? "Alta Vulnerabilidade" : (score10 >= 5 ? "Média Vulnerabilidade" : "Baixa Vulnerabilidade");
+                let evalDateFormatted = formatDateBR(i.date) || 'Não informada'; let calcNext = calculateValidDate(i.date, i.profile || 90);
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-4 font-medium">${i.gestor || ''}</td>
+                        <td class="p-4 text-slate-800 font-semibold">${i.name || ''}</td>
+                        <td class="p-4"><span class="text-xs px-3 py-1 rounded-full shadow-sm inline-block ${badge20}">${score20} pts — ${class20}</span></td>
+                        <td class="p-4"><span class="text-xs px-3 py-1 rounded-full shadow-sm inline-block ${badge10}">${score10} pts — ${class10}</span></td>
+                        <td class="p-4 font-mono text-xs text-slate-600"><span class="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 font-semibold">${evalDateFormatted}</span></td>
+                        <td class="p-4 font-mono text-xs font-bold text-blue-700">${formatDateBR(calcNext)} (${i.profile || 90}d)</td>
+                        <td class="p-4 text-center space-x-1">
+                            <button onclick="editItem('${i.id}')" class="p-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg cursor-pointer"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="showItemHistory('${i.id}')" class="p-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-lg cursor-pointer"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                            <button onclick="deleteItem('${i.id}')" class="p-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function showItemHistory(id) {
+            let item = db.items.find(i => i.id === id); if (!item) return;
+            let historyList = Array.isArray(item.history) && item.history.length > 0 ? item.history : [{ ivcf20: item.ivcf20 !== undefined ? item.ivcf20 : item.value, ivsf10: item.ivsf10 || 0, date: item.date || new Date().toISOString().split('T')[0], profile: item.profile || 90 }];
+            let content = document.getElementById('history-modal-content');
+            content.innerHTML = `<p class="font-semibold text-slate-800 mb-2">Paciente: ${item.name} (Gestor: ${item.gestor})</p><div class="space-y-2">` +
+                historyList.map((h, idx) => `<div class="bg-slate-50 p-3 rounded-xl border space-y-1"><p class="font-bold text-slate-800">Avaliação #${idx + 1} — Realizada em: ${formatDateBR(h.date || 'N/D')}</p><p class="text-xs text-slate-700">• <b>IVCF-20:</b> ${h.ivcf20} pontos | <b>IVSF-10:</b> ${h.ivsf10} pontos</p><p class="text-xs text-blue-600 font-semibold">• <b>Prazo de Reavaliação:</b> ${h.profile} dias</p></div>`).join('') + `</div>`;
+            document.getElementById('history-modal').classList.remove('hidden');
+        }
+
+        function closeHistoryModal() { document.getElementById('history-modal').classList.add('hidden'); }
+
+        function showMedHistoryModal(revId) {
+            let rev = db.revenues.find(r => r.id === revId); if (!rev) return;
+            let activeMeds = rev.medications || []; let pastMeds = rev.medHistory || []; let printLogs = rev.printHistory || [];
+
+            let printHtml = printLogs.length > 0
+                ? printLogs.slice().reverse().map(p => {
+                    let badgeClass = p.isDuplicateConsecutive ? "bg-red-100 text-red-800 border-red-300" : (p.isEarly ? "bg-amber-100 text-amber-900 border-amber-300" : "bg-emerald-100 text-emerald-800 border-emerald-300");
+                    let badgeLabel = p.isDuplicateConsecutive ? "2ª Via (< 48h / Dias Seguidos)" : (p.isEarly ? "Impressão Antecipada (< Renovação)" : "No Prazo Regular");
+                    return `<div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1"><div class="flex flex-wrap justify-between items-center gap-1"><span class="font-bold text-slate-800 text-xs"><i class="fa-solid fa-print mr-1 text-blue-600"></i>${formatDateBR(p.date)} às ${p.time || '00:00'} — ${p.action || 'Impressão'}</span><span class="text-[10px] px-2 py-0.5 rounded border font-bold ${badgeClass}">${badgeLabel}</span></div><p class="text-xs text-slate-700"><b>Motivo Registrado:</b> <span class="italic">${p.reason || 'Regular'}</span></p><p class="text-[11px] text-slate-500 font-mono">Solicitado por: ${p.userName || p.userEmail || 'Sistema'} | Renovação prevista: ${formatDateBR(p.scheduledDate)}</p></div>`;
+                }).join('') : `<p class="text-xs text-slate-400 italic">Nenhuma impressão ou solicitação registrada ainda para este paciente.</p>`;
+
+            let activeHtml = activeMeds.length > 0
+                ? activeMeds.map(m => `<div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-200 space-y-1"><div class="flex justify-between items-center"><span class="font-bold text-emerald-950">${m.name} ${m.dose ? `<span class="px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded text-xs font-extrabold">${m.dose}</span>` : ''}</span><span class="text-xs font-mono font-bold text-emerald-700">Ciclo: ${m.cycleDays} dias</span></div><p class="text-xs text-slate-700"><b>Posologia:</b> ${m.posologia || 'Não informada'} ${m.obs ? `| <b>Obs:</b> ${m.obs}` : ''}</p><p class="text-[11px] font-mono text-slate-600">Data da Receita Atual: <b>${formatDateBR(m.baseDate)}</b> &rarr; Próxima Renovação: <b>${formatDateBR(calculateValidDate(m.baseDate, m.cycleDays))}</b></p></div>`).join('')
+                : `<p class="text-xs text-slate-400 italic">Nenhum medicamento ativo.</p>`;
+
+            let pastHtml = pastMeds.length > 0
+                ? pastMeds.slice().reverse().map((h) => `<div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1"><div class="flex justify-between items-center"><span class="font-bold text-slate-800">${h.name} ${h.dose ? `<span class="px-2 py-0.5 bg-slate-200 text-slate-800 rounded text-xs font-bold">${h.dose}</span>` : ''}</span><span class="text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-semibold">Renovado em ${formatDateBR(h.archivedAt || '')}</span></div><p class="text-xs text-slate-700"><b>Posologia da época:</b> ${h.posologia || 'Não informada'} ${h.obs ? `| <b>Obs:</b> ${h.obs}` : ''}</p><p class="text-[11px] font-mono text-slate-500">Data da Receita Anterior: <b>${formatDateBR(h.baseDate)}</b> (Ciclo: ${h.cycleDays} dias)</p></div>`).join('')
+                : `<p class="text-xs text-slate-400 italic">Nenhuma medicação anterior arquivada ainda para este paciente.</p>`;
+
+            let content = document.getElementById('med-history-modal-content');
+            content.innerHTML = `<div class="bg-slate-100 p-3 rounded-xl flex flex-wrap justify-between items-center gap-2"><div><p class="font-bold text-slate-800 text-base">${rev.paciente}</p><p class="text-xs text-slate-600">Gestor / ACS: <b>${rev.gestor}</b> | Médico: <b>${rev.medico || 'Dr. Andrey'}</b></p></div><div class="flex space-x-1.5"><span class="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">${printLogs.length} impressão(ões)</span><span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800">${pastMeds.length} med(s) antigos</span></div></div>
+                <div class="space-y-2"><h4 class="text-xs font-bold uppercase text-blue-700"><i class="fa-solid fa-print mr-1"></i>Histórico de Impressões & Solicitações (${printLogs.length})</h4><div class="space-y-2 max-h-48 overflow-y-auto pr-1">${printHtml}</div></div>
+                <div class="space-y-2 pt-3 border-t"><h4 class="text-xs font-bold uppercase text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i>Medicamentos Ativos Atuais (${activeMeds.length})</h4>${activeHtml}</div>
+                <div class="space-y-2 pt-3 border-t"><h4 class="text-xs font-bold uppercase text-slate-600"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Histórico de Medicamentos Anteriores / Renovados (${pastMeds.length})</h4>${pastHtml}</div>`;
+            document.getElementById('med-history-modal').classList.remove('hidden');
+        }
+
+        function openMedHistoryFromRevenueModal() { let revId = document.getElementById('revenue-id').value; if (revId) showMedHistoryModal(revId); }
+        function closeMedHistoryModal() { document.getElementById('med-history-modal').classList.add('hidden'); }
+
+        function renderRevenues() {
+            let tbody = document.getElementById('revenues-table-body'); let empty = document.getElementById('empty-revenue-state');
+            if (!tbody || !currentUser) return; tbody.innerHTML = '';
+
+            let term = getSearchTerm(); let list = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+            if (term) list = list.filter(rev => (rev.paciente || '').toLowerCase().includes(term) || (rev.gestor || '').toLowerCase().includes(term) || (rev.medications && rev.medications.some(m => (m.name || '').toLowerCase().includes(term))));
+
+            if (list.length === 0) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            list.forEach(i => {
+                let medsCount = i.medications ? i.medications.length : 0; let histCount = i.medHistory ? i.medHistory.length : 0; let printCount = i.printHistory ? i.printHistory.length : 0;
+                let comorbs = getPatientComorbiditiesList(i);
+                let comorbHtml = `<div class="mt-1 flex flex-wrap gap-1">${comorbs.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-[9px] font-bold uppercase">${c}</span>`).join('')}</div>`;
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-4 font-medium">${i.gestor || ''}</td>
+                        <td class="p-4"><div class="font-semibold text-slate-800">${i.paciente || 'N/D'}</div>${comorbHtml}${getPrintStatusBadgeHtml(i)}</td>
+                        <td class="p-4 text-emerald-700 font-medium">${i.medico || 'Dr. Andrey'}</td>
+                        <td class="p-4 text-slate-600 font-bold">${medsCount} ativo(s)
+                            ${histCount > 0 ? `<span class="ml-1.5 text-[11px] px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full font-semibold">${histCount} med ant.</span>` : ''}
+                            ${printCount > 0 ? `<span class="ml-1.5 text-[11px] px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full font-semibold">${printCount} imp.</span>` : ''}
+                        </td>
+                        <td class="p-4 text-center space-x-1.5">
+                            <button onclick="openRevenueModal('${i.id}')" class="p-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg cursor-pointer" title="Editar Receita Ativa"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="showMedHistoryModal('${i.id}')" class="p-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-lg cursor-pointer" title="Consultar Histórico de Medicamentos e Impressões"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                            <button onclick="downloadPatientPDF('${i.id}')" class="p-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg cursor-pointer" title="Imprimir / Gerar PDF com Controle de Duplicidade"><i class="fa-solid fa-print"></i></button>
+                            <button onclick="deleteRevenue('${i.id}')" class="p-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function renderPatients() {
+            let tbody = document.getElementById('patients-table-body'); let empty = document.getElementById('empty-patient-state');
+            if (!tbody || !currentUser) return; tbody.innerHTML = '';
+
+            let term = getSearchTerm(); let list = [...(db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail))];
+            if (term) list = list.filter(rev => (rev.paciente || '').toLowerCase().includes(term) || (rev.medications && rev.medications.some(m => (m.name || '').toLowerCase().includes(term))));
+            list.sort((a, b) => (a.paciente || '').localeCompare(b.paciente || ''));
+
+            if (list.length === 0) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            list.forEach(rev => {
+                let status = rev.status || 'active'; let statusBadge = status === 'inactive' ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-xs font-bold">Inativo</span>` : `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-bold">Ativo</span>`;
+                let comorbs = getPatientComorbiditiesList(rev);
+                let comorbHtml = `<div class="mt-1 flex flex-wrap gap-1">${comorbs.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-[9px] font-bold uppercase">${c}</span>`).join('')}</div>`;
+                let medsHtml = (rev.medications || []).map(m => {
+                    return `<div class="py-0.5">• <b>${m.name}</b> ${m.dose ? `<span class="text-indigo-700 font-semibold">${m.dose}</span>` : ''} ${m.posologia ? `<span class="text-slate-600">[Posologia: ${m.posologia}]</span>` : ''} (${m.cycleDays}d) | Conf: ${formatDateBR(m.baseDate)} ${m.obs ? `<span class="text-xs text-slate-500 italic">(${m.obs})</span>` : ''} - <span class="text-xs font-mono font-bold text-indigo-600">Venc: ${formatDateBR(calculateValidDate(m.baseDate, m.cycleDays))}</span></div>`;
+                }).join('');
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-4"><div class="font-semibold text-slate-800">${rev.paciente || ''}</div>${comorbHtml}${getPrintStatusBadgeHtml(rev)}</td>
+                        <td class="p-4 text-slate-600">${rev.gestor || ''}</td>
+                        <td class="p-4 text-xs text-slate-700 space-y-1">${medsHtml}</td>
+                        <td class="p-4">${statusBadge}</td>
+                        <td class="p-4 text-center space-x-1">
+                            <button onclick="openRevenueModal('${rev.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-semibold hover:bg-blue-100 cursor-pointer"><i class="fa-solid fa-pen mr-1"></i>Editar</button>
+                            <button onclick="showMedHistoryModal('${rev.id}')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-semibold hover:bg-indigo-100 cursor-pointer"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Histórico</button>
+                            <button onclick="togglePatientStatus('${rev.id}')" class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg text-xs font-semibold cursor-pointer">${status === 'inactive' ? 'Ativar' : 'Inativar'}</button>
+                            <button onclick="downloadPatientPDF('${rev.id}')" class="px-2.5 py-1 bg-indigo-600 text-white rounded-lg text-xs font-semibold cursor-pointer"><i class="fa-solid fa-print mr-1"></i> PDF</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function renderCycles() {
+            let c30 = document.getElementById('cycle-list-30'), c60 = document.getElementById('cycle-list-60'), c90 = document.getElementById('cycle-list-90'), c180 = document.getElementById('cycle-list-180'), cOut = document.getElementById('cycle-list-outros');
+            if (!c30 || !currentUser) return;
+            c30.innerHTML = ''; c60.innerHTML = ''; c90.innerHTML = ''; c180.innerHTML = ''; cOut.innerHTML = '';
+
+            let term = getSearchTerm(), cycleTerm = getCycleSearchTerm();
+            let list = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+            
+            list.forEach(rev => {
+                if (rev.status === 'inactive' || !rev.medications) return;
+                let cyclesPresent = new Set(rev.medications.map(m => String(m.cycleDays)));
+                cyclesPresent.forEach(cycle => {
+                    let medsInCycle = rev.medications.filter(m => String(m.cycleDays) === cycle);
+                    let mG = !term || (rev.paciente || '').toLowerCase().includes(term) || medsInCycle.some(m => (m.name || '').toLowerCase().includes(term));
+                    let mC = !cycleTerm || (rev.paciente || '').toLowerCase().includes(cycleTerm) || medsInCycle.some(m => (m.name || '').toLowerCase().includes(cycleTerm));
+
+                    if (mG && mC) {
+                        let card = `<div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 hover:border-amber-400 cursor-pointer" onclick='showPatientDetail("${rev.id}")'><p class="font-bold text-slate-800 underline">${rev.paciente}</p><p class="text-[11px] text-slate-500">Gestor: ${rev.gestor}</p><p class="text-[11px] text-emerald-700 font-medium mt-1">Qtd Meds: ${medsInCycle.length}</p></div>`;
+                        if (cycle === '30') c30.innerHTML += card; else if (cycle === '60') c60.innerHTML += card; else if (cycle === '90') c90.innerHTML += card; else if (cycle === '180') c180.innerHTML += card; else cOut.innerHTML += card;
+                    }
+                });
+            });
+            [c30, c60, c90, c180, cOut].forEach(c => { if (!c.innerHTML) c.innerHTML = '<span class="text-slate-400 italic">Nenhum</span>'; });
+        }
+
+        function showPatientDetail(revId) {
+            let rev = db.revenues.find(r => r.id === revId); if (!rev) return;
+            document.getElementById('modal-patient-name').innerText = `Paciente: ${rev.paciente}`;
+            let comorbs = getPatientComorbiditiesList(rev);
+            let comorbHtml = `<div class="mb-2 flex flex-wrap gap-1">${comorbs.map(c => `<span class="px-2 py-0.5 bg-slate-200 text-slate-700 rounded text-[10px] font-bold uppercase">${c}</span>`).join('')}</div>`;
+            let medsHtml = (rev.medications || []).map(m => {
+                let det = getRenewalDateDetails(m.baseDate, m.cycleDays);
+                return `<div class="bg-slate-50 p-3 rounded-xl border space-y-1"><p class="font-bold text-slate-800">• ${m.name} ${m.dose ? `<span class="text-indigo-700">(${m.dose})</span>` : ''} — ${m.cycleDays} dias</p>${m.posologia ? `<p class="text-xs text-slate-700"><b>Posologia:</b> ${m.posologia}</p>` : ''}<p class="text-xs text-slate-600">Confecção: <b>${formatDateBR(m.baseDate)}</b> | Próx. Renovação: <b>${formatDateBR(det.finalDate)} (${det.finalWeekday})</b></p><p class="text-[11px] text-indigo-700 font-medium">${det.summaryText}</p></div>`;
+            }).join('');
+            document.getElementById('modal-patient-content').innerHTML = `<p class="text-xs text-slate-600"><b>Gestor:</b> ${rev.gestor} | <b>Médico:</b> ${rev.medico || 'Dr. Andrey'}</p>${comorbHtml}<hr class="my-2"><div class="space-y-2 max-h-60 overflow-y-auto">${medsHtml}</div>`;
+            document.getElementById('patient-detail-modal').classList.remove('hidden');
+        }
+
+        function closePatientDetailModal() { document.getElementById('patient-detail-modal').classList.add('hidden'); }
+        function togglePatientStatus(id) { let rev = db.revenues.find(i => i.id === id); if (rev) { rev.status = rev.status === 'inactive' ? 'active' : 'inactive'; persistDB(); refreshAllViews(); } }
+
+        function renderRenewals() {
+            let tbody = document.getElementById('renewals-table-body'); let empty = document.getElementById('empty-renewal-state');
+            if (!tbody || !currentUser) return; tbody.innerHTML = '';
+
+            let term = getSearchTerm(); let list = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail)); let groupsMap = {};
+            list.forEach(rev => {
+                if (rev.status === 'inactive' || !rev.medications) return;
+                rev.medications.forEach((med, mIdx) => {
+                    let details = getRenewalDateDetails(med.baseDate, med.cycleDays); let nextDate = details.finalDate; let groupKey = rev.id + '_' + nextDate;
+                    if (!groupsMap[groupKey]) { groupsMap[groupKey] = { revObj: rev, revId: rev.id, paciente: rev.paciente, gestor: rev.gestor, medico: rev.medico || 'Dr. Andrey', nextDate: nextDate, finalWeekday: details.finalWeekday, medications: [], allReasons: new Set(), maxDiffDays: 0, hadVacation: false, hadHoliday: false }; }
+                    if (details.diffDays > groupsMap[groupKey].maxDiffDays) groupsMap[groupKey].maxDiffDays = details.diffDays;
+                    if (details.hadVacationBlock) groupsMap[groupKey].hadVacation = true; if (details.hadHolidayBlock) groupsMap[groupKey].hadHoliday = true;
+                    details.reasons.forEach(r => groupsMap[groupKey].allReasons.add(r));
+                    groupsMap[groupKey].medications.push({ medIndex: mIdx, name: med.name, dose: med.dose || '', posologia: med.posologia || '', cycleDays: med.cycleDays, baseDate: med.baseDate, exactDueDate: details.exactDueDate, diffDays: details.diffDays, obs: med.obs || '' });
+                });
+            });
+
+            let groupsList = Object.values(groupsMap);
+            if (term) groupsList = groupsList.filter(g => (g.paciente || '').toLowerCase().includes(term) || g.medications.some(m => (m.name || '').toLowerCase().includes(term)));
+            groupsList.sort((a, b) => new Date(a.nextDate) - new Date(b.nextDate));
+
+            if (groupsList.length === 0) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            groupsList.forEach(g => {
+                let reasonBadgeHtml = ''; let reasonsArr = Array.from(g.allReasons);
+                if (g.maxDiffDays === 0) reasonBadgeHtml = `<div class="mt-1.5 inline-block px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">✅ No prazo exato (Vencimento original já cai na ${g.finalWeekday} útil)</div>`;
+                else {
+                    let badgeStyle = g.hadVacation ? "bg-purple-50 border-purple-200 text-purple-900" : (g.hadHoliday ? "bg-red-50 border-red-200 text-red-800" : "bg-blue-50 border-blue-200 text-blue-800");
+                    reasonBadgeHtml = `<div class="mt-1.5 p-2 rounded-xl border ${badgeStyle} text-[11px] leading-snug space-y-0.5"><p class="font-bold">Adiantada em ${g.maxDiffDays} dia(s):</p>${reasonsArr.map(r => `<p>• ${r}</p>`).join('')}</div>`;
+                }
+
+                let medsHtml = g.medications.map(m => `<div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg border my-1 gap-2"><div>• <b>${m.name}</b> ${m.dose ? `<span class="text-indigo-700 font-semibold">${m.dose}</span>` : ''} ${m.posologia ? `<span class="text-slate-600">[${m.posologia}]</span>` : ''} (${m.cycleDays}d) | Conf: ${formatDateBR(m.baseDate)} <span class="text-[11px] text-slate-500 font-mono">(Venc. exato: ${formatDateBR(m.exactDueDate)})</span></div><button onclick='renewSingleMed("${g.revId}", ${m.medIndex})' class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-[11px] font-semibold cursor-pointer shrink-0">Renovar só este</button></div>`).join('');
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-4 text-center"><input type="checkbox" class="renewal-checkbox w-4 h-4 cursor-pointer" data-revid="${g.revId}" data-nextdate="${g.nextDate}"></td>
+                        <td class="p-4 align-top w-72"><div class="font-mono font-bold text-emerald-700 text-sm">${formatDateBR(g.nextDate)} <span class="text-xs font-sans text-slate-600">(${g.finalWeekday})</span></div>${reasonBadgeHtml}</td>
+                        <td class="p-4 align-top"><div class="font-semibold text-slate-800">${g.paciente || ''}</div>${getPrintStatusBadgeHtml(g.revObj)}</td>
+                        <td class="p-4 text-xs text-slate-700 align-top">${medsHtml}</td>
+                        <td class="p-4 text-slate-600 align-top">${g.gestor || ''}</td>
+                        <td class="p-4 text-slate-500 text-xs align-top">${g.medico || ''}</td>
+                        <td class="p-4 text-center space-y-1 align-top">
+                            <button onclick='renewGroupMedications("${g.revId}", "${g.nextDate}")' class="w-full px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-xs font-semibold cursor-pointer">Renovar Grupo</button>
+                            <button onclick='showMedHistoryModal("${g.revId}")' class="w-full px-3 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-semibold cursor-pointer">Histórico Meds & Imp.</button>
+                            <button onclick='downloadGroupPDF("${g.revId}", "${g.nextDate}")' class="w-full px-3 py-1.5 bg-slate-700 text-white rounded-lg text-xs font-semibold cursor-pointer"><i class="fa-solid fa-print mr-1"></i>Imprimir PDF</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function renewSingleMed(revId, medIndex) {
+            let rev = db.revenues.find(r => r.id === revId); if (!rev || !rev.medications[medIndex]) return;
+            let med = rev.medications[medIndex]; let medNextDate = calculateValidDate(med.baseDate, med.cycleDays);
+            verifyAndExecutePrintOrRenewal(revId, `Solicitação de Renovação (${med.name})`, medNextDate, function() {
+                let newDays = parseInt(prompt(`Novo período (em dias) para renovar "${med.name} ${med.dose || ''}":`, med.cycleDays)); if (isNaN(newDays) || newDays <= 0) return;
+                let todayStr = new Date().toISOString().split('T')[0];
+                if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
+                rev.medHistory.push({ ...med, archivedAt: todayStr, reason: "Renovação individual de receita" });
+                med.cycleDays = newDays; med.baseDate = todayStr; persistDB(); refreshAllViews(); alert(`Medicamento "${med.name}" renovado e registrado no Histórico!`);
+            });
+        }
+
+        function renewGroupMedications(revId, targetDate) {
+            let rev = db.revenues.find(r => r.id === revId); if (!rev || !rev.medications) return;
+            verifyAndExecutePrintOrRenewal(revId, `Renovação de Grupo de Receita`, targetDate, function() {
+                let newDays = parseInt(prompt(`Novo período (em dias) para renovar o grupo de ${rev.paciente}:`, "30")); if (isNaN(newDays) || newDays <= 0) return;
+                let todayStr = new Date().toISOString().split('T')[0];
+                if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
+                rev.medications.forEach(med => {
+                    if (calculateValidDate(med.baseDate, med.cycleDays) === targetDate) {
+                        rev.medHistory.push({ ...med, archivedAt: todayStr, reason: "Renovação de grupo" }); med.cycleDays = newDays; med.baseDate = todayStr;
+                    }
+                });
+                persistDB(); refreshAllViews(); alert("Grupo renovado e registrado no Histórico!");
+            });
+        }
+
+        function toggleSelectAllRenewals(masterCheckbox) { document.querySelectorAll('.renewal-checkbox').forEach(cb => cb.checked = masterCheckbox.checked); }
+
+        function renewSelectedGroups() {
+            let checkedBoxes = document.querySelectorAll('.renewal-checkbox:checked'); if (checkedBoxes.length === 0) { alert("Selecione pelo menos um grupo."); return; }
+            let newDays = parseInt(prompt("Novo período (em dias) para os grupos selecionados:", "30")); if (isNaN(newDays) || newDays <= 0) return;
+            let todayStr = new Date().toISOString().split('T')[0];
+            checkedBoxes.forEach(cb => {
+                let rev = db.revenues.find(r => r.id === cb.getAttribute('data-revid')); let targetDate = cb.getAttribute('data-nextdate');
+                if (rev && rev.medications) {
+                    if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
+                    rev.medications.forEach(med => {
+                        if (calculateValidDate(med.baseDate, med.cycleDays) === targetDate) {
+                            rev.medHistory.push({ ...med, archivedAt: todayStr, reason: "Renovação em lote" }); med.cycleDays = newDays; med.baseDate = todayStr;
+                        }
+                    });
+                    recordPrintLog(rev, "Renovação em Lote", targetDate, "Renovação em lote", todayStr < targetDate, false);
+                }
+            });
+            persistDB(); refreshAllViews(); alert("Selecionados renovados e registrados no histórico!");
         }
 
         function openItemModal(id = null) {
@@ -1718,7 +2327,8 @@
                 if (rev) {
                     document.getElementById('revenue-id').value = rev.id; document.getElementById('revenue-gestor').value = rev.gestor; document.getElementById('revenue-paciente').value = rev.paciente || ''; document.getElementById('revenue-medico').value = rev.medico || 'Dr. Andrey';
                     if (btnHist) btnHist.classList.remove('hidden');
-                    let comorbs = getPatientComorbiditiesList(rev); let outrasList = [];
+                    let comorbs = Array.isArray(rev.comorbidades) && rev.comorbidades.length > 0 ? rev.comorbidades : autoGuessComorbidities(rev.medications || []);
+                    let outrasList = [];
                     comorbs.forEach(c => { let cTrim = c.trim(); let cb = document.querySelector(`.comorb-cb[value="${cTrim}"]`); if (cb) cb.checked = true; else outrasList.push(cTrim); });
                     document.getElementById('comorb-outras').value = outrasList.join(', ');
                     (rev.medications || []).forEach(m => addMedicationRow(m.name, m.cycleDays, m.obs, m.baseDate || todayStr, m.dose || '', m.posologia || ''));
@@ -1742,7 +2352,9 @@
             });
             if (medications.length === 0) return;
 
-            if (comorbidades.length === 0) comorbidades = autoGuessComorbidities(medications);
+            if (comorbidades.length === 0) {
+                comorbidades = autoGuessComorbidities(medications);
+            }
 
             if (!id && duplicateMatchId && shouldUnify) {
                 let existingRev = db.revenues.find(r => r.id === duplicateMatchId);
@@ -1763,6 +2375,290 @@
         }
 
         function deleteRevenue(id) { if (confirm("Excluir receita/paciente?")) { db.revenues = db.revenues.filter(i => i.id !== id); persistDB(); refreshAllViews(); } }
+
+        function addHoliday() {
+            let date = document.getElementById('holiday-date').value; let desc = document.getElementById('holiday-desc').value.trim();
+            if (!date || !desc) { alert("Preencha a data e a descrição do recesso/feriado extra."); return; }
+            db.holidays.push({ date, desc }); document.getElementById('holiday-date').value = ''; document.getElementById('holiday-desc').value = ''; persistDB(); refreshAllViews();
+        }
+
+        function renderHolidays() {
+            let container = document.getElementById('holiday-list'); if (!container) return;
+            let yearSel = document.getElementById('holiday-year-selector'); let selectedYear = yearSel && yearSel.value ? parseInt(yearSel.value) : new Date().getFullYear();
+            let autoHolidays = getAutomaticHolidaysForYear(selectedYear); let manualHolidays = (db.holidays || []).filter(h => h && h.date);
+            let html = '';
+            if (manualHolidays.length > 0) {
+                html += `<div class="text-[11px] font-bold uppercase text-indigo-700 pt-1">Recessos / Feriados Extras Adicionados Manualmente:</div>`;
+                manualHolidays.forEach((h, idx) => {
+                    let dObj = new Date(h.date + 'T00:00:00'); let wDay = !isNaN(dObj.getTime()) ? WEEKDAYS_SHORT_PT[dObj.getDay()] : '';
+                    html += `<div class="flex justify-between items-center bg-indigo-50/70 p-2 rounded-xl border border-indigo-200"><div><span class="font-mono font-bold text-indigo-900">${formatDateBR(h.date)} (${wDay})</span> — <span class="font-medium text-slate-800">${h.desc}</span></div><button onclick="removeHoliday(${idx})" class="px-2 py-0.5 bg-red-100 text-red-700 hover:bg-red-200 rounded text-[11px] font-bold cursor-pointer">Excluir</button></div>`;
+                });
+            }
+            html += `<div class="text-[11px] font-bold uppercase text-slate-500 pt-2">Feriados Automáticos de ${selectedYear} (Nacionais, PR e Maringá-PR):</div>`;
+            autoHolidays.forEach(h => {
+                let isIgnored = Array.isArray(db.ignoredHolidays) && db.ignoredHolidays.includes(h.date);
+                let dObj = new Date(h.date + 'T00:00:00'); let wDay = !isNaN(dObj.getTime()) ? WEEKDAYS_SHORT_PT[dObj.getDay()] : '';
+                if (isIgnored) {
+                    html += `<div class="flex justify-between items-center bg-slate-100 p-2 rounded-xl border border-slate-200 opacity-75"><div class="line-through text-slate-400"><span class="font-mono font-bold">${formatDateBR(h.date)} (${wDay})</span> — <span>${h.desc}</span></div><button onclick="toggleIgnoreAutoHoliday('${h.date}')" class="px-2.5 py-1 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 rounded-lg text-[11px] font-bold cursor-pointer shrink-0"><i class="fa-solid fa-rotate-left mr-1"></i>Reativar Feriado</button></div>`;
+                } else {
+                    let scopeBadge = h.scope === 'Maringá-PR' ? `<span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded text-[10px] font-bold">Maringá</span>` : (h.scope === 'Paraná' ? `<span class="px-1.5 py-0.5 bg-blue-100 text-blue-800 rounded text-[10px] font-bold">PR</span>` : `<span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[10px] font-bold">Nacional</span>`);
+                    html += `<div class="flex justify-between items-center bg-slate-50 hover:bg-white p-2 rounded-xl border border-slate-200 gap-2"><div><span class="font-mono font-bold text-slate-800">${formatDateBR(h.date)} (${wDay})</span> ${scopeBadge} <span class="text-slate-700 font-medium ml-1">${h.desc}</span></div><button onclick="toggleIgnoreAutoHoliday('${h.date}')" class="px-2.5 py-1 bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 rounded-lg text-[11px] font-semibold cursor-pointer shrink-0" title="Clique se neste feriado houver expediente normal na UBS">Ignorar / Haverá Expediente</button></div>`;
+                }
+            });
+            container.innerHTML = html;
+        }
+
+        function removeHoliday(idx) { db.holidays.splice(idx, 1); persistDB(); refreshAllViews(); }
+
+        function saveVacations() {
+            let newVacations = [];
+            for (let i = 1; i <= 4; i++) {
+                let s = document.getElementById(`vac-start-${i}`).value; let e = document.getElementById(`vac-end-${i}`).value;
+                if (s && e) newVacations.push({ period: i, start: s, end: e });
+            }
+            db.vacations = newVacations; persistDB(); refreshAllViews(); alert("Férias do Dr. Andrey salvas na nuvem!");
+        }
+
+        function renderVacationsInputs() {
+            for (let i = 1; i <= 4; i++) {
+                let vs = document.getElementById(`vac-start-${i}`); let ve = document.getElementById(`vac-end-${i}`);
+                let saved = (db.vacations || [])[i - 1];
+                if (vs) vs.value = saved ? (saved.start || '') : ''; if (ve) ve.value = saved ? (saved.end || '') : '';
+            }
+        }
+
+        function renderCharts() {
+            if (typeof Chart === 'undefined' || !currentUser) return;
+            let revList = (db.revenues || []).filter(i => isVisibleToCurrentUser(i.userEmail));
+
+            let ctx1El = document.getElementById('scoreChart');
+            if (ctx1El) {
+                let hist = (db.history || []).filter(h => isVisibleToCurrentUser(h.userEmail));
+                if (scoreChartInstance) scoreChartInstance.destroy();
+                scoreChartInstance = new Chart(ctx1El.getContext('2d'), {
+                    type: 'line',
+                    data: { labels: hist.map(h => `${formatDateBR(h.date)} (${h.name})`), datasets: [{ label: 'IVCF-20', data: hist.map(h => h.value), borderColor: '#2563eb', fill: true }] },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            let ctx2El = document.getElementById('revenueChart');
+            if (ctx2El) {
+                let c = { '30d': 0, '60d': 0, '90d': 0, '180d': 0, 'Outros': 0 };
+                revList.filter(r => r.status !== 'inactive').forEach(r => (r.medications || []).forEach(m => {
+                    if (m.cycleDays == 30) c['30d']++; else if (m.cycleDays == 60) c['60d']++; else if (m.cycleDays == 90) c['90d']++; else if (m.cycleDays == 180) c['180d']++; else c['Outros']++;
+                }));
+                if (revenueChartInstance) revenueChartInstance.destroy();
+                revenueChartInstance = new Chart(ctx2El.getContext('2d'), {
+                    type: 'bar',
+                    data: { labels: ['30d', '60d', '90d', '180d', 'Outros'], datasets: [{ label: 'Medicamentos Ativos', data: [c['30d'], c['60d'], c['90d'], c['180d'], c['Outros']], backgroundColor: '#10b981' }] },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            let ctx3El = document.getElementById('cycleIntersectionChart');
+            if (ctx3El) {
+                let comboCounts = {};
+                revList.forEach(r => {
+                    if (r.status === 'inactive' || !r.medications || r.medications.length === 0) return;
+                    let cycles = Array.from(new Set(r.medications.map(m => m.cycleDays))).sort((a,b) => a - b);
+                    let comboKey = cycles.map(c => c + 'd').join(' + ');
+                    comboCounts[comboKey] = (comboCounts[comboKey] || 0) + 1;
+                });
+                
+                let sortedCombos = Object.entries(comboCounts).sort((a, b) => b[1] - a[1]);
+                let topCombos = sortedCombos.slice(0, 5);
+                let otherCombosCount = sortedCombos.slice(5).reduce((sum, item) => sum + item[1], 0);
+                if (otherCombosCount > 0) topCombos.push(['Outras Combinações', otherCombosCount]);
+                
+                if (cycleIntersectionChartInst) cycleIntersectionChartInst.destroy();
+                cycleIntersectionChartInst = new Chart(ctx3El.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: topCombos.map(i => i[0]),
+                        datasets: [{ label: 'Qtd. de Pacientes', data: topCombos.map(i => i[1]), backgroundColor: '#f59e0b' }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            let ctx4El = document.getElementById('topMedsChart');
+            if (ctx4El) {
+                let medCounts = {};
+                revList.forEach(r => {
+                    if (r.status === 'inactive' || !r.medications) return;
+                    r.medications.forEach(m => {
+                        if (!m.name) return;
+                        let n = m.name.trim().toLowerCase(); n = n.charAt(0).toUpperCase() + n.slice(1);
+                        medCounts[n] = (medCounts[n] || 0) + 1;
+                    });
+                });
+                let sortedMeds = Object.entries(medCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+                if (topMedsChartInst) topMedsChartInst.destroy();
+                topMedsChartInst = new Chart(ctx4El.getContext('2d'), {
+                    type: 'bar',
+                    data: { labels: sortedMeds.map(i => i[0]), datasets: [{ label: 'Qtd. Prescrições', data: sortedMeds.map(i => i[1]), backgroundColor: '#3b82f6' }] },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            let ctx5El = document.getElementById('comorbidityChart');
+            if (ctx5El) {
+                let comorbCounts = {};
+                revList.forEach(r => {
+                    if (r.status === 'inactive') return;
+                    let cList = getPatientComorbiditiesList(r);
+                    cList.forEach(c => { let key = c.trim(); if(key) comorbCounts[key] = (comorbCounts[key] || 0) + 1; });
+                });
+
+                let sortedC = Object.entries(comorbCounts).sort((a,b) => b[1] - a[1]);
+                let finalC = {}; let otherC = 0;
+                sortedC.forEach((item, idx) => { if (idx < 6) finalC[item[0]] = item[1]; else otherC += item[1]; });
+                if (otherC > 0) finalC['Outras Comorbidades'] = otherC;
+
+                if (comorbidityChartInst) comorbidityChartInst.destroy();
+                comorbidityChartInst = new Chart(ctx5El.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(finalC),
+                        datasets: [{ data: Object.values(finalC), backgroundColor: ['#ef4444', '#3b82f6', '#eab308', '#10b981', '#8b5cf6', '#06b6d4', '#64748b'] }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10 } } } } }
+                });
+            }
+        }
+
+        function renderUsers() {
+            let tbody = document.getElementById('users-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = (db.users || []).filter(u => u && u.email).map(u => {
+                let uEmail = String(u.email).toLowerCase();
+                let isPrimary = isMasterAccount(uEmail);
+                let countItems = (db.items || []).filter(i => String(i.userEmail || '').toLowerCase() === uEmail).length;
+                let countRevs = (db.revenues || []).filter(r => String(r.userEmail || '').toLowerCase() === uEmail).length;
+                let statusBadge = u.status === 'inactive'
+                    ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-xs font-bold">Bloqueado</span>`
+                    : `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-bold">Ativo</span>`;
+
+                return `
+                <tr class="border-b hover:bg-slate-50">
+                    <td class="p-4 font-bold text-slate-800">${u.name || u.email.split('@')[0]}</td>
+                    <td class="p-4 font-mono text-xs text-slate-600">${u.email}</td>
+                    <td class="p-4 uppercase text-xs font-bold">${u.role === 'admin' ? 'ADM Master' : 'ACS (Isolado)'}</td>
+                    <td class="p-4 text-xs text-slate-600"><b>${countItems}</b> aval. | <b>${countRevs}</b> rec.</td>
+                    <td class="p-4">${statusBadge}</td>
+                    <td class="p-4 text-center space-x-1">
+                        <button onclick="copyAcsInvite('${u.email}')" class="px-2.5 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded text-xs font-semibold cursor-pointer" title="Copiar Convite Pronto para WhatsApp"><i class="fa-brands fa-whatsapp mr-1"></i>Convite</button>
+                        <button onclick="inspectAcsRecords('${u.email}')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded text-xs font-semibold cursor-pointer" title="Filtrar e Ver Cadastros deste ACS"><i class="fa-solid fa-folder-open mr-1"></i>Ver Cadastros</button>
+                        <button onclick="resetUserPassword('${u.email}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-xs font-semibold cursor-pointer" title="Ver ou Redefinir Senha"><i class="fa-solid fa-key"></i></button>
+                        ${!isPrimary ? `
+                            <button onclick="toggleUserStatus('${u.email}')" class="px-2.5 py-1 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded text-xs font-semibold cursor-pointer">${u.status === 'inactive' ? 'Desbloquear' : 'Bloquear'}</button>
+                            <button onclick="deleteUserAccount('${u.email}')" class="px-2.5 py-1 bg-red-50 text-red-700 hover:bg-red-100 rounded text-xs font-semibold cursor-pointer" title="Excluir ACS"><i class="fa-solid fa-trash"></i></button>
+                        ` : ''}
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function copyAcsInvite(email) {
+            let u = db.users.find(x => x && x.email && String(x.email).toLowerCase() === String(email).toLowerCase());
+            if (!u) return;
+            let appUrl = window.location.href.split('#')[0];
+            let inviteText = `Olá *${u.name || u.email}*!\nSeu acesso individual ao *Sistema de Gestão ACS* foi liberado pelo ADM Master.\n\n🔗 *Link de Acesso:* ${appUrl}\n👤 *Login (E-mail):* ${u.email}\n🔑 *Senha:* ${u.password}\n\n*(Ao entrar, sua página estará pronta e em branco para seus cadastros)*`;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(inviteText).then(() => {
+                    alert("Convite copiado para a área de transferência! Agora basta colar (Ctrl+V) no WhatsApp ou E-mail do ACS:\n\n" + inviteText);
+                }).catch(() => prompt("Copie o texto do convite abaixo:", inviteText));
+            } else {
+                prompt("Copie o texto do convite abaixo:", inviteText);
+            }
+        }
+
+        function inspectAcsRecords(email) {
+            let select = document.getElementById('master-acs-filter');
+            if (select) {
+                updateMasterFilterDropdown();
+                select.value = String(email).toLowerCase();
+                switchTab('evaluations');
+                refreshAllViews();
+            }
+        }
+
+        function toggleUserStatus(email) {
+            let u = db.users.find(x => x && x.email && String(x.email).toLowerCase() === String(email).toLowerCase());
+            if (!u || isMasterAccount(u.email)) return;
+            u.status = u.status === 'inactive' ? 'active' : 'inactive';
+            persistDB();
+            renderUsers();
+        }
+
+        function deleteUserAccount(email) {
+            let targetEmail = String(email).toLowerCase();
+            let u = db.users.find(x => x && x.email && String(x.email).toLowerCase() === targetEmail);
+            if (!u || isMasterAccount(u.email)) return;
+            if (!confirm(`Deseja remover o acesso do ACS "${u.name || u.email}"?`)) return;
+            let deleteRecords = confirm(`Deseja também excluir todos os pacientes/receitas cadastrados por ${u.email}?\n(Clique em OK para apagar tudo dele, ou Cancelar para manter os arquivos sob seu controle Master)`);
+            if (deleteRecords) {
+                if (Array.isArray(db.items)) db.items = db.items.filter(i => String(i.userEmail || '').toLowerCase() !== targetEmail);
+                if (Array.isArray(db.revenues)) db.revenues = db.revenues.filter(r => String(r.userEmail || '').toLowerCase() !== targetEmail);
+            }
+            db.users = (db.users || []).filter(x => x && x.email && String(x.email).toLowerCase() !== targetEmail);
+            persistDB();
+            updateMasterFilterDropdown();
+            refreshAllViews();
+        }
+
+        function resetUserPassword(email) {
+            let u = db.users.find(x => x && x.email && String(x.email).toLowerCase() === String(email).toLowerCase());
+            if (!u) return;
+            let newPass = prompt(`Nova senha para ${u.email}:`, u.password);
+            if (newPass) { u.password = newPass.trim(); persistDB(); alert("Senha atualizada na nuvem!"); }
+        }
+
+        function openInviteModal() {
+            document.getElementById('invite-name').value = '';
+            document.getElementById('invite-email').value = '';
+            document.getElementById('invite-pass').value = 'Saude@2026';
+            document.getElementById('invite-modal').classList.remove('hidden');
+        }
+        function closeInviteModal() { document.getElementById('invite-modal').classList.add('hidden'); }
+
+        function sendInvite(e) {
+            e.preventDefault();
+            let name = document.getElementById('invite-name').value.trim();
+            let email = document.getElementById('invite-email').value.trim().toLowerCase();
+            let role = document.getElementById('invite-role').value;
+            let password = document.getElementById('invite-pass').value.trim();
+            if (db.users.find(u => u && u.email && String(u.email).toLowerCase() === email)) { alert("E-mail já cadastrado."); return; }
+            db.users.push({ email, name: name || email.split('@')[0], password, role, status: 'active' });
+            persistDB();
+            closeInviteModal();
+            updateMasterFilterDropdown();
+            renderUsers();
+            copyAcsInvite(email);
+        }
+
+        function exportBackupJSON() {
+            generateAndEmailBackup('Backup_Manual');
+        }
+
+        function importBackupJSON(e) {
+            let file = e.target.files[0]; if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    let imp = JSON.parse(evt.target.result);
+                    if (imp && imp.gestao_acs_90_db) mergeDatabaseObject(imp.gestao_acs_90_db);
+                    mergeDatabaseObject(imp);
+                    persistDB();
+                    updateMasterFilterDropdown();
+                    refreshAllViews();
+                    alert("Backup MESCLADO com sucesso! As informações foram anexadas e enviadas para o Firebase.");
+                } catch (err) { alert("Erro ao ler arquivo JSON."); }
+            };
+            reader.readAsText(file);
+        }
 
         function executeRawPatientPDF(id, targetDateFilter = null) {
             if (!window.jspdf) { alert("A biblioteca de PDF ainda está carregando. Tente novamente em 2 segundos."); return; }
