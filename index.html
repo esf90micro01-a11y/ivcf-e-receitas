@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Segura ACS Marcelo 90/01 - v22.2 Cloud</title>
+    <title>Gestão Segura ACS Marcelo 90/01 - v22.1 Cloud</title>
 
     <!-- LIMPADOR IMEDIATO DE CACHE ANTIGO -->
     <script>
@@ -54,10 +54,10 @@
                         <i class="fa-solid fa-cloud-bolt text-2xl"></i>
                     </div>
                     <h1 class="text-xl font-bold text-slate-900">
-                        Gestão Segura ACS Marcelo 90/01 <span class="ver-tag text-blue-600">v22.2</span>
+                        Gestão Segura ACS Marcelo 90/01 <span class="ver-tag text-blue-600">v22.1</span>
                     </h1>
                     <p class="text-xs text-slate-500 mt-1">
-                        <span class="ver-full-label font-semibold text-slate-700">Versão 22.2 Cloud</span> — Grupos de Receitas & Backup p/ E-mail
+                        <span class="ver-full-label font-semibold text-slate-700">Versão 22.1 Cloud</span> — Menu Lateral Fixo & Sincronização Firebase
                     </p>
                     <div class="mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700" id="login-cloud-status">
                         <i class="fa-solid fa-circle-check"></i>
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="mt-6 pt-4 border-t border-slate-100 text-center">
-                    <p class="text-[11px] text-slate-400">Banco na Nuvem: <span class="font-mono text-slate-600">gestao-acs-marcelo (v22.2)</span></p>
+                    <p class="text-[11px] text-slate-400">Banco na Nuvem: <span class="font-mono text-slate-600">gestao-acs-marcelo (v22.1)</span></p>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
                     <div>
                         <div class="flex items-center space-x-2">
                             <h2 class="font-bold text-slate-800 text-sm sm:text-base leading-tight">
-                                Gestão Segura ACS Marcelo 90/01 — <span class="ver-tag text-blue-600 font-extrabold">v22.2</span>
+                                Gestão Segura ACS Marcelo 90/01 — <span class="ver-tag text-blue-600 font-extrabold">v22.1</span>
                             </h2>
                             <button type="button" onclick="forceCloudSync()" id="header-cloud-badge" title="Clique para sincronizar agora com o Firebase" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 flex items-center space-x-1 cursor-pointer hover:bg-emerald-200 transition-all">
                                 <i class="fa-solid fa-cloud"></i><span>Sincronizar Nuvem</span>
@@ -121,7 +121,7 @@
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <i class="fa-solid fa-search"></i>
                         </span>
-                        <input type="text" id="global-search" oninput="handleGlobalSearch()" placeholder="Pesquisar paciente, comorbidade, gestor ou med..." class="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50">
+                        <input type="text" id="global-search" oninput="handleGlobalSearch()" placeholder="Pesquisar paciente, gestor ou med..." class="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50">
                     </div>
 
                     <div id="master-view-filter-box" class="hidden flex items-center space-x-1.5 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-xl">
@@ -135,10 +135,6 @@
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <button onclick="generateAndEmailBackup('Manual Pré-Atualização')" class="px-2.5 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-xs font-bold flex items-center space-x-1 cursor-pointer" title="Baixar .JSON e Enviar Cópia para esf90micro01@gmail.com">
-                        <i class="fa-solid fa-envelope-circle-check"></i>
-                        <span class="hidden lg:inline">Backup &rarr; E-mail ESF90</span>
-                    </button>
                     <div class="text-right hidden xl:block">
                         <p id="user-display-name" class="text-xs font-bold text-slate-800"></p>
                         <p id="user-display-email" class="text-[11px] text-slate-500"></p>
@@ -152,7 +148,7 @@
             </header>
 
             <div class="flex-1 flex overflow-hidden">
-                <!-- BARRA LATERAL SEMPRE VISÍVEL -->
+                <!-- BARRA LATERAL SEMPRE VISÍVEL (SEM CLASSE HIDDEN) -->
                 <aside class="w-60 sm:w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 overflow-y-auto">
                     <div class="space-y-1.5">
                         <button onclick="switchTab('evaluations')" id="tab-btn-evaluations" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 cursor-pointer">
@@ -160,9 +156,6 @@
                         </button>
                         <button onclick="switchTab('revenues')" id="tab-btn-revenues" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer">
                             <i class="fa-solid fa-wallet w-5"></i><span>Receitas & Afins</span>
-                        </button>
-                        <button onclick="switchTab('comorb_groups')" id="tab-btn-comorb_groups" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer">
-                            <i class="fa-solid fa-notes-medical w-5 text-rose-600"></i><span>Grupos de Receitas</span>
                         </button>
                         <button onclick="switchTab('patients')" id="tab-btn-patients" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer">
                             <i class="fa-solid fa-users w-5 text-indigo-600"></i><span>Pacientes & Meds</span>
@@ -189,7 +182,7 @@
 
                     <div class="pt-4 border-t border-slate-100 text-center">
                         <span class="inline-block px-3 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-mono font-bold">
-                            APK <span class="ver-full-label">Versão 22.2 Cloud</span>
+                            APK <span class="ver-full-label">Versão 22.1 Cloud</span>
                         </span>
                     </div>
                 </aside>
@@ -272,38 +265,6 @@
                             </table>
                             <div id="empty-revenue-state" class="hidden text-center py-12 text-slate-400">Nenhuma receita cadastrada nesta visualização.</div>
                         </div>
-                    </div>
-
-                    <!-- NOVA ABA: GRUPOS DE RECEITAS (SEPARADOS POR COMORBIDADE) -->
-                    <div id="tab-comorb_groups" class="hidden space-y-6 max-w-7xl mx-auto">
-                        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
-                                    <i class="fa-solid fa-notes-medical text-rose-600"></i>
-                                    <span>Grupos de Receitas por Comorbidade</span>
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-0.5">Pacientes e medicamentos separados automaticamente por comorbidade. Inclua, edite, inative ou exclua pacientes e medicações com atualização imediata dos gráficos.</p>
-                            </div>
-                            <div class="flex flex-wrap items-center gap-2.5">
-                                <div class="flex items-center space-x-2 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-                                    <i class="fa-solid fa-filter text-slate-400 text-xs"></i>
-                                    <select id="comorb-group-filter" onchange="renderComorbidityGroups()" class="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer">
-                                        <option value="all">Todas as Comorbidades</option>
-                                        <option value="Hipertensão / Cardíaca">Hipertensão / Cardíaca</option>
-                                        <option value="Diabetes">Diabetes</option>
-                                        <option value="Saúde Mental / Neuro">Saúde Mental / Neuro</option>
-                                        <option value="Colesterol / Dislipidemia">Colesterol / Dislipidemia</option>
-                                        <option value="Tireoide">Tireoide</option>
-                                        <option value="Asma / DPOC">Asma / DPOC</option>
-                                    </select>
-                                </div>
-                                <button onclick="openRevenueModal()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold shadow transition-all cursor-pointer">
-                                    <i class="fa-solid fa-plus mr-1.5"></i>Incluir Paciente / Medicação
-                                </button>
-                            </div>
-                        </div>
-
-                        <div id="comorb-groups-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
                     </div>
 
                     <!-- ABA PACIENTES & MEDICAMENTOS -->
@@ -503,37 +464,25 @@
                         <div class="bg-blue-50 border border-blue-200 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
                             <div class="space-y-1">
                                 <h4 class="font-bold text-blue-900 text-base">
-                                    <i class="fa-solid fa-cloud mr-2"></i>Banco de Dados Online Firebase (<span class="ver-full-label">Versão 22.2 Cloud</span>)
+                                    <i class="fa-solid fa-cloud mr-2"></i>Banco de Dados Online Firebase (<span class="ver-full-label">Versão 22.1 Cloud</span>)
                                 </h4>
                                 <p class="text-xs text-blue-800 leading-relaxed">
                                     Sincronizado diretamente com `gestao_acs_90_db` no Firebase (`gestao-acs-marcelo`).<br>
-                                    <b>PROTEÇÃO DE VERSÃO ATIVA:</b> Sempre que você atualizar de versão, um backup `.json` é gerado automaticamente e uma cópia é enviada para <b>esf90micro01@gmail.com</b>!
+                                    <b>IMPORTANTE:</b> Ao restaurar um backup antigo (.json), o sistema <b>ANEXA (mescla)</b> os pacientes à nuvem sem apagar os novos!
                                 </p>
                             </div>
-                            <div class="flex flex-wrap gap-2 shrink-0">
-                                <button onclick="generateAndEmailBackup('Manual Pré-Atualização')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2.5 rounded-xl text-xs shadow cursor-pointer">
-                                    <i class="fa-solid fa-envelope mr-1.5"></i>Gerar .JSON & Enviar p/ esf90micro01@gmail.com
-                                </button>
-                                <button onclick="forceCloudSync()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl text-xs shadow cursor-pointer">
-                                    <i class="fa-solid fa-rotate mr-1.5"></i>Forçar Sincronização Nuvem
-                                </button>
-                            </div>
+                            <button onclick="forceCloudSync()" class="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2.5 rounded-xl text-xs shadow cursor-pointer">
+                                <i class="fa-solid fa-rotate mr-1.5"></i>Forçar Sincronização Nuvem
+                            </button>
                         </div>
 
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl flex flex-col justify-between">
                                 <div>
-                                    <h4 class="font-bold text-emerald-900 text-base mb-1">Exportar Cópia de Segurança (.json) + E-mail</h4>
-                                    <p class="text-xs text-emerald-700 mb-4">Baixa o arquivo `.json` no computador e envia cópia automática de segurança para `esf90micro01@gmail.com`.</p>
+                                    <h4 class="font-bold text-emerald-900 text-base mb-1">Exportar Cópia de Segurança (.json)</h4>
+                                    <p class="text-xs text-emerald-700 mb-4">Gera um arquivo local com todos os dados atuais da nuvem já identificado com a versão atual.</p>
                                 </div>
-                                <div class="space-y-2">
-                                    <button onclick="generateAndEmailBackup('Backup Completo')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl text-sm cursor-pointer">
-                                        <i class="fa-solid fa-download mr-1.5"></i>Baixar Backup (.json) + Enviar p/ E-mail
-                                    </button>
-                                    <button onclick="openGmailWithBackup()" class="w-full bg-white hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold py-2 rounded-xl text-xs cursor-pointer">
-                                        <i class="fa-brands fa-google mr-1.5"></i>Abrir Gmail Direto p/ esf90micro01@gmail.com
-                                    </button>
-                                </div>
+                                <button onclick="exportBackupJSON()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl text-sm cursor-pointer">Baixar Backup (<span class="ver-tag">v22.1</span>)</button>
                             </div>
                             <div class="bg-amber-50 border border-amber-200 p-6 rounded-2xl flex flex-col justify-between">
                                 <div>
@@ -780,7 +729,7 @@
 
                 <!-- PAINEL DE COMORBIDADES DO PACIENTE -->
                 <div class="border-t border-slate-200 pt-4 pb-2">
-                    <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Comorbidades do Paciente (Separa nos Grupos de Receitas e Atualiza Gráficos)</label>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-2">Comorbidades do Paciente (Para o Gráfico Epidemiológico)</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-[11px] font-semibold text-slate-700 mb-3" id="comorb-checkboxes">
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Hipertensão / Cardíaca" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Hipertensão / Cardíaca</span></label>
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Diabetes" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Diabetes</span></label>
@@ -789,7 +738,7 @@
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Tireoide" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Tireoide</span></label>
                         <label class="flex items-center space-x-2 cursor-pointer p-1 hover:bg-slate-50 rounded"><input type="checkbox" value="Asma / DPOC" class="comorb-cb w-3.5 h-3.5 text-blue-600 rounded"><span>Asma / DPOC</span></label>
                     </div>
-                    <input type="text" id="comorb-outras" placeholder="Outras comorbidades (separadas por vírgula)... Ex: Artrose, Obesidade, Fibromialgia" class="w-full px-3 py-2 border rounded-lg text-xs bg-white text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="comorb-outras" placeholder="Outras (separadas por vírgula)... Ex: Artrose, Obesidade, Fibromialgia" class="w-full px-3 py-2 border rounded-lg text-xs bg-white text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <div class="border-t pt-4">
@@ -936,15 +885,16 @@
         </div>
     </div>
 
-    <!-- SCRIPT PRINCIPAL (VERSÃO 22.2 CLOUD) -->
+    <!-- SCRIPT PRINCIPAL (VERSÃO 22.1 CLOUD - BARRA LATERAL VISÍVEL E CONEXÃO DUPLA FIREBASE) -->
     <script>
-        const CURRENT_VERSION = "22.2";
+        const CURRENT_VERSION = "22.1";
         const APP_BASE_NAME = "Gestão Segura ACS Marcelo 90/01";
         const MASTER_EMAIL = "marcelo.doetz@gmail.com";
         const MASTER_DEFAULT_PASS = "R@ul2011";
         const SECONDARY_MASTER = "esf90micro01@gmail.com";
         const SECONDARY_DEFAULT_PASS = "0limpic0";
 
+        // Lista de URLs de sincronização para encontrar os dados independentemente de maiúsculas/minúsculas
         const FIREBASE_DB_URL = "https://gestao-acs-Marcelo-default-rtdb.firebaseio.com";
         const FIREBASE_ENDPOINTS = [
             "https://gestao-acs-Marcelo-default-rtdb.firebaseio.com/gestao_acs_90_db.json",
@@ -980,90 +930,12 @@
         let shouldUnify = false;
         let ivcfSortDirection = 'desc';
         let pendingPrintContext = null;
-        let preUpgradeBackupDone = false;
 
         const WEEKDAYS_SHORT_PT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
         const HOLIDAY_CACHE_BY_YEAR = {};
 
         // =========================================================================
-        // 1. BACKUP AUTOMÁTICO PRÉ-ATUALIZAÇÃO (.JSON) + ENVIO P/ esf90micro01@gmail.com
-        // =========================================================================
-        function checkAndTriggerVersionUpgradeBackup(rawObj) {
-            if (!rawObj || typeof rawObj !== 'object' || preUpgradeBackupDone) return;
-            let hasRecords = (rawObj.items && Object.keys(rawObj.items).length > 0) || (rawObj.revenues && Object.keys(rawObj.revenues).length > 0);
-            if (!hasRecords) return;
-
-            let oldVer = String(rawObj.version || 'anterior');
-            let lastBackedUpTransition = localStorage.getItem('acs_last_version_backup');
-            let transitionKey = `${oldVer}_to_${CURRENT_VERSION}`;
-
-            if (oldVer !== CURRENT_VERSION && lastBackedUpTransition !== transitionKey) {
-                preUpgradeBackupDone = true;
-                localStorage.setItem('acs_last_version_backup', transitionKey);
-                // Faz o download do .json com os dados anteriores e envia para esf90micro01@gmail.com
-                setTimeout(() => {
-                    generateAndEmailBackup(`Pre_Upgrade_v${oldVer}_para_v${CURRENT_VERSION}`, rawObj, true);
-                }, 800);
-            }
-        }
-
-        function generateAndEmailBackup(reasonLabel = 'Backup', customDataObj = null, isSilentAuto = false) {
-            let targetObj = customDataObj || db;
-            let jsonString = JSON.stringify(targetObj, null, 2);
-            let dateTag = new Date().toISOString().split('T')[0];
-            let safeReason = String(reasonLabel).replace(/[^a-zA-Z0-9_-]/g, '_');
-            let fileName = `backup_ACS_${safeReason}_${dateTag}.json`;
-
-            // 1. Gera e baixa o arquivo .json automaticamente no computador
-            try {
-                let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonString);
-                let a = document.createElement('a');
-                a.href = dataStr;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-            } catch (e) {}
-
-            // 2. Envia cópia automática para esf90micro01@gmail.com via FormSubmit AJAX
-            let itemsLen = Array.isArray(targetObj.items) ? targetObj.items.length : Object.keys(targetObj.items || {}).length;
-            let revsLen = Array.isArray(targetObj.revenues) ? targetObj.revenues.length : Object.keys(targetObj.revenues || {}).length;
-
-            fetch(`https://formsubmit.co/ajax/${SECONDARY_MASTER}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _subject: `[Backup JSON ACS] ${reasonLabel} - v${CURRENT_VERSION} (${dateTag})`,
-                    Sistema: `${APP_BASE_NAME} - v${CURRENT_VERSION}`,
-                    Motivo_do_Backup: reasonLabel,
-                    Resumo_Registros: `${itemsLen} Avaliações IVCF | ${revsLen} Receitas/Pacientes`,
-                    Arquivo_JSON_Completo: jsonString
-                })
-            }).then(res => {
-                if (!isSilentAuto) {
-                    alert(`✅ Backup "${fileName}" baixado no seu computador!\n📧 Uma cópia completa também foi disparada para o e-mail: ${SECONDARY_MASTER}.\n\n(Obs: Se for a primeira vez, verifique a caixa de entrada/spam de ${SECONDARY_MASTER} para confirmar o recebimento automático).`);
-                }
-            }).catch(() => {
-                if (!isSilentAuto) {
-                    if (confirm(`✅ O arquivo "${fileName}" foi baixado no seu computador!\nDeseja abrir seu programa de e-mail para encaminhar uma cópia para ${SECONDARY_MASTER}?`)) {
-                        openGmailWithBackup();
-                    }
-                }
-            });
-        }
-
-        function openGmailWithBackup() {
-            let subject = encodeURIComponent(`Backup JSON Sistema ACS - v${CURRENT_VERSION}`);
-            let summary = `Segue cópia de segurança (.json) do Sistema ACS (v${CURRENT_VERSION}) com ${(db.items || []).length} avaliações e ${(db.revenues || []).length} receitas.\n\n(Anexe o arquivo .json que acabou de ser baixado na sua pasta Downloads ou veja os dados abaixo):\n\n` + JSON.stringify(db);
-            let body = encodeURIComponent(summary.substring(0, 1800));
-            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${SECONDARY_MASTER}&su=${subject}&body=${body}`, '_blank');
-        }
-
-        // =========================================================================
-        // 2. MOTOR DE LOGIN IMEDIATO
+        // 1. MOTOR DE LOGIN IMEDIATO
         // =========================================================================
         function showLoginError(msg) {
             let box = document.getElementById('login-error-box');
@@ -1183,7 +1055,7 @@
         }
 
         // =========================================================================
-        // 3. BUSCA MULTICAMINHO NO FIREBASE
+        // 2. BUSCA MULTICAMINHO NO FIREBASE (TESTA /gestao_acs_90_db E RAIZ)
         // =========================================================================
         function updateCloudBadges(status, message) {
             let loginBadge = document.getElementById('login-cloud-status');
@@ -1222,11 +1094,9 @@
                         const data = await response.json();
                         if (data && typeof data === 'object') {
                             if (data.gestao_acs_90_db && typeof data.gestao_acs_90_db === 'object') {
-                                checkAndTriggerVersionUpgradeBackup(data.gestao_acs_90_db);
                                 mergeDatabaseObject(data.gestao_acs_90_db);
                             }
                             if (data.items || data.revenues || data.users || data.history) {
-                                checkAndTriggerVersionUpgradeBackup(data);
                                 mergeDatabaseObject(data);
                             }
                             if (url.includes('gestao_acs_90_db.json')) {
@@ -1273,7 +1143,6 @@
                 dbRef.on('value', (snapshot) => {
                     const cloudData = snapshot.val();
                     if (cloudData && typeof cloudData === 'object') {
-                        checkAndTriggerVersionUpgradeBackup(cloudData);
                         mergeDatabaseObject(cloudData);
                         localStorage.setItem('ivcf_db_v3', JSON.stringify(db));
                         updateCloudBadges('online');
@@ -1334,11 +1203,7 @@
             ['ivcf_db_v3', 'ivcf_db', 'acs_db'].forEach(key => {
                 let rawLocal = localStorage.getItem(key);
                 if (rawLocal) {
-                    try {
-                        let parsed = JSON.parse(rawLocal);
-                        checkAndTriggerVersionUpgradeBackup(parsed);
-                        mergeDatabaseObject(parsed);
-                    } catch (e) {}
+                    try { mergeDatabaseObject(JSON.parse(rawLocal)); } catch (e) {}
                 }
             });
             ensureMasterUsers();
@@ -1359,209 +1224,7 @@
         }
 
         // =========================================================================
-        // 4. NOVA ABA: GRUPOS DE RECEITAS (POR COMORBIDADE)
-        // =========================================================================
-        function getPatientComorbiditiesList(rev) {
-            if (!rev) return ['Sem Comorbidade Específica'];
-            let cList = Array.isArray(rev.comorbidades) && rev.comorbidades.length > 0
-                ? rev.comorbidades.filter(Boolean)
-                : autoGuessComorbidities(rev.medications || []);
-            if (cList.length === 0) return ['Sem Comorbidade Específica'];
-            return cList;
-        }
-
-        function renderComorbidityGroups() {
-            let container = document.getElementById('comorb-groups-container');
-            if (!container || !currentUser) return;
-            container.innerHTML = '';
-
-            let term = getSearchTerm();
-            let filterEl = document.getElementById('comorb-group-filter');
-            let selectedComorb = filterEl ? filterEl.value : 'all';
-
-            let list = (db.revenues || []).filter(r => isVisibleToCurrentUser(r.userEmail));
-            if (term) {
-                list = list.filter(rev =>
-                    (rev.paciente || '').toLowerCase().includes(term) ||
-                    (rev.gestor || '').toLowerCase().includes(term) ||
-                    getPatientComorbiditiesList(rev).some(c => c.toLowerCase().includes(term)) ||
-                    (rev.medications && rev.medications.some(m => (m.name || '').toLowerCase().includes(term)))
-                );
-            }
-
-            let groupsMap = {
-                'Hipertensão / Cardíaca': [],
-                'Diabetes': [],
-                'Saúde Mental / Neuro': [],
-                'Colesterol / Dislipidemia': [],
-                'Tireoide': [],
-                'Asma / DPOC': []
-            };
-
-            list.forEach(rev => {
-                let comorbs = getPatientComorbiditiesList(rev);
-                comorbs.forEach(c => {
-                    let cName = c.trim();
-                    if (!groupsMap[cName]) groupsMap[cName] = [];
-                    groupsMap[cName].push(rev);
-                });
-            });
-
-            let colorThemes = {
-                'Hipertensão / Cardíaca': { header: 'bg-red-50 border-red-200 text-red-900', badge: 'bg-red-600 text-white', icon: 'fa-heart-pulse text-red-600' },
-                'Diabetes': { header: 'bg-blue-50 border-blue-200 text-blue-900', badge: 'bg-blue-600 text-white', icon: 'fa-droplet text-blue-600' },
-                'Saúde Mental / Neuro': { header: 'bg-amber-50 border-amber-200 text-amber-900', badge: 'bg-amber-500 text-white', icon: 'fa-brain text-amber-600' },
-                'Colesterol / Dislipidemia': { header: 'bg-emerald-50 border-emerald-200 text-emerald-900', badge: 'bg-emerald-600 text-white', icon: 'fa-vial text-emerald-600' },
-                'Tireoide': { header: 'bg-purple-50 border-purple-200 text-purple-900', badge: 'bg-purple-600 text-white', icon: 'fa-Dna text-purple-600' },
-                'Asma / DPOC': { header: 'bg-cyan-50 border-cyan-200 text-cyan-900', badge: 'bg-cyan-600 text-white', icon: 'fa-lungs text-cyan-600' }
-            };
-
-            let entries = Object.entries(groupsMap);
-            if (selectedComorb !== 'all') {
-                entries = entries.filter(e => e[0] === selectedComorb);
-            }
-
-            let anyRendered = false;
-            entries.forEach(([comorbName, patientsInGroup]) => {
-                if (patientsInGroup.length === 0 && selectedComorb === 'all' && !colorThemes[comorbName]) return;
-                anyRendered = true;
-
-                patientsInGroup.sort((a, b) => (a.paciente || '').localeCompare(b.paciente || ''));
-                let theme = colorThemes[comorbName] || { header: 'bg-slate-100 border-slate-300 text-slate-800', badge: 'bg-slate-700 text-white', icon: 'fa-notes-medical text-slate-700' };
-
-                let patientsHtml = patientsInGroup.length === 0
-                    ? `<div class="p-6 text-center text-xs text-slate-400 italic">Nenhum paciente cadastrado neste grupo de comorbidade.</div>`
-                    : patientsInGroup.map(rev => {
-                        let isInactive = rev.status === 'inactive';
-                        let statusBadge = isInactive
-                            ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-[10px] font-bold">Inativo</span>`
-                            : `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-bold">Ativo</span>`;
-
-                        let medsListHtml = (rev.medications || []).map((m, mIdx) => {
-                            let nextD = calculateValidDate(m.baseDate, m.cycleDays);
-                            return `
-                                <div class="flex items-center justify-between bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs gap-2">
-                                    <div class="truncate">
-                                        <span class="font-bold text-slate-800">• ${m.name}</span>
-                                        ${m.dose ? `<span class="text-indigo-700 font-semibold">${m.dose}</span>` : ''}
-                                        ${m.posologia ? `<span class="text-slate-500">[${m.posologia}]</span>` : ''}
-                                        <span class="text-[11px] font-mono text-emerald-700 font-semibold ml-1">(${m.cycleDays}d &rarr; ${formatDateBR(nextD)})</span>
-                                    </div>
-                                    <div class="flex items-center space-x-1 shrink-0">
-                                        <button type="button" onclick="openRevenueModal('${rev.id}')" class="p-1 text-blue-600 hover:bg-blue-50 rounded cursor-pointer" title="Editar este medicamento"><i class="fa-solid fa-pen text-[10px]"></i></button>
-                                        <button type="button" onclick="deleteSingleMedicationFromGroup('${rev.id}', ${mIdx})" class="p-1 text-red-500 hover:bg-red-50 rounded cursor-pointer" title="Excluir este medicamento"><i class="fa-solid fa-trash text-[10px]"></i></button>
-                                    </div>
-                                </div>`;
-                        }).join('');
-
-                        return `
-                            <div class="p-3.5 rounded-xl border ${isInactive ? 'bg-slate-100/70 border-slate-200 opacity-75' : 'bg-slate-50 border-slate-200'} space-y-2">
-                                <div class="flex flex-wrap justify-between items-start gap-2">
-                                    <div>
-                                        <div class="flex items-center space-x-2">
-                                            <span class="font-bold text-slate-900 text-sm">${rev.paciente || 'N/D'}</span>
-                                            ${statusBadge}
-                                        </div>
-                                        <p class="text-[11px] text-slate-500">Gestor/ACS: <b>${rev.gestor || ''}</b> | Médico: ${rev.medico || 'Dr. Andrey'}</p>
-                                    </div>
-                                    <div class="flex flex-wrap items-center gap-1">
-                                        <button type="button" onclick="openRevenueModal('${rev.id}')" class="px-2 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-[11px] font-semibold cursor-pointer" title="Incluir Medicação / Editar Paciente e Comorbidades">
-                                            <i class="fa-solid fa-pen-to-square mr-1"></i>Editar / +Med
-                                        </button>
-                                        <button type="button" onclick="togglePatientStatus('${rev.id}')" class="px-2 py-1 bg-amber-50 text-amber-800 hover:bg-amber-100 rounded-lg text-[11px] font-semibold cursor-pointer" title="Inativar ou Ativar Paciente">
-                                            ${isInactive ? 'Ativar' : 'Inativar'}
-                                        </button>
-                                        <button type="button" onclick="deleteRevenue('${rev.id}')" class="px-2 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-[11px] font-semibold cursor-pointer" title="Excluir Paciente/Receita">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="space-y-1">${medsListHtml}</div>
-                            </div>`;
-                    }).join('');
-
-                container.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-                        <div class="px-5 py-3.5 border-b flex justify-between items-center ${theme.header}">
-                            <div class="flex items-center space-x-2.5">
-                                <i class="fa-solid ${theme.icon} text-base"></i>
-                                <h4 class="font-bold text-sm sm:text-base">${comorbName}</h4>
-                                <span class="text-xs px-2.5 py-0.5 rounded-full font-bold ${theme.badge}">${patientsInGroup.length} pac.</span>
-                            </div>
-                            <div class="flex items-center space-x-1.5">
-                                <button type="button" onclick="openRevenueModalWithPreselectedComorb('${comorbName}')" class="px-2.5 py-1 bg-white/90 hover:bg-white text-slate-800 rounded-lg text-xs font-bold shadow-sm border cursor-pointer" title="Adicionar novo paciente já nesta comorbidade">
-                                    <i class="fa-solid fa-plus mr-1"></i>Incluir Aqui
-                                </button>
-                                <button type="button" onclick="exportComorbidityGroupPDF('${comorbName}')" class="p-1.5 bg-white/90 hover:bg-white text-slate-700 rounded-lg text-xs shadow-sm border cursor-pointer" title="Baixar PDF deste Grupo de Comorbidade">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="p-4 space-y-3 max-h-[520px] overflow-y-auto flex-1">
-                            ${patientsHtml}
-                        </div>
-                    </div>`;
-            });
-
-            if (!anyRendered) {
-                container.innerHTML = `<div class="col-span-2 bg-white p-12 rounded-2xl text-center text-slate-400">Nenhum grupo de comorbidade encontrado.</div>`;
-            }
-        }
-
-        function openRevenueModalWithPreselectedComorb(comorbName) {
-            openRevenueModal(null);
-            let cb = document.querySelector(`.comorb-cb[value="${comorbName}"]`);
-            if (cb) {
-                cb.checked = true;
-            } else if (comorbName !== 'Sem Comorbidade Específica') {
-                document.getElementById('comorb-outras').value = comorbName;
-            }
-        }
-
-        function deleteSingleMedicationFromGroup(revId, medIdx) {
-            let rev = db.revenues.find(r => r.id === revId);
-            if (!rev || !Array.isArray(rev.medications) || !rev.medications[medIdx]) return;
-            let med = rev.medications[medIdx];
-            if (!confirm(`Deseja remover o medicamento "${med.name}" do paciente ${rev.paciente}?`)) return;
-
-            if (!Array.isArray(rev.medHistory)) rev.medHistory = [];
-            rev.medHistory.push({
-                ...med,
-                archivedAt: toISODateString(new Date()),
-                reason: "Excluído manualmente na aba Grupos de Receitas"
-            });
-            rev.medications.splice(medIdx, 1);
-
-            if (rev.medications.length === 0) {
-                if (confirm(`O paciente ${rev.paciente} ficou sem medicamentos ativos. Deseja inativar ou excluir o cadastro dele? (OK = Inativar | Cancelar = Manter cadastro)`)) {
-                    rev.status = 'inactive';
-                }
-            }
-            persistDB();
-            refreshAllViews();
-        }
-
-        function exportComorbidityGroupPDF(comorbName) {
-            if (!window.jspdf) { alert("Aguarde 1 segundo, carregando gerador de PDF..."); return; }
-            const { jsPDF } = window.jspdf;
-            let doc = new jsPDF();
-            doc.setFontSize(14);
-            doc.text(`Grupo de Receitas — Comorbidade: ${comorbName} (v${CURRENT_VERSION})`, 14, 18);
-
-            let list = (db.revenues || []).filter(r => isVisibleToCurrentUser(r.userEmail) && getPatientComorbiditiesList(r).includes(comorbName));
-            let rows = [];
-            list.forEach(r => {
-                (r.medications || []).forEach(m => {
-                    let nextD = calculateValidDate(m.baseDate, m.cycleDays);
-                    rows.push([r.paciente, r.status === 'inactive' ? 'Inativo' : 'Ativo', formatMedFullLabel(m), `${m.cycleDays}d`, formatDateBR(nextD), r.gestor]);
-                });
-            });
-            doc.autoTable({ startY: 26, head: [["Paciente", "Status", "Medicamento / Dose / Posologia", "Ciclo", "Próx. Renovação", "Gestor"]], body: rows });
-            doc.save(`grupo_${comorbName.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
-        }
-
-        // =========================================================================
-        // 5. CONTROLE DE IMPRESSÃO / SOLICITAÇÃO (2 DIAS SEGUIDOS)
+        // 3. CONTROLE DE IMPRESSÃO / SOLICITAÇÃO (2 DIAS SEGUIDOS)
         // =========================================================================
         function getNowTimeStr() { let now = new Date(); return String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0'); }
         function getEarliestScheduledRenewal(rev, specificTargetDate = null) {
@@ -1629,7 +1292,7 @@
         }
 
         // =========================================================================
-        // 6. MESCLAGEM INTELIGENTE E GESTÃO DE COMORBIDADES
+        // 4. MESCLAGEM INTELIGENTE E GESTÃO DE COMORBIDADES
         // =========================================================================
         function autoGuessComorbidities(meds) {
             let detected = new Set();
@@ -1744,7 +1407,7 @@
         }
 
         // =========================================================================
-        // 7. CALENDÁRIO PERPÉTUO E FUNÇÕES DE FORMATAÇÃO
+        // 5. CALENDÁRIO PERPÉTUO E FUNÇÕES DE FORMATAÇÃO
         // =========================================================================
         function addDaysToDate(dateObj, days) { let d = new Date(dateObj.getTime()); d.setDate(d.getDate() + days); return d; }
         function toISODateString(d) { let yyyy = d.getFullYear(); let mm = String(d.getMonth() + 1).padStart(2, '0'); let dd = String(d.getDate()).padStart(2, '0'); return `${yyyy}-${mm}-${dd}`; }
@@ -1850,39 +1513,21 @@
         }
 
         // =========================================================================
-        // 8. DASHBOARD E RENDERIZAÇÃO DAS ABAS (ATUALIZAÇÃO AUTOMÁTICA DOS GRÁFICOS)
+        // 6. DASHBOARD E RENDERIZAÇÃO DAS ABAS
         // =========================================================================
         function refreshAllViews() {
             if (!currentUser) return;
-            try { renderItems(); } catch (e) {}
-            try { renderRevenues(); } catch (e) {}
-            try { renderComorbidityGroups(); } catch (e) {}
-            try { renderPatients(); } catch (e) {}
-            try { renderCycles(); } catch (e) {}
-            try { renderRenewals(); } catch (e) {}
-            try { renderUsers(); } catch (e) {}
-            try { renderHolidays(); } catch (e) {}
-            try { renderVacationsInputs(); } catch (e) {}
-            try { renderCharts(); } catch (e) {}
+            try { renderItems(); } catch (e) {} try { renderRevenues(); } catch (e) {} try { renderPatients(); } catch (e) {} try { renderCycles(); } catch (e) {} try { renderRenewals(); } catch (e) {} try { renderUsers(); } catch (e) {} try { renderHolidays(); } catch (e) {} try { renderVacationsInputs(); } catch (e) {} try { renderCharts(); } catch (e) {}
         }
 
         function switchTab(tab) {
-            ['evaluations', 'revenues', 'comorb_groups', 'patients', 'cycles', 'renewals', 'history', 'reports', 'backup', 'admin'].forEach(t => {
+            ['evaluations', 'revenues', 'patients', 'cycles', 'renewals', 'history', 'reports', 'backup', 'admin'].forEach(t => {
                 let el = document.getElementById(`tab-${t}`); if (el) el.classList.add('hidden');
                 let btn = document.getElementById(`tab-btn-${t}`); if (btn) btn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer";
             });
             let target = document.getElementById(`tab-${tab}`); if (target) target.classList.remove('hidden');
             let activeBtn = document.getElementById(`tab-btn-${tab}`); if (activeBtn) activeBtn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium bg-blue-50 text-blue-700 cursor-pointer";
-            try {
-                if (tab === 'patients') renderPatients();
-                if (tab === 'comorb_groups') renderComorbidityGroups();
-                if (tab === 'cycles') renderCycles();
-                if (tab === 'renewals') renderRenewals();
-                if (tab === 'evaluations') renderItems();
-                if (tab === 'revenues') renderRevenues();
-                if (tab === 'history') renderCharts();
-                if (tab === 'admin') { renderUsers(); renderHolidays(); renderVacationsInputs(); }
-            } catch (e) {}
+            try { if (tab === 'patients') renderPatients(); if (tab === 'cycles') renderCycles(); if (tab === 'renewals') renderRenewals(); if (tab === 'evaluations') renderItems(); if (tab === 'revenues') renderRevenues(); if (tab === 'history') renderCharts(); if (tab === 'admin') { renderUsers(); renderHolidays(); renderVacationsInputs(); } } catch (e) {}
         }
 
         function openChangePasswordModal() { document.getElementById('change-password-form').reset(); document.getElementById('change-password-modal').classList.remove('hidden'); }
@@ -2078,8 +1723,7 @@
 
             list.forEach(i => {
                 let medsCount = i.medications ? i.medications.length : 0; let histCount = i.medHistory ? i.medHistory.length : 0; let printCount = i.printHistory ? i.printHistory.length : 0;
-                let comorbs = getPatientComorbiditiesList(i);
-                let comorbHtml = `<div class="mt-1 flex flex-wrap gap-1">${comorbs.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-[9px] font-bold uppercase">${c}</span>`).join('')}</div>`;
+                let comorbHtml = Array.isArray(i.comorbidades) && i.comorbidades.length > 0 ? `<div class="mt-1 flex flex-wrap gap-1">${i.comorbidades.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-[9px] font-bold uppercase">${c}</span>`).join('')}</div>` : '';
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 border-b">
                         <td class="p-4 font-medium">${i.gestor || ''}</td>
@@ -2112,9 +1756,9 @@
 
             list.forEach(rev => {
                 let status = rev.status || 'active'; let statusBadge = status === 'inactive' ? `<span class="px-2 py-0.5 rounded bg-red-100 text-red-700 text-xs font-bold">Inativo</span>` : `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-xs font-bold">Ativo</span>`;
-                let comorbs = getPatientComorbiditiesList(rev);
-                let comorbHtml = `<div class="mt-1 flex flex-wrap gap-1">${comorbs.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-[9px] font-bold uppercase">${c}</span>`).join('')}</div>`;
+                let comorbHtml = Array.isArray(rev.comorbidades) && rev.comorbidades.length > 0 ? `<div class="mt-1 flex flex-wrap gap-1">${rev.comorbidades.map(c => `<span class="px-1.5 py-0.5 bg-slate-200 text-slate-700 rounded text-[9px] font-bold uppercase">${c}</span>`).join('')}</div>` : '';
                 let medsHtml = (rev.medications || []).map(m => {
+                    let det = getRenewalDateDetails(m.baseDate, m.cycleDays);
                     return `<div class="py-0.5">• <b>${m.name}</b> ${m.dose ? `<span class="text-indigo-700 font-semibold">${m.dose}</span>` : ''} ${m.posologia ? `<span class="text-slate-600">[Posologia: ${m.posologia}]</span>` : ''} (${m.cycleDays}d) | Conf: ${formatDateBR(m.baseDate)} ${m.obs ? `<span class="text-xs text-slate-500 italic">(${m.obs})</span>` : ''} - <span class="text-xs font-mono font-bold text-indigo-600">Venc: ${formatDateBR(calculateValidDate(m.baseDate, m.cycleDays))}</span></div>`;
                 }).join('');
 
@@ -2125,10 +1769,9 @@
                         <td class="p-4 text-xs text-slate-700 space-y-1">${medsHtml}</td>
                         <td class="p-4">${statusBadge}</td>
                         <td class="p-4 text-center space-x-1">
-                            <button onclick="openRevenueModal('${rev.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-semibold hover:bg-blue-100 cursor-pointer"><i class="fa-solid fa-pen mr-1"></i>Editar</button>
                             <button onclick="showMedHistoryModal('${rev.id}')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-semibold hover:bg-indigo-100 cursor-pointer"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Histórico</button>
                             <button onclick="togglePatientStatus('${rev.id}')" class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg text-xs font-semibold cursor-pointer">${status === 'inactive' ? 'Ativar' : 'Inativar'}</button>
-                            <button onclick="downloadPatientPDF('${rev.id}')" class="px-2.5 py-1 bg-indigo-600 text-white rounded-lg text-xs font-semibold cursor-pointer"><i class="fa-solid fa-print mr-1"></i> PDF</button>
+                            <button onclick="downloadPatientPDF('${rev.id}')" class="px-2.5 py-1 bg-indigo-600 text-white rounded-lg text-xs font-semibold cursor-pointer"><i class="fa-solid fa-print mr-1"></i> Imprimir PDF</button>
                         </td>
                     </tr>`;
             });
@@ -2162,8 +1805,7 @@
         function showPatientDetail(revId) {
             let rev = db.revenues.find(r => r.id === revId); if (!rev) return;
             document.getElementById('modal-patient-name').innerText = `Paciente: ${rev.paciente}`;
-            let comorbs = getPatientComorbiditiesList(rev);
-            let comorbHtml = `<div class="mb-2 flex flex-wrap gap-1">${comorbs.map(c => `<span class="px-2 py-0.5 bg-slate-200 text-slate-700 rounded text-[10px] font-bold uppercase">${c}</span>`).join('')}</div>`;
+            let comorbHtml = Array.isArray(rev.comorbidades) && rev.comorbidades.length > 0 ? `<div class="mb-2 flex flex-wrap gap-1">${rev.comorbidades.map(c => `<span class="px-2 py-0.5 bg-slate-200 text-slate-700 rounded text-[10px] font-bold uppercase">${c}</span>`).join('')}</div>` : '';
             let medsHtml = (rev.medications || []).map(m => {
                 let det = getRenewalDateDetails(m.baseDate, m.cycleDays);
                 return `<div class="bg-slate-50 p-3 rounded-xl border space-y-1"><p class="font-bold text-slate-800">• ${m.name} ${m.dose ? `<span class="text-indigo-700">(${m.dose})</span>` : ''} — ${m.cycleDays} dias</p>${m.posologia ? `<p class="text-xs text-slate-700"><b>Posologia:</b> ${m.posologia}</p>` : ''}<p class="text-xs text-slate-600">Confecção: <b>${formatDateBR(m.baseDate)}</b> | Próx. Renovação: <b>${formatDateBR(det.finalDate)} (${det.finalWeekday})</b></p><p class="text-[11px] text-indigo-700 font-medium">${det.summaryText}</p></div>`;
@@ -2352,10 +1994,6 @@
             });
             if (medications.length === 0) return;
 
-            if (comorbidades.length === 0) {
-                comorbidades = autoGuessComorbidities(medications);
-            }
-
             if (!id && duplicateMatchId && shouldUnify) {
                 let existingRev = db.revenues.find(r => r.id === duplicateMatchId);
                 if (existingRev) {
@@ -2374,7 +2012,7 @@
             persistDB(); closeRevenueModal(); refreshAllViews();
         }
 
-        function deleteRevenue(id) { if (confirm("Excluir receita/paciente?")) { db.revenues = db.revenues.filter(i => i.id !== id); persistDB(); refreshAllViews(); } }
+        function deleteRevenue(id) { if (confirm("Excluir receita?")) { db.revenues = db.revenues.filter(i => i.id !== id); persistDB(); refreshAllViews(); } }
 
         function addHoliday() {
             let date = document.getElementById('holiday-date').value; let desc = document.getElementById('holiday-desc').value.trim();
@@ -2445,7 +2083,7 @@
             let ctx2El = document.getElementById('revenueChart');
             if (ctx2El) {
                 let c = { '30d': 0, '60d': 0, '90d': 0, '180d': 0, 'Outros': 0 };
-                revList.filter(r => r.status !== 'inactive').forEach(r => (r.medications || []).forEach(m => {
+                revList.forEach(r => (r.medications || []).forEach(m => {
                     if (m.cycleDays == 30) c['30d']++; else if (m.cycleDays == 60) c['60d']++; else if (m.cycleDays == 90) c['90d']++; else if (m.cycleDays == 180) c['180d']++; else c['Outros']++;
                 }));
                 if (revenueChartInstance) revenueChartInstance.destroy();
@@ -2508,7 +2146,8 @@
                 let comorbCounts = {};
                 revList.forEach(r => {
                     if (r.status === 'inactive') return;
-                    let cList = getPatientComorbiditiesList(r);
+                    let cList = Array.isArray(r.comorbidades) && r.comorbidades.length > 0 ? r.comorbidades : autoGuessComorbidities(r.medications || []);
+                    if (cList.length === 0) cList = ['Não Informada'];
                     cList.forEach(c => { let key = c.trim(); if(key) comorbCounts[key] = (comorbCounts[key] || 0) + 1; });
                 });
 
@@ -2522,7 +2161,7 @@
                     type: 'doughnut',
                     data: {
                         labels: Object.keys(finalC),
-                        datasets: [{ data: Object.values(finalC), backgroundColor: ['#ef4444', '#3b82f6', '#eab308', '#10b981', '#8b5cf6', '#06b6d4', '#64748b'] }]
+                        datasets: [{ data: Object.values(finalC), backgroundColor: ['#ef4444', '#3b82f6', '#eab308', '#10b981', '#8b5cf6', '#f97316', '#64748b'] }]
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10 } } } } }
                 });
@@ -2640,7 +2279,9 @@
         }
 
         function exportBackupJSON() {
-            generateAndEmailBackup('Backup_Manual');
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+            let a = document.createElement('a'); a.href = dataStr; a.download = `backup_ACS_v${CURRENT_VERSION}.json`;
+            document.body.appendChild(a); a.click(); a.remove();
         }
 
         function importBackupJSON(e) {
@@ -2711,7 +2352,7 @@
             const { jsPDF } = window.jspdf; let doc = new jsPDF();
             doc.text(`Relatório de Receitas e Comorbidades - v${CURRENT_VERSION}`, 14, 20);
             let rows = (db.revenues || []).filter(r => isVisibleToCurrentUser(r.userEmail)).map(r => {
-                let cTxt = ` [${getPatientComorbiditiesList(r).join(', ')}]`;
+                let cTxt = Array.isArray(r.comorbidades) && r.comorbidades.length > 0 ? ` [${r.comorbidades.join(', ')}]` : '';
                 return [r.gestor, r.paciente + cTxt, (r.medications || []).map(m => formatMedFullLabel(m)).join(' | ')];
             });
             doc.autoTable({ startY: 28, head: [["Gestor", "Paciente [Comorbidades]", "Medicamentos Ativos (Dose e Posologia)"]], body: rows });
